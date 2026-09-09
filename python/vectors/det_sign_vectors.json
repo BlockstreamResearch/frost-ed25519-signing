@@ -1,0 +1,1719 @@
+{
+    "test_groups": [
+        {
+            "tg_id": "2of3",
+            "t": 2,
+            "n": 3,
+            "thresh_pk": "3CD5CBDAA8B996A670CE2B80C2229E75554D523141C6B9EBC1246744EC6387A6",
+            "pubshares": [
+                "52A7CE7BE489171290DDB1C04C59256B11CB41D26FDA52D5B2A71778D04415B5",
+                "EBC0CA186882958882F48697895A666F3875386E0596459F19600ECB1C55C40F",
+                "C9353C3AEA967DBB15E398700CEDC61765F8665131C32038F00CACD322E95CEF",
+                "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                "E45E6899774467E56CDCF0584B60269E3A7BDC75D396A68335F1F2838E8973ED",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                "0100000000000000000000000000000000000000000000000000000000000080",
+                "0100000000000000000000000000000000000000000000000000000000000000",
+                "0200000000000000000000000000000000000000000000000000000000000000"
+            ],
+            "secshares": [
+                "8B157B09801A37355A322D8013F5272F6E578BEF1C8FFB8C8D84A44CD294AE0D",
+                "C0B9A4A81506E7408961447B2B29DD66786ABF1FDBE8427387FFDABFF814CC05",
+                "E231C4A4C554A9A48E2D5319225771B3827DF34F99428A59817A11331F95E90D",
+                "0000000000000000000000000000000000000000000000000000000000000000"
+            ],
+            "valid_tests": [
+                {
+                    "tc_id": 1,
+                    "comment": "Minimum threshold subset of signers",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "825DFEF50680B4F2FBA55D9ED10302A98BDD18CE050DC2D786CA299D50071D61A193AC01EB8EA989F714999C9F19C2CCA8971975051FB4DED0457EDF3D585F7B",
+                        "172B52C14C8A9F4797304DEA140D757BD98E191F91473A33D634C85F92A7E802"
+                    ]
+                },
+                {
+                    "tc_id": 2,
+                    "comment": "Signing without the public share list",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "825DFEF50680B4F2FBA55D9ED10302A98BDD18CE050DC2D786CA299D50071D61A193AC01EB8EA989F714999C9F19C2CCA8971975051FB4DED0457EDF3D585F7B",
+                        "172B52C14C8A9F4797304DEA140D757BD98E191F91473A33D634C85F92A7E802"
+                    ]
+                },
+                {
+                    "tc_id": 3,
+                    "comment": "Reordering the signer set leaves the deterministic output unchanged, because the identifiers are sorted before they are bound into the nonce derivation and the binding value",
+                    "my_id": 0,
+                    "ids": [1, 0],
+                    "pubshare_indices": [1, 0],
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "825DFEF50680B4F2FBA55D9ED10302A98BDD18CE050DC2D786CA299D50071D61A193AC01EB8EA989F714999C9F19C2CCA8971975051FB4DED0457EDF3D585F7B",
+                        "172B52C14C8A9F4797304DEA140D757BD98E191F91473A33D634C85F92A7E802"
+                    ]
+                },
+                {
+                    "tc_id": 4,
+                    "comment": "A different threshold subset gives a different deterministic nonce, since the signer set is bound into the nonce derivation",
+                    "my_id": 0,
+                    "ids": [0, 2],
+                    "pubshare_indices": [0, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "ECBE9F64EE680E52066F16EB7816D6FF504F92F96B00565FB215DD62FEBDBE213D8F7852B6B07E46969296544110C49827FEA1399A9610A800A7DB6DAA6B52BE",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "CC7D244DCCBF3216A8A7F27F84FEE2BD4BF29511A7DD2C2DC79DF4B4B1E75278AB36AA85B99700FEC5E62F520909BD228F6FBDD857B9D771860F6B2E8A80B792",
+                        "B9274359F1249A251BCC1B64FC1ABF7224C45A418C0B553EDAF1B538FD960609"
+                    ]
+                },
+                {
+                    "tc_id": 5,
+                    "comment": "Auxiliary randomness omitted (null), which is not equivalent to all-zeros randomness",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "A542C419B1D975B1910B2AB36594F073FCFB9A31BFB476BAE841EED889E19DDAAA80B057A5D1484A73E949B0BC3CC8DD9AC7DBCDEF2B17B8361A6F17938F48CC",
+                    "aux_rand": null,
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "CC70C588DD46A8F71A2845867E6D67515248E1D44AF95D517DC439E8FFEC40658EABDBA5A92C9DC593C4E5FE7FF57D09CF77756366D6F4B36C12213B3B3BBE5F",
+                        "E43644E77667912DA044FF8AAD501E9254424E7F43A6D039977020BD1130D90D"
+                    ]
+                },
+                {
+                    "tc_id": 6,
+                    "comment": "Auxiliary randomness is all ones, distinct from the all-zeros and omitted cases",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "2BE41224468082EA2C739CD2A0DAB1A85D9A0BB61FF854089947E1852188B63682914AC4BD305323770BB09F422AB84839A8F8800D3C2B85B94C7060B3B08193",
+                    "aux_rand": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "C9AD7832B695DB74BCF51F26EAD4B46FE49A3FF9ED0FC11EEC2133A39AC98703C1795B624B9B66E5ACF48D0F24AAA8B582A813239E8848BC275FCF3710B8AE3B",
+                        "18A9B76138107708D6A190DBC3EE808075BD270334144079EC73CB6C1A66D60A"
+                    ]
+                },
+                {
+                    "tc_id": 7,
+                    "comment": "All signers participate, signed by a non-first member of the signer set",
+                    "my_id": 1,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 1,
+                    "aggothernonce": "531925F5DE8CFB17B7790870D7CE1AE861F99D30694043FE6B5B95B5C1EEF747E20818C6643DF87D686BF939AD8A20F84C3EF22C9488A0693D95FFAE306A29E7",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "5845A1535A56CD7EE212118CC00386E57BA11C5E006E2691EB55A1108A6652740C58B5CB836AE18A8A2B43F734AD00931EE0CBF09B5F18708BB87371B22B384A",
+                        "26C78E95965564CAAA845DB47A62501427D232CE0387A867FBCDD89B68BD6D04"
+                    ]
+                },
+                {
+                    "tc_id": 8,
+                    "comment": "Empty message",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "D45D46DE6709E956E7FA3DFA2DFBF50E0C54E512606533A3B582FEEF17DB202CB436BCDB1541694B21EF5A7680E2BFC551B7A4474BE1C64A227E624FB36FB9F0",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "",
+                    "expected": [
+                        "4D6695956151393D3A92B22EB1EAC9CF8AD6D74272C5804677F8D602DC584E2FE20028EE5F025DCA02E35DE8CEA73684647257822EDCAAE18D90B136E157FDC8",
+                        "C1D627DF887BE6DACD98F3E573E1FFFED16DEDCDBD3E049509E95962EE812F06"
+                    ]
+                },
+                {
+                    "tc_id": 9,
+                    "comment": "Non-standard message length (38 bytes)",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "9F1AC02B4AEE7BA7478E311D563E1442D655E0BFB4F7FA3A54BFD86DCCDBDB74BF447E18A3BFE69D771EB39CEF9CAC647FC84E7B58BF5DF673EA27B84DBF4661",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "2626262626262626262626262626262626262626262626262626262626262626262626262626",
+                    "expected": [
+                        "A0424580BC9C7EE451C7D788FD243126EA1BC50441C9E78E31334108442423B8199F33705A5C0D4FA1456836EF0A78A6495B34B5A642605DD03DD545302E8550",
+                        "9E335BBBD5BC37E63F63C71950050D1684BE3FD1FF46F31A99DC2B40B358600A"
+                    ]
+                }
+            ],
+            "error_tests": [
+                {
+                    "tc_id": 10,
+                    "comment": "Signer's identifier is absent from the signer set",
+                    "my_id": 2,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "10B22A185A76CC73A3F7271B180EF81DEF7DE48F56151D1D8E17AE7A6A3E2FA7875FA98330E40F90074D3BEE48087A0C2023E19205C801200F8FFB0A4A4B258A",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The signer's id is missing from the ids list."
+                    }
+                },
+                {
+                    "tc_id": 11,
+                    "comment": "Signer set contains a duplicate id",
+                    "my_id": 0,
+                    "ids": [0, 1, 1],
+                    "pubshare_indices": [0, 1, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "715763E8BF23D524E8B9227277DD5ED9CD103EDA337C19ABB6F577CE22B3FF56D190E8777B5F5A6DF45F5BD8E8F7DE3C3ECD9B9821F57A08EF86DF1BD73484F0",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The ids list contains duplicate elements."
+                    }
+                },
+                {
+                    "tc_id": 12,
+                    "comment": "Signer's public share is not in the public share list",
+                    "my_id": 1,
+                    "ids": [1, 2],
+                    "pubshare_indices": [1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "ECBE9F64EE680E52066F16EB7816D6FF504F92F96B00565FB215DD62FEBDBE213D8F7852B6B07E46969296544110C49827FEA1399A9610A800A7DB6DAA6B52BE",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The signer's pubshare is missing from the pubshares list."
+                    }
+                },
+                {
+                    "tc_id": 13,
+                    "comment": "A public share's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 3],
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 14,
+                    "comment": "A public share is a small-order point",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 5],
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 15,
+                    "comment": "A public share is a mixed-order point",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 6],
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 16,
+                    "comment": "A public share is the non-canonical identity encoding",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 7],
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 17,
+                    "comment": "A public share is the identity element",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 8],
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 18,
+                    "comment": "A public share is not a point on the curve",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 9],
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 19,
+                    "comment": "A signer id is outside the valid range [0, n-1]",
+                    "my_id": 1,
+                    "ids": [3, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 1,
+                    "aggothernonce": "5029A83A50E0DBABC2B80D0E001865294461160E0F11CA09BA98C1CDA43B136F9D89FF6F6E37CD0C10BE73BBCBC8EF0C821314126FE982FA65E6DD3C6367D7E2",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid id at index 0"
+                    }
+                },
+                {
+                    "tc_id": 20,
+                    "comment": "Signer set's public shares do not match the threshold public key",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [1, 0],
+                    "secshare_index": 0,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The provided key material is incorrect: the public shares do not match the threshold public key."
+                    }
+                },
+                {
+                    "tc_id": 21,
+                    "comment": "Aggregate of the other signers' nonces is invalid: first half's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5866666666666666666666666666666666666666666666666666666666666666",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 22,
+                    "comment": "Aggregate of the other signers' nonces is invalid: first half is a small-order point (the all-zero order-4 torsion encoding)",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "00000000000000000000000000000000000000000000000000000000000000005866666666666666666666666666666666666666666666666666666666666666",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 23,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is not a point on the curve",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "58666666666666666666666666666666666666666666666666666666666666660200000000000000000000000000000000000000000000000000000000000000",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 24,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "5866666666666666666666666666666666666666666666666666666666666666FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 25,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is a mixed-order point",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "5866666666666666666666666666666666666666666666666666666666666666003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 26,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is the non-canonical identity encoding",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "58666666666666666666666666666666666666666666666666666666666666660100000000000000000000000000000000000000000000000000000000000080",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 27,
+                    "comment": "Fewer signers than the threshold t",
+                    "my_id": 0,
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "secshare_index": 0,
+                    "aggothernonce": null,
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The number of signers must be between t and n."
+                    }
+                },
+                {
+                    "tc_id": 28,
+                    "comment": "Secret share is out of range (zero)",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 3,
+                    "aggothernonce": "9525EFD5C86CBB13B11BA64D6F76366498AFD5A0D70C83CCCD3C4759BC2A23DB0C4345F980348398291D4D156E604EE731FD442028D864DF183839F16EB287CF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The signer's secret share value is out of range."
+                    }
+                }
+            ]
+        },
+        {
+            "tg_id": "1of3",
+            "t": 1,
+            "n": 3,
+            "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
+            "pubshares": [
+                "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
+                "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
+                "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
+                "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                "82E9440652207B7A32AFD9964AB372CBCB3997616B0C4BCBD1921E71BB83AC92",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                "0100000000000000000000000000000000000000000000000000000000000080",
+                "0100000000000000000000000000000000000000000000000000000000000000",
+                "0200000000000000000000000000000000000000000000000000000000000000"
+            ],
+            "secshares": [
+                "3F589DEE994B4A3A037E6F55BEF8FFE1C39642773B7334220E63110259A30C02",
+                "3F589DEE994B4A3A037E6F55BEF8FFE1C39642773B7334220E63110259A30C02",
+                "3F589DEE994B4A3A037E6F55BEF8FFE1C39642773B7334220E63110259A30C02",
+                "0000000000000000000000000000000000000000000000000000000000000000"
+            ],
+            "valid_tests": [
+                {
+                    "tc_id": 29,
+                    "comment": "Minimum threshold subset of signers",
+                    "my_id": 0,
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "secshare_index": 0,
+                    "aggothernonce": null,
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "D746452158F12A6CE9E5D4DE0272A45D00C36F03BE5F7E5C2605E4B8869FC453D47ABDAE8D1952585666050564156639FEC451B3E047268FF334C243E7473B9E",
+                        "21D7898B6AD6C7C5962CA3F24A88134333236674113FBE52BDB145B74784A404"
+                    ]
+                },
+                {
+                    "tc_id": 30,
+                    "comment": "Signing without the public share list",
+                    "my_id": 0,
+                    "ids": [0],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "aggothernonce": null,
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "D746452158F12A6CE9E5D4DE0272A45D00C36F03BE5F7E5C2605E4B8869FC453D47ABDAE8D1952585666050564156639FEC451B3E047268FF334C243E7473B9E",
+                        "21D7898B6AD6C7C5962CA3F24A88134333236674113FBE52BDB145B74784A404"
+                    ]
+                },
+                {
+                    "tc_id": 31,
+                    "comment": "Auxiliary randomness omitted (null), which is not equivalent to all-zeros randomness",
+                    "my_id": 0,
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "secshare_index": 0,
+                    "aggothernonce": null,
+                    "aux_rand": null,
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "7A13D9E729F09494EE075728DE1B14B5B6F5365CE47D059B6C4D255E5BB345BD155D3D7F6BFA615F0A34F02CC31DEDE2CEDA6D40036A2EC8625A9FBE41CB9E03",
+                        "F67DC99C8732936F84858DC0AB90683F61690AED451235F098EDE4B99543BD09"
+                    ]
+                },
+                {
+                    "tc_id": 32,
+                    "comment": "Auxiliary randomness is all ones, distinct from the all-zeros and omitted cases",
+                    "my_id": 0,
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "secshare_index": 0,
+                    "aggothernonce": null,
+                    "aux_rand": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "F74E0DBEEE7026BD5CA721046D064A86C2C44778BC42FDD4246BFF140C1C17910A2A76EF3FDC685FC0E815D00773B62C1A33CB614963B7E7C4AE72A40E993823",
+                        "5C465C85743DD2A8691181BD55E312D0025735E3647D1D7E5D0A33F10E530103"
+                    ]
+                },
+                {
+                    "tc_id": 33,
+                    "comment": "All signers participate, signed by a non-first member of the signer set",
+                    "my_id": 1,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 1,
+                    "aggothernonce": "795039A08B6F44962E04211BA56117D0EF77701AC8D699FA757AD00732FE359C1054DD52CBF3021E99BB6A2BA9A5468C8734BF02D86AACA1335576DF8C83507F",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "151B019470145A268DBEC035100910BEA2AD07444BB8147222EF2CB5CE839F652F3793A66C0F9BE4115BC1952DE2DDCF5183BA5664888290FA60E648E8F92FF8",
+                        "E7913F2C8A8B4B547F7394D43F4C3C4E01963B3D3821FF3032DCEF012AA8C20D"
+                    ]
+                },
+                {
+                    "tc_id": 34,
+                    "comment": "Empty message",
+                    "my_id": 0,
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "secshare_index": 0,
+                    "aggothernonce": null,
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "",
+                    "expected": [
+                        "155FF780335D39D74379C1ADEDE6FA508961783567F957040F1406EAE221E3E62EF9F55C23DBD49A266258B9AA94EEBF1E3B5AE8DB516BC41D297D355851D71A",
+                        "0977B1327A5A730FA11AD336DD31F94AF1485F66464671A2C3FF693B39836D09"
+                    ]
+                },
+                {
+                    "tc_id": 35,
+                    "comment": "Non-standard message length (38 bytes)",
+                    "my_id": 0,
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "secshare_index": 0,
+                    "aggothernonce": null,
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "2626262626262626262626262626262626262626262626262626262626262626262626262626",
+                    "expected": [
+                        "9F9ED0FAD3E185F7B711A0B0472743C30A0D5F7AE28471DC49CD674BA1EE63C7C925D899A94A84BE2EDC73A09DC02069E1F5370FA58922900BE50754B4633DF3",
+                        "BBB3C45C2DD3A3730B9AF2B1E17DF61A4A3C6C3CF199B1359A909D8371990601"
+                    ]
+                }
+            ],
+            "error_tests": [
+                {
+                    "tc_id": 36,
+                    "comment": "Signer's identifier is absent from the signer set",
+                    "my_id": 1,
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "secshare_index": 0,
+                    "aggothernonce": "11F24217C755361C219A1B0199AC0E8C5D498D23040DAEF11CAB5434CB3C9D0394CB908D22C6B4D66665021F578636E768BB92899EDCE6603B15BA2E076F0B2B",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The signer's id is missing from the ids list."
+                    }
+                },
+                {
+                    "tc_id": 37,
+                    "comment": "Signer set contains a duplicate id",
+                    "my_id": 0,
+                    "ids": [0, 1, 1],
+                    "pubshare_indices": [0, 1, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "795039A08B6F44962E04211BA56117D0EF77701AC8D699FA757AD00732FE359C1054DD52CBF3021E99BB6A2BA9A5468C8734BF02D86AACA1335576DF8C83507F",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The ids list contains duplicate elements."
+                    }
+                },
+                {
+                    "tc_id": 38,
+                    "comment": "A public share's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 3],
+                    "secshare_index": 0,
+                    "aggothernonce": "11F24217C755361C219A1B0199AC0E8C5D498D23040DAEF11CAB5434CB3C9D0394CB908D22C6B4D66665021F578636E768BB92899EDCE6603B15BA2E076F0B2B",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 39,
+                    "comment": "A public share is a small-order point",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 5],
+                    "secshare_index": 0,
+                    "aggothernonce": "11F24217C755361C219A1B0199AC0E8C5D498D23040DAEF11CAB5434CB3C9D0394CB908D22C6B4D66665021F578636E768BB92899EDCE6603B15BA2E076F0B2B",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 40,
+                    "comment": "A public share is a mixed-order point",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 6],
+                    "secshare_index": 0,
+                    "aggothernonce": "11F24217C755361C219A1B0199AC0E8C5D498D23040DAEF11CAB5434CB3C9D0394CB908D22C6B4D66665021F578636E768BB92899EDCE6603B15BA2E076F0B2B",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 41,
+                    "comment": "A public share is the non-canonical identity encoding",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 7],
+                    "secshare_index": 0,
+                    "aggothernonce": "11F24217C755361C219A1B0199AC0E8C5D498D23040DAEF11CAB5434CB3C9D0394CB908D22C6B4D66665021F578636E768BB92899EDCE6603B15BA2E076F0B2B",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 42,
+                    "comment": "A public share is the identity element",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 8],
+                    "secshare_index": 0,
+                    "aggothernonce": "11F24217C755361C219A1B0199AC0E8C5D498D23040DAEF11CAB5434CB3C9D0394CB908D22C6B4D66665021F578636E768BB92899EDCE6603B15BA2E076F0B2B",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 43,
+                    "comment": "A public share is not a point on the curve",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 9],
+                    "secshare_index": 0,
+                    "aggothernonce": "11F24217C755361C219A1B0199AC0E8C5D498D23040DAEF11CAB5434CB3C9D0394CB908D22C6B4D66665021F578636E768BB92899EDCE6603B15BA2E076F0B2B",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 44,
+                    "comment": "A signer id is outside the valid range [0, n-1]",
+                    "my_id": 0,
+                    "ids": [3],
+                    "pubshare_indices": [0],
+                    "secshare_index": 0,
+                    "aggothernonce": "DDE6A27DD5A8509184A2F0CE7E1E0B6F7697727F61EAE2B4E679CFA5C805B38F3E2F91494810B1E0C2A54908207A57D8DBECA54B1B9FDEC21142C325C6D52B5F",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid id at index 0"
+                    }
+                },
+                {
+                    "tc_id": 45,
+                    "comment": "Aggregate of the other signers' nonces is invalid: first half's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5866666666666666666666666666666666666666666666666666666666666666",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 46,
+                    "comment": "Aggregate of the other signers' nonces is invalid: first half is a small-order point (the all-zero order-4 torsion encoding)",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "00000000000000000000000000000000000000000000000000000000000000005866666666666666666666666666666666666666666666666666666666666666",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 47,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is not a point on the curve",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "58666666666666666666666666666666666666666666666666666666666666660200000000000000000000000000000000000000000000000000000000000000",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 48,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "5866666666666666666666666666666666666666666666666666666666666666FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 49,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is a mixed-order point",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "5866666666666666666666666666666666666666666666666666666666666666003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 50,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is the non-canonical identity encoding",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "58666666666666666666666666666666666666666666666666666666666666660100000000000000000000000000000000000000000000000000000000000080",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 51,
+                    "comment": "Fewer signers than the threshold t",
+                    "my_id": 0,
+                    "ids": [],
+                    "pubshare_indices": [],
+                    "secshare_index": 0,
+                    "aggothernonce": null,
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The number of signers must be between t and n."
+                    }
+                },
+                {
+                    "tc_id": 52,
+                    "comment": "Secret share is out of range (zero)",
+                    "my_id": 0,
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "secshare_index": 3,
+                    "aggothernonce": null,
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The signer's secret share value is out of range."
+                    }
+                }
+            ]
+        },
+        {
+            "tg_id": "3of3",
+            "t": 3,
+            "n": 3,
+            "thresh_pk": "D89831A002770DC1F3C61BB78EC62F5ED60482F42B8F79BA57EE91917EB4E8FC",
+            "pubshares": [
+                "DE18D50D94CD7B3F6FDF668DC834C8ADCC2304AFD8B99AAE61749A9CEE81DDBF",
+                "3979B4A9128EF2F65A1A57687EBEFEB90BEFA9F156EC308B3B9DC94034A04A6F",
+                "542E668EEF205D5CDCD3BE181EA61457F5F529BBC02CB212A35155657316229F",
+                "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                "B8F07890E4264C108D2454C0182701F58310CAF64E1C4C56D47160A9F85EA89C",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                "0100000000000000000000000000000000000000000000000000000000000080",
+                "0100000000000000000000000000000000000000000000000000000000000000",
+                "0200000000000000000000000000000000000000000000000000000000000000"
+            ],
+            "secshares": [
+                "B0F8D313D10EA67F3762F9E460D36712F4F7EC8CF28E21AF02C91E2199114908",
+                "7E64273FCC6F29A272C23C2C5A8116510F3589D3D578490B1AE06CEB7E38C901",
+                "C700F930F5DABBA3FD0F79B16B50166CADEF946B472283BC0DEB8F4D93322502",
+                "0000000000000000000000000000000000000000000000000000000000000000"
+            ],
+            "valid_tests": [
+                {
+                    "tc_id": 53,
+                    "comment": "Minimum threshold subset of signers",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "9CAB2CE4CB4083013C16026D271B5480AC57A19500DAC12455A5DF9138D264AFD8A9F3CEBB919AFBC8D9E93F2F13D34862F4637C10434C9810CC1AB22649F9F2",
+                        "06811EB7A36DA224FBC5A8CF7C8D5E951C8C36B9943ED18B7F1F66624D48100B"
+                    ]
+                },
+                {
+                    "tc_id": 54,
+                    "comment": "Signing without the public share list",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "9CAB2CE4CB4083013C16026D271B5480AC57A19500DAC12455A5DF9138D264AFD8A9F3CEBB919AFBC8D9E93F2F13D34862F4637C10434C9810CC1AB22649F9F2",
+                        "06811EB7A36DA224FBC5A8CF7C8D5E951C8C36B9943ED18B7F1F66624D48100B"
+                    ]
+                },
+                {
+                    "tc_id": 55,
+                    "comment": "Reordering the signer set leaves the deterministic output unchanged, because the identifiers are sorted before they are bound into the nonce derivation and the binding value",
+                    "my_id": 0,
+                    "ids": [2, 1, 0],
+                    "pubshare_indices": [2, 1, 0],
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "9CAB2CE4CB4083013C16026D271B5480AC57A19500DAC12455A5DF9138D264AFD8A9F3CEBB919AFBC8D9E93F2F13D34862F4637C10434C9810CC1AB22649F9F2",
+                        "06811EB7A36DA224FBC5A8CF7C8D5E951C8C36B9943ED18B7F1F66624D48100B"
+                    ]
+                },
+                {
+                    "tc_id": 56,
+                    "comment": "Auxiliary randomness omitted (null), which is not equivalent to all-zeros randomness",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "539F1C765A5B40492562C975B98640C7C20D5B6225C1AB876B5BE7D07290DE51C58D2E7DDF7C1EEB486E3D7D622B26D0F33FA5594DC264A0BB01D8845C504BBC",
+                    "aux_rand": null,
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "11280339B3F6AAA0949400A7EF99C85F28378D41A61E513A8C9D5EAD9DA43A3C4CCD4FBD14CFC7F1CF4014DBC3E358B6F3B137FE1D1B2504BBE4BA8BE2006389",
+                        "21C738B99760A8C2917A40DA5E5F1C114E0E8A131A71605995770453CD05AC0C"
+                    ]
+                },
+                {
+                    "tc_id": 57,
+                    "comment": "Auxiliary randomness is all ones, distinct from the all-zeros and omitted cases",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "B146AC48ACC3CA1E9194A5E7CCB1083CAE42F7FE29AEF1E104687DE802A31B21018C96E9C647C038331656DD72223F6DA0442635BFE0A184510DD9DEDB58D8C9",
+                    "aux_rand": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "6C6EF9B02424ADF7D44DB0A78E2388060D673E2DFDDC880C96886FA7F192DA5A07ACA334931C1AD6FF3B0DF1D8CEC6F6677C7B695F1D8C00B9D5BED859E333C7",
+                        "7FCA2FB09B9EB2B387B3026951D4A0BD4A9A622997EDE1612DA0E158DE3C940B"
+                    ]
+                },
+                {
+                    "tc_id": 58,
+                    "comment": "All signers participate, signed by a non-first member of the signer set",
+                    "my_id": 1,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 1,
+                    "aggothernonce": "6778801DB5916675D39A7E3B9D7D4EC1E0D8C4CC8A595F97017940F10668429303F5BCC35B66A0DE3FA86AC6790AEFB7318653BDE884234C9C37DD7B520896DA",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "A6DE46BF2CA13C273577B0156A5732A9B3595B229C953A123C7DB4209AE2360107D2E5EFB5DFD42CAB656E5B57FA3F1381DAE6264279EF724181CFB3981AA019",
+                        "86A0D85A9B644D00E49C7DADB26D9F1FF41E9A94F8B041CB5F46C7203B5BE60C"
+                    ]
+                },
+                {
+                    "tc_id": 59,
+                    "comment": "Empty message",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "E8D1F21E3E6149B15A16ACDD3E818E946F47EFB92C175855828786F1E8D16A7CF92131E74BBEB71F6B7C32F03B4DBCB043AE1F7DF99C55500274CBB7A3CA8499",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "",
+                    "expected": [
+                        "6FC277F154F0964476F8689CC0BFB3DDF4F0100B00A2E3BEEED962D6C7F55070C168B9F71F468BF8907A4820E75E5469CD0A3AD6DEF57D5015F6BA49996FAE82",
+                        "06C3FA2F0CECD05679E3B94771B2ACD7C81D52DC05A5484A75DFF49EFB89B80E"
+                    ]
+                },
+                {
+                    "tc_id": 60,
+                    "comment": "Non-standard message length (38 bytes)",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "5CE1D9DC8D88941B46AA69319B2AA38F91AB144E3FF4A75B1C49B9742963BCA6901803FADC49FD4EA1558C33EE0A16ADE1B3A5CCEF08D03C4C03CF3414756954",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "2626262626262626262626262626262626262626262626262626262626262626262626262626",
+                    "expected": [
+                        "E369F39141DB57C381A93D30BF246D58AD4CCEA93D5A628C56DB71E3BD1EAF9FCD9414FA8A3B48D9825C2F259A4743DBD1F4E74936C9C51484264958E39A732A",
+                        "F9D5FF3E73BE5D0E9BADDF72CAF6D99383AE240CC6B1C7C0C38784591A548108"
+                    ]
+                }
+            ],
+            "error_tests": [
+                {
+                    "tc_id": 61,
+                    "comment": "Signer set contains a duplicate id",
+                    "my_id": 0,
+                    "ids": [0, 1, 1],
+                    "pubshare_indices": [0, 1, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "C3AF1A4252857F6DBFCDF68D848BD9940A4A66E5CA55EAC26889B37C5F1331F48EAB350A1098B271B8D6D26980E30F14E22F6191C4FAA98239F62B672C99AA83",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The ids list contains duplicate elements."
+                    }
+                },
+                {
+                    "tc_id": 62,
+                    "comment": "A public share's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 3, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 63,
+                    "comment": "A public share is a small-order point",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 5, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 64,
+                    "comment": "A public share is a mixed-order point",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 6, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 65,
+                    "comment": "A public share is the non-canonical identity encoding",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 7, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 66,
+                    "comment": "A public share is the identity element",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 8, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 67,
+                    "comment": "A public share is not a point on the curve",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 9, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 68,
+                    "comment": "A signer id is outside the valid range [0, n-1]",
+                    "my_id": 1,
+                    "ids": [3, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 1,
+                    "aggothernonce": "590F4A5FE6A9558DA65D2950441EFFF9FAA873564E327F46A6DFA89937F1E8B0EA4D778C1AB7AE9F6178CDEE456DE6C6CE102BC1E1E036741EA9FC801640F507",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid id at index 0"
+                    }
+                },
+                {
+                    "tc_id": 69,
+                    "comment": "Signer set's public shares do not match the threshold public key",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 2, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The provided key material is incorrect: the public shares do not match the threshold public key."
+                    }
+                },
+                {
+                    "tc_id": 70,
+                    "comment": "Aggregate of the other signers' nonces is invalid: first half's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5866666666666666666666666666666666666666666666666666666666666666",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 71,
+                    "comment": "Aggregate of the other signers' nonces is invalid: first half is a small-order point (the all-zero order-4 torsion encoding)",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "00000000000000000000000000000000000000000000000000000000000000005866666666666666666666666666666666666666666666666666666666666666",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 72,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is not a point on the curve",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "58666666666666666666666666666666666666666666666666666666666666660200000000000000000000000000000000000000000000000000000000000000",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 73,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "5866666666666666666666666666666666666666666666666666666666666666FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 74,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is a mixed-order point",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "5866666666666666666666666666666666666666666666666666666666666666003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 75,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is the non-canonical identity encoding",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "58666666666666666666666666666666666666666666666666666666666666660100000000000000000000000000000000000000000000000000000000000080",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 76,
+                    "comment": "Fewer signers than the threshold t",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "99CCFA4DDE02383164A1D2B90419F1C45450948647C8000EDAA6C4C3E282FE45E2ADCF49C83A50E28493EBA52B41C9241D338CED34A0F2B721C3D1F087D9C76F",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The number of signers must be between t and n."
+                    }
+                },
+                {
+                    "tc_id": 77,
+                    "comment": "Secret share is out of range (zero)",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 3,
+                    "aggothernonce": "05DEFAD8741BEAC044A27968070A1D5816406EAFC89C38133562FD358532EC622FA57E8AC8F6A44C3E8D483353C0134594267CC9AF56EF50E1942D600159F454",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The signer's secret share value is out of range."
+                    }
+                }
+            ]
+        },
+        {
+            "tg_id": "3of5",
+            "t": 3,
+            "n": 5,
+            "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
+            "pubshares": [
+                "179AB1E0521504CFBD2211FDCFA67C2576DEFD5A673B71FBE958BAA18FD58E43",
+                "B5D8F3BD56A5CFB680D60493E1CC6D9E4426FC44643B9159DB53CD4DC82D8600",
+                "60A370DE4C2385FFE7EA1483DA9163764EAF4690C5AE579972A1EF13696D6F91",
+                "93EECCA9DBE66DEB480B977F3D8EC9A4CE62FB10F4C10785711C914AE1498153",
+                "08C8C816E73F5968B47B509599D49C4745D7C2610658EDA3EFA3B642EB5D2C04",
+                "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                "0594C1B21DB0A7E65A430384C9E63BED57D2A111224993AC6E78AF8B0BFB4748",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                "0100000000000000000000000000000000000000000000000000000000000080",
+                "0100000000000000000000000000000000000000000000000000000000000000",
+                "0200000000000000000000000000000000000000000000000000000000000000"
+            ],
+            "secshares": [
+                "B1639B0ED7C5B6EF17FADF6CD635B3A25C97A3FEECF159F8F0F2E39CDBCF8806",
+                "7EEE92388DBA7F4BF24DFA22A202439713193A5BC127BC588520CB6120485B05",
+                "567822519A77F984310E8DB3FB8E7588AAD28D2AB5281C684FFC11B06FD70707",
+                "39014A58FEFC239CD53A981EE3DA4A7621C49E6CC8F479264F86B887C97D8E0B",
+                "3AB513F19EE7EC38083724C179ECE34B78ED6C21FB8BD59384BEBEE82D3BEF02",
+                "0000000000000000000000000000000000000000000000000000000000000000"
+            ],
+            "valid_tests": [
+                {
+                    "tc_id": 78,
+                    "comment": "Minimum threshold subset of signers",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "C998F6321FBEB635F839BEE16B4E0C228A2F4D6C86EBA9723DB0A81E793C66459DF4EB8E0DE43BB76BA7A6C53953FD99DB3CDF0F421D5A8039FBF202326882AF",
+                        "FD6177FE42E209FFBA27292411E3B3ED156A317A31D1FC10C76D0E4E461F5306"
+                    ]
+                },
+                {
+                    "tc_id": 79,
+                    "comment": "Signing without the public share list",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "C998F6321FBEB635F839BEE16B4E0C228A2F4D6C86EBA9723DB0A81E793C66459DF4EB8E0DE43BB76BA7A6C53953FD99DB3CDF0F421D5A8039FBF202326882AF",
+                        "FD6177FE42E209FFBA27292411E3B3ED156A317A31D1FC10C76D0E4E461F5306"
+                    ]
+                },
+                {
+                    "tc_id": 80,
+                    "comment": "Reordering the signer set leaves the deterministic output unchanged, because the identifiers are sorted before they are bound into the nonce derivation and the binding value",
+                    "my_id": 0,
+                    "ids": [2, 1, 0],
+                    "pubshare_indices": [2, 1, 0],
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "C998F6321FBEB635F839BEE16B4E0C228A2F4D6C86EBA9723DB0A81E793C66459DF4EB8E0DE43BB76BA7A6C53953FD99DB3CDF0F421D5A8039FBF202326882AF",
+                        "FD6177FE42E209FFBA27292411E3B3ED156A317A31D1FC10C76D0E4E461F5306"
+                    ]
+                },
+                {
+                    "tc_id": 81,
+                    "comment": "A different threshold subset gives a different deterministic nonce, since the signer set is bound into the nonce derivation",
+                    "my_id": 0,
+                    "ids": [0, 3, 4],
+                    "pubshare_indices": [0, 3, 4],
+                    "secshare_index": 0,
+                    "aggothernonce": "5CDFEB22DAAB4E90255FB38F55A3A70007C24E50008B445B154A6CE5E2F522B749F1BD06E2AD2F94AB2A2D1823775E89C07836610F307D6066F1975F7ADBF5AD",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "399D0A95467BB557B927E695BA2A8FD64878D4856124BFB538A2BAA0FA19470FDA3FFEB2758C1F93E08430F9CB3DCAD9D3FE5B3A109A35DCF122D7BA105F6B82",
+                        "A4543758569F7B4EF947D67FE30CE3A26524D494CCB3E911D86D546264111B05"
+                    ]
+                },
+                {
+                    "tc_id": 82,
+                    "comment": "Auxiliary randomness omitted (null), which is not equivalent to all-zeros randomness",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "238C990F7F33B31115FF5C6A4796FE7E5C7117FF53C8E75A4862AB3977CAF6D2692CEB03AF916E114F71905AD2BDA02EA48B53A34A56648920CDA18D6A07E766",
+                    "aux_rand": null,
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "54CD2804B839928B3D724D34A59204849EAEBCE665850A43951386B7DC09F6AD7A3A8C3DA0CC003E3DD573D36EC2606CD6E4C0939591C52C047ECBBF9207A3C3",
+                        "42EAED85361B861D6ED524F9D0DE498CFE8D5477D84AF99CDB82C37D78369B00"
+                    ]
+                },
+                {
+                    "tc_id": 83,
+                    "comment": "Auxiliary randomness is all ones, distinct from the all-zeros and omitted cases",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "DF90987086A85EE348B1EF43EE525A5DF4604BD457762BA72493BDA3FC5EB4EE9B46A412E5D577518D1769E8A9CD6E9211A9ECA5BBF8E75BA881F89C1A71E478",
+                    "aux_rand": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "23F3C794665499A680309F6D4B93DB27ED56D9ADCD6CAB8CC4FB75371CF60F5ED85167C0DE5CDCBB4CE2A2E9F7A3A86A2A09F8CFED64A5922EA44D93786C6C8A",
+                        "90E797D6D137F2323679F6AF0FD54663A844780C6F3B8398DA064AB3EDEAE104"
+                    ]
+                },
+                {
+                    "tc_id": 84,
+                    "comment": "All signers participate, signed by a non-first member of the signer set",
+                    "my_id": 1,
+                    "ids": [0, 1, 2, 3, 4],
+                    "pubshare_indices": [0, 1, 2, 3, 4],
+                    "secshare_index": 1,
+                    "aggothernonce": "FE87CAA732B3111D88D1ADCE2BF1F071549223A13D13C2BE737D6FC0C78363ED0E1E9752299A3676423EDFD3D8A207880D52C8E1E268DCFC003FC8C4A440C502",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": [
+                        "2413148CF3217175B7637DD5507669CF7232D56BA56D5F51C1977EB640BB2FF2D8373AE62E9F3F499A9CE12252FC551AC06D74056C1CF701E359AB4566CDD450",
+                        "7ACB406AB0E07595E7256905519444072489FAF39CE3F6B47F0DE5185FA87B04"
+                    ]
+                },
+                {
+                    "tc_id": 85,
+                    "comment": "Empty message",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "C74FCA81D55696FDCF6A2FCAB3E70CE487DBB00DBBB88873588680A89237D71EE39366B043E7E5D058553A0655E6E3ED1D579E9010003A7E28DE59C707D02BB2",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "",
+                    "expected": [
+                        "0FFD52F1435D98523B35ADB7DD130A59D19B0F9C5B866E0F5267748EB6BB6A0401315274EBFFBB69488A29C4B24F08B647B36161AA303083F299A82CEBA271B3",
+                        "2AC452AD60FDA4F2C42C04BC6AD5B8E9CAA5706B7DD7CF29E4FC7D7DDDC28F00"
+                    ]
+                },
+                {
+                    "tc_id": 86,
+                    "comment": "Non-standard message length (38 bytes)",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "5D37C6EAE8BFDB23FF7D3436207A994F1291E5C43B6FF57687949F68BCAC657CF82986397C77A508172E02AF631692E63D63D1CA2A218FA9D1A6A4DE3B26C172",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "2626262626262626262626262626262626262626262626262626262626262626262626262626",
+                    "expected": [
+                        "0F6AB60127D781693B57FCAF8D7D1000690A2E07871DAFF21B90E8AEC5B42C71FFC37810EDED1B1F60ED436DB3E4751CFFB4C406FB67BD5D2D09BF3052A7DA22",
+                        "B76E40456AB6829BFDD2DD72BA076BC056D0E879EBC9B9D3D7B1109220C10405"
+                    ]
+                }
+            ],
+            "error_tests": [
+                {
+                    "tc_id": 87,
+                    "comment": "Signer's identifier is absent from the signer set",
+                    "my_id": 3,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "922F7E78FA17CE6BCF579075C6365A92E776CC6871C6853A434352DAC8300ABDA59ECFBE2DB5FC195FDD35894983DF52C71D1498A320BBCB46F5898445111B7C",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The signer's id is missing from the ids list."
+                    }
+                },
+                {
+                    "tc_id": 88,
+                    "comment": "Signer set contains a duplicate id",
+                    "my_id": 0,
+                    "ids": [0, 1, 1],
+                    "pubshare_indices": [0, 1, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "5913655D76A015CF56D70658593DA5687FBE7EEFBA27DD54AE3A04497A393F71BD274DD93252987F82C9E0E39B36D41E8A61BD8F82518722F2A0F093798FD21C",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The ids list contains duplicate elements."
+                    }
+                },
+                {
+                    "tc_id": 89,
+                    "comment": "Signer's public share is not in the public share list",
+                    "my_id": 1,
+                    "ids": [1, 2, 3],
+                    "pubshare_indices": [1, 2, 3],
+                    "secshare_index": 0,
+                    "aggothernonce": "FEB1F8060AD2D27E4AD5FDAB46464361358F9F58988E5A7FAB0072216A76067D442B086B3435B3D4F45CF77F52822BA979A4AAB721744D2D7932A700A11EC4D9",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The signer's pubshare is missing from the pubshares list."
+                    }
+                },
+                {
+                    "tc_id": 90,
+                    "comment": "A public share's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 5, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 91,
+                    "comment": "A public share is a small-order point",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 7, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 92,
+                    "comment": "A public share is a mixed-order point",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 8, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 93,
+                    "comment": "A public share is the non-canonical identity encoding",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 9, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 94,
+                    "comment": "A public share is the identity element",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 10, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 95,
+                    "comment": "A public share is not a point on the curve",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 11, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid pubshare at index 1."
+                    }
+                },
+                {
+                    "tc_id": 96,
+                    "comment": "A signer id is outside the valid range [0, n-1]",
+                    "my_id": 1,
+                    "ids": [5, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 1,
+                    "aggothernonce": "E6072911717F74449B8446338C5B7135CB7BA63CB6FE7E6B035E691FF14ED25208D08C4CE26CAA43D0D1808BEE68087DDCCB6C1854C933D06600D9FA3AACB543",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "Invalid id at index 0"
+                    }
+                },
+                {
+                    "tc_id": 97,
+                    "comment": "Signer set's public shares do not match the threshold public key",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 2, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The provided key material is incorrect: the public shares do not match the threshold public key."
+                    }
+                },
+                {
+                    "tc_id": 98,
+                    "comment": "Aggregate of the other signers' nonces is invalid: first half's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5866666666666666666666666666666666666666666666666666666666666666",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 99,
+                    "comment": "Aggregate of the other signers' nonces is invalid: first half is a small-order point (the all-zero order-4 torsion encoding)",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "00000000000000000000000000000000000000000000000000000000000000005866666666666666666666666666666666666666666666666666666666666666",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 100,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is not a point on the curve",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "58666666666666666666666666666666666666666666666666666666666666660200000000000000000000000000000000000000000000000000000000000000",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 101,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half's y-coordinate exceeds the field size",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "5866666666666666666666666666666666666666666666666666666666666666FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 102,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is a mixed-order point",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "5866666666666666666666666666666666666666666666666666666666666666003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 103,
+                    "comment": "Aggregate of the other signers' nonces is invalid: second half is the non-canonical identity encoding",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 0,
+                    "aggothernonce": "58666666666666666666666666666666666666666666666666666666666666660100000000000000000000000000000000000000000000000000000000000080",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": null,
+                        "contrib": "aggothernonce"
+                    }
+                },
+                {
+                    "tc_id": 104,
+                    "comment": "Fewer signers than the threshold t",
+                    "my_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "9FF0FE32A2F250E3081E542C22F2E59091CC41121C11FD753EBAD749D203ED7F3C8B48114846F317F9FFCA3A2E550093F32F9B113C7A786A213C0DE5E69DA4E1",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The number of signers must be between t and n."
+                    }
+                },
+                {
+                    "tc_id": 105,
+                    "comment": "Secret share is out of range (zero)",
+                    "my_id": 0,
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "secshare_index": 5,
+                    "aggothernonce": "094C269489E7BA05EC92C2FB0609B657F657B1F1B1A46C55A45E5E1E448B317506E5369EC4B4F54CB4B294913F359D2700EB5CA2E1C60F65B563DB2CE53C5FB3",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The signer's secret share value is out of range."
+                    }
+                }
+            ]
+        }
+    ]
+}

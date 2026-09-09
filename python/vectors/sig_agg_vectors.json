@@ -1,0 +1,386 @@
+{
+    "test_groups": [
+        {
+            "tg_id": "2of3",
+            "t": 2,
+            "n": 3,
+            "thresh_pk": "3CD5CBDAA8B996A670CE2B80C2229E75554D523141C6B9EBC1246744EC6387A6",
+            "pubshares": [
+                "52A7CE7BE489171290DDB1C04C59256B11CB41D26FDA52D5B2A71778D04415B5",
+                "EBC0CA186882958882F48697895A666F3875386E0596459F19600ECB1C55C40F",
+                "C9353C3AEA967DBB15E398700CEDC61765F8665131C32038F00CACD322E95CEF"
+            ],
+            "valid_tests": [
+                {
+                    "tc_id": 1,
+                    "comment": "Minimum threshold subset of signers",
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "aggnonce": "3E477AEDBBA7343808A445273FDE18024E6B3690C075F660287814A892DE8CF78625F376F26C54BF5D47187229B2AB66D9652558CCA22E830CCBFD071DD0F359",
+                    "psigs": [
+                        "924C736C9A146CC620ECEBB4AF1DDBB4D450F2DA0751692427693D6FBA9E4A04",
+                        "CC452B7302C22B91544BCA3AE7F8ED22F664A27FBAA93E9C928D22BD92516504"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "73785BF36A58F9B516A4E91545B7B76F744E83D7358F421ABD62E0040EA3FC1A5E929EDF9CD697577537B6EF9616C9D7CAB5945AC2FAA7C0B9F65F2C4DF0AF08"
+                },
+                {
+                    "tc_id": 2,
+                    "comment": "Public shares list is absent",
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "aggnonce": "3E477AEDBBA7343808A445273FDE18024E6B3690C075F660287814A892DE8CF78625F376F26C54BF5D47187229B2AB66D9652558CCA22E830CCBFD071DD0F359",
+                    "psigs": [
+                        "924C736C9A146CC620ECEBB4AF1DDBB4D450F2DA0751692427693D6FBA9E4A04",
+                        "CC452B7302C22B91544BCA3AE7F8ED22F664A27FBAA93E9C928D22BD92516504"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "73785BF36A58F9B516A4E91545B7B76F744E83D7358F421ABD62E0040EA3FC1A5E929EDF9CD697577537B6EF9616C9D7CAB5945AC2FAA7C0B9F65F2C4DF0AF08"
+                },
+                {
+                    "tc_id": 3,
+                    "comment": "Reordering the signer set leaves the aggregate signature unchanged, because the partial signatures are summed and the identifiers are sorted before they are bound into the binding value",
+                    "ids": [1, 0],
+                    "pubshare_indices": [1, 0],
+                    "aggnonce": "3E477AEDBBA7343808A445273FDE18024E6B3690C075F660287814A892DE8CF78625F376F26C54BF5D47187229B2AB66D9652558CCA22E830CCBFD071DD0F359",
+                    "psigs": [
+                        "CC452B7302C22B91544BCA3AE7F8ED22F664A27FBAA93E9C928D22BD92516504",
+                        "924C736C9A146CC620ECEBB4AF1DDBB4D450F2DA0751692427693D6FBA9E4A04"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "73785BF36A58F9B516A4E91545B7B76F744E83D7358F421ABD62E0040EA3FC1A5E929EDF9CD697577537B6EF9616C9D7CAB5945AC2FAA7C0B9F65F2C4DF0AF08"
+                },
+                {
+                    "tc_id": 4,
+                    "comment": "All signers participate",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "aggnonce": "C268DAFDC13D259207C0ACC36EB38DE49B9E50783136FB4BBA18D7D7B2BAC72F041019D2B40BC611CC2861E4C9463ABFC0E84238331D4143EFC2024E744757A5",
+                    "psigs": [
+                        "784F290C313B68FE291B65467AD375DC7AC0DCEB1BDA96805D5DBD79A11D5B0A",
+                        "15CACC15867480B389F5E2EEDC71AE61E246AE83DF20016FDD2D888708612D01",
+                        "2C19E0503E60257BDEC5610ADF259FBB4F342A4E1CD05600ADEC2F81495ED306"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "DCC884CF593B15715196FBE286408E51A31FC18909E8FD71144EBAD4B28C69E3CC5EE015DBACFBD4BB39B29C5771E4E4AC3BB5BD17CBEEEFE7777582F3DC5B02"
+                }
+            ],
+            "error_tests": [
+                {
+                    "tc_id": 5,
+                    "comment": "Partial signature equals the group order, which is out of range",
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "aggnonce": "3E477AEDBBA7343808A445273FDE18024E6B3690C075F660287814A892DE8CF78625F376F26C54BF5D47187229B2AB66D9652558CCA22E830CCBFD071DD0F359",
+                    "psigs": [
+                        "924C736C9A146CC620ECEBB4AF1DDBB4D450F2DA0751692427693D6FBA9E4A04",
+                        "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": 1,
+                        "contrib": "psig"
+                    }
+                },
+                {
+                    "tc_id": 6,
+                    "comment": "Number of partial signatures does not match the number of signers",
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "aggnonce": "3E477AEDBBA7343808A445273FDE18024E6B3690C075F660287814A892DE8CF78625F376F26C54BF5D47187229B2AB66D9652558CCA22E830CCBFD071DD0F359",
+                    "psigs": [
+                        "924C736C9A146CC620ECEBB4AF1DDBB4D450F2DA0751692427693D6FBA9E4A04"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The psigs and ids lists must have the same length."
+                    }
+                }
+            ]
+        },
+        {
+            "tg_id": "1of3",
+            "t": 1,
+            "n": 3,
+            "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
+            "pubshares": [
+                "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
+                "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
+                "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C"
+            ],
+            "valid_tests": [
+                {
+                    "tc_id": 7,
+                    "comment": "Minimum threshold subset of signers",
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "aggnonce": "60C38907841958756B047EEBEA86E351C1B7BF4C8F10A70F85323C61F74BA0CA4A9149281E08A4C96BFA91F061CE3830E769EFAC1B5E0EE32864B9D28B22D4DD",
+                    "psigs": [
+                        "76C6AAA24D21F700E90CC9129BEA0D1C36CEBE997EACA89BE53BE5B2073A760B"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "6D8AED6A342550B5954CECC41CA4D82CCFEA3D14889F2AAC0CF9309208C1061E76C6AAA24D21F700E90CC9129BEA0D1C36CEBE997EACA89BE53BE5B2073A760B"
+                },
+                {
+                    "tc_id": 8,
+                    "comment": "Public shares list is absent",
+                    "ids": [0],
+                    "pubshare_indices": null,
+                    "aggnonce": "60C38907841958756B047EEBEA86E351C1B7BF4C8F10A70F85323C61F74BA0CA4A9149281E08A4C96BFA91F061CE3830E769EFAC1B5E0EE32864B9D28B22D4DD",
+                    "psigs": [
+                        "76C6AAA24D21F700E90CC9129BEA0D1C36CEBE997EACA89BE53BE5B2073A760B"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "6D8AED6A342550B5954CECC41CA4D82CCFEA3D14889F2AAC0CF9309208C1061E76C6AAA24D21F700E90CC9129BEA0D1C36CEBE997EACA89BE53BE5B2073A760B"
+                },
+                {
+                    "tc_id": 9,
+                    "comment": "All signers participate",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "aggnonce": "944408603C9CC120706340448FFC27DB8F6AD6E81971B43897A35BE66D4F0B39E1607DA95E61C45ACF8898AE2766AC8FA86CB78C93868890795298B546AA4E99",
+                    "psigs": [
+                        "9C40088FFD339335ED885FE8DE271FB1A15B880B954FAF11770B5C92FC9E7D0C",
+                        "CC32A927A0294F2FFBAD68FBA790C6080861EBFA1CAEBDAE5E99025324A96B02",
+                        "ACE63D17893027DEF13F0D4477F556CEC3B2FE056DC45E9B199093D2094D2209"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "3E51A86AF1810BE84D27FF2B04A6E878A7C05713CDB5332A6FBC15988E7130292786F9700C2BF7EA03DADD841FB45D736D6F720C1FC2CB5BEF34F2B72A950B08"
+                }
+            ],
+            "error_tests": [
+                {
+                    "tc_id": 10,
+                    "comment": "Partial signature equals the group order, which is out of range",
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "aggnonce": "60C38907841958756B047EEBEA86E351C1B7BF4C8F10A70F85323C61F74BA0CA4A9149281E08A4C96BFA91F061CE3830E769EFAC1B5E0EE32864B9D28B22D4DD",
+                    "psigs": [
+                        "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": 0,
+                        "contrib": "psig"
+                    }
+                },
+                {
+                    "tc_id": 11,
+                    "comment": "Number of partial signatures does not match the number of signers",
+                    "ids": [0],
+                    "pubshare_indices": [0],
+                    "aggnonce": "60C38907841958756B047EEBEA86E351C1B7BF4C8F10A70F85323C61F74BA0CA4A9149281E08A4C96BFA91F061CE3830E769EFAC1B5E0EE32864B9D28B22D4DD",
+                    "psigs": [],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The psigs and ids lists must have the same length."
+                    }
+                }
+            ]
+        },
+        {
+            "tg_id": "3of3",
+            "t": 3,
+            "n": 3,
+            "thresh_pk": "D89831A002770DC1F3C61BB78EC62F5ED60482F42B8F79BA57EE91917EB4E8FC",
+            "pubshares": [
+                "DE18D50D94CD7B3F6FDF668DC834C8ADCC2304AFD8B99AAE61749A9CEE81DDBF",
+                "3979B4A9128EF2F65A1A57687EBEFEB90BEFA9F156EC308B3B9DC94034A04A6F",
+                "542E668EEF205D5CDCD3BE181EA61457F5F529BBC02CB212A35155657316229F"
+            ],
+            "valid_tests": [
+                {
+                    "tc_id": 12,
+                    "comment": "Minimum threshold subset of signers",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "aggnonce": "9628BAE207BA39E201D1B66FC3F124821390F7D5792EACC35E31621FA9ABF4E132771B4D791B553692448477DFE16A624C7299A006C3C5C61E2F3297462E0CF0",
+                    "psigs": [
+                        "0361CFE04D66F9788D06864CADDB69A80E91DCC5D4FE1E6AD2D7221393129203",
+                        "5B9B84398A0B2010330952F580C06718FC26FD89285DA90E4C8ADD2D42C6EA06",
+                        "32AB7CB397BC5681F8480A3ABED33494349FBEAB01EE3BAB67302ADC99BCDA07"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "F3CFA1469B1384FEF917A6D2577E5DEFE58721D63F190F2932378049DA454991A3D3DA7055CB5DB2E2BBEAD80D7627403F5798FBFE49042486922A1D6F955702"
+                },
+                {
+                    "tc_id": 13,
+                    "comment": "Public shares list is absent",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": null,
+                    "aggnonce": "9628BAE207BA39E201D1B66FC3F124821390F7D5792EACC35E31621FA9ABF4E132771B4D791B553692448477DFE16A624C7299A006C3C5C61E2F3297462E0CF0",
+                    "psigs": [
+                        "0361CFE04D66F9788D06864CADDB69A80E91DCC5D4FE1E6AD2D7221393129203",
+                        "5B9B84398A0B2010330952F580C06718FC26FD89285DA90E4C8ADD2D42C6EA06",
+                        "32AB7CB397BC5681F8480A3ABED33494349FBEAB01EE3BAB67302ADC99BCDA07"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "F3CFA1469B1384FEF917A6D2577E5DEFE58721D63F190F2932378049DA454991A3D3DA7055CB5DB2E2BBEAD80D7627403F5798FBFE49042486922A1D6F955702"
+                },
+                {
+                    "tc_id": 14,
+                    "comment": "Reordering the signer set leaves the aggregate signature unchanged, because the partial signatures are summed and the identifiers are sorted before they are bound into the binding value",
+                    "ids": [2, 1, 0],
+                    "pubshare_indices": [2, 1, 0],
+                    "aggnonce": "9628BAE207BA39E201D1B66FC3F124821390F7D5792EACC35E31621FA9ABF4E132771B4D791B553692448477DFE16A624C7299A006C3C5C61E2F3297462E0CF0",
+                    "psigs": [
+                        "32AB7CB397BC5681F8480A3ABED33494349FBEAB01EE3BAB67302ADC99BCDA07",
+                        "5B9B84398A0B2010330952F580C06718FC26FD89285DA90E4C8ADD2D42C6EA06",
+                        "0361CFE04D66F9788D06864CADDB69A80E91DCC5D4FE1E6AD2D7221393129203"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "F3CFA1469B1384FEF917A6D2577E5DEFE58721D63F190F2932378049DA454991A3D3DA7055CB5DB2E2BBEAD80D7627403F5798FBFE49042486922A1D6F955702"
+                }
+            ],
+            "error_tests": [
+                {
+                    "tc_id": 15,
+                    "comment": "Partial signature equals the group order, which is out of range",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "aggnonce": "9628BAE207BA39E201D1B66FC3F124821390F7D5792EACC35E31621FA9ABF4E132771B4D791B553692448477DFE16A624C7299A006C3C5C61E2F3297462E0CF0",
+                    "psigs": [
+                        "0361CFE04D66F9788D06864CADDB69A80E91DCC5D4FE1E6AD2D7221393129203",
+                        "5B9B84398A0B2010330952F580C06718FC26FD89285DA90E4C8ADD2D42C6EA06",
+                        "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": 2,
+                        "contrib": "psig"
+                    }
+                },
+                {
+                    "tc_id": 16,
+                    "comment": "Number of partial signatures does not match the number of signers",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "aggnonce": "9628BAE207BA39E201D1B66FC3F124821390F7D5792EACC35E31621FA9ABF4E132771B4D791B553692448477DFE16A624C7299A006C3C5C61E2F3297462E0CF0",
+                    "psigs": [
+                        "0361CFE04D66F9788D06864CADDB69A80E91DCC5D4FE1E6AD2D7221393129203",
+                        "5B9B84398A0B2010330952F580C06718FC26FD89285DA90E4C8ADD2D42C6EA06"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The psigs and ids lists must have the same length."
+                    }
+                }
+            ]
+        },
+        {
+            "tg_id": "3of5",
+            "t": 3,
+            "n": 5,
+            "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
+            "pubshares": [
+                "179AB1E0521504CFBD2211FDCFA67C2576DEFD5A673B71FBE958BAA18FD58E43",
+                "B5D8F3BD56A5CFB680D60493E1CC6D9E4426FC44643B9159DB53CD4DC82D8600",
+                "60A370DE4C2385FFE7EA1483DA9163764EAF4690C5AE579972A1EF13696D6F91",
+                "93EECCA9DBE66DEB480B977F3D8EC9A4CE62FB10F4C10785711C914AE1498153",
+                "08C8C816E73F5968B47B509599D49C4745D7C2610658EDA3EFA3B642EB5D2C04"
+            ],
+            "valid_tests": [
+                {
+                    "tc_id": 17,
+                    "comment": "Minimum threshold subset of signers",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "aggnonce": "1282C2A30EEC6B07A04D51C6D552DCCB49A97A2B41B54FEE9400B3D60E0AFBBCE9A8657BF912D3020177ECB4B2AAE84B87C8A09A7473D1E3D6E131CC7949E36B",
+                    "psigs": [
+                        "D15247B70C1AFF701F1ABABF92A06612398830FB4F33E605800FE703F8155C00",
+                        "EF3ABFA56D3564F7BD26CEEB44749F34E7655E4F60A5423BF12C9AB9428F6D0B",
+                        "76CFA5C3D4CD35CDF938EA2A7AFB093E4E6BD084FD4CD072621AAAC5D31AEA05"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "E5491DAD8CC79A132E4FC59E71F33D1AEAB3A5D1DF0CEFFEB7BFB675E2C0D7E84989B6C334BA86DD00DD7A33731631706E595FCFAD25F9B3D3562B830EC0B301"
+                },
+                {
+                    "tc_id": 18,
+                    "comment": "Public shares list is absent",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": null,
+                    "aggnonce": "1282C2A30EEC6B07A04D51C6D552DCCB49A97A2B41B54FEE9400B3D60E0AFBBCE9A8657BF912D3020177ECB4B2AAE84B87C8A09A7473D1E3D6E131CC7949E36B",
+                    "psigs": [
+                        "D15247B70C1AFF701F1ABABF92A06612398830FB4F33E605800FE703F8155C00",
+                        "EF3ABFA56D3564F7BD26CEEB44749F34E7655E4F60A5423BF12C9AB9428F6D0B",
+                        "76CFA5C3D4CD35CDF938EA2A7AFB093E4E6BD084FD4CD072621AAAC5D31AEA05"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "E5491DAD8CC79A132E4FC59E71F33D1AEAB3A5D1DF0CEFFEB7BFB675E2C0D7E84989B6C334BA86DD00DD7A33731631706E595FCFAD25F9B3D3562B830EC0B301"
+                },
+                {
+                    "tc_id": 19,
+                    "comment": "Reordering the signer set leaves the aggregate signature unchanged, because the partial signatures are summed and the identifiers are sorted before they are bound into the binding value",
+                    "ids": [2, 1, 0],
+                    "pubshare_indices": [2, 1, 0],
+                    "aggnonce": "1282C2A30EEC6B07A04D51C6D552DCCB49A97A2B41B54FEE9400B3D60E0AFBBCE9A8657BF912D3020177ECB4B2AAE84B87C8A09A7473D1E3D6E131CC7949E36B",
+                    "psigs": [
+                        "76CFA5C3D4CD35CDF938EA2A7AFB093E4E6BD084FD4CD072621AAAC5D31AEA05",
+                        "EF3ABFA56D3564F7BD26CEEB44749F34E7655E4F60A5423BF12C9AB9428F6D0B",
+                        "D15247B70C1AFF701F1ABABF92A06612398830FB4F33E605800FE703F8155C00"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "E5491DAD8CC79A132E4FC59E71F33D1AEAB3A5D1DF0CEFFEB7BFB675E2C0D7E84989B6C334BA86DD00DD7A33731631706E595FCFAD25F9B3D3562B830EC0B301"
+                },
+                {
+                    "tc_id": 20,
+                    "comment": "All signers participate",
+                    "ids": [0, 1, 2, 3, 4],
+                    "pubshare_indices": [0, 1, 2, 3, 4],
+                    "aggnonce": "6AEB58D7616D61C0B572A33123A22C0E2BD79ED04EC941DAC79EA4192F030108F59DA9699D7733B4662BE782DDAFCFCB42A7D29B3D4F1367EB3B3B7E83BE2D94",
+                    "psigs": [
+                        "C451E012F465AD520EE63B0C944C8EE7F1B0205374E433FF1F520A5426A18405",
+                        "20E959EE75364F2A33CE6BEF18E7315F361317B7E50218816092271784DFAF01",
+                        "099CF8C0DF30E854207322DB3A794C30108A1DFCB3FB7ACF08D1F557F1778C0E",
+                        "FE682BDCF38F531B76E0F7A3E53B99BE1F4AC5691C8C6F5A8276E8FFE57AD308",
+                        "209AC1B54FF00DAE4C0A4E1279249CCC1D55C078E5B9F9E9F2993D8744E59B0B"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "5DEAF4DF8C3896927EC2524285BA730D79949EA3A797C53AF2EE554AC14EDED23132349A588721EB77D82047891984D875EDDAE80F293094FEC54D4AC658300A"
+                }
+            ],
+            "error_tests": [
+                {
+                    "tc_id": 21,
+                    "comment": "Partial signature equals the group order, which is out of range",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "aggnonce": "1282C2A30EEC6B07A04D51C6D552DCCB49A97A2B41B54FEE9400B3D60E0AFBBCE9A8657BF912D3020177ECB4B2AAE84B87C8A09A7473D1E3D6E131CC7949E36B",
+                    "psigs": [
+                        "D15247B70C1AFF701F1ABABF92A06612398830FB4F33E605800FE703F8155C00",
+                        "EF3ABFA56D3564F7BD26CEEB44749F34E7655E4F60A5423BF12C9AB9428F6D0B",
+                        "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "InvalidContributionError",
+                        "signer_index": 2,
+                        "contrib": "psig"
+                    }
+                },
+                {
+                    "tc_id": 22,
+                    "comment": "Number of partial signatures does not match the number of signers",
+                    "ids": [0, 1, 2],
+                    "pubshare_indices": [0, 1, 2],
+                    "aggnonce": "1282C2A30EEC6B07A04D51C6D552DCCB49A97A2B41B54FEE9400B3D60E0AFBBCE9A8657BF912D3020177ECB4B2AAE84B87C8A09A7473D1E3D6E131CC7949E36B",
+                    "psigs": [
+                        "D15247B70C1AFF701F1ABABF92A06612398830FB4F33E605800FE703F8155C00",
+                        "EF3ABFA56D3564F7BD26CEEB44749F34E7655E4F60A5423BF12C9AB9428F6D0B"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The psigs and ids lists must have the same length."
+                    }
+                }
+            ]
+        }
+    ]
+}
