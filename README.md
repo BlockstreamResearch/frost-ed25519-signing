@@ -613,15 +613,16 @@ Algorithm *DeterministicSign(secshare, my_id, aggothernonce, n, t, u, id<sub>1..
   - The message *m*: a byte array[^max-msg-len]
   - The auxiliary randomness *aux_rand*: a 32-byte array (optional argument)
 - Run *ValidateSessionParams(n, t, u, id<sub>1..u</sub>, pubshare<sub>1..u</sub>, thresh_pk)*; fail if that fails
+- Let *d = scalar_from_bytes_nonzero_checked(secshare)*; fail if that fails
 - If the optional argument *aux_rand* is present:
-  - Let *secshare' = xor_bytes(secshare, hash<sub>aux</sub>(aux_rand)\[0:32])*
+  - Let *masked_secshare = xor_bytes(scalar_to_bytes(d), hash<sub>aux</sub>(aux_rand)\[0:32])*
 - Else:
-  - Let *secshare' = secshare*
+  - Let *masked_secshare = scalar_to_bytes(d)*
 - If the optional argument *aggothernonce* is present:
   - Let *aggothernonce' = aggothernonce*
 - Else:
   - Let *aggothernonce' = empty_bytestring*
-- Let *k<sub>i</sub> = scalar_from_bytes_wide(hash<sub>deterministic/nonce</sub>(secshare' || bytes(4, my_id) || bytes(4, u) || SerializeIds(id<sub>1..u</sub>) || bytes(1, len(aggothernonce')) || aggothernonce' || thresh_pk || bytes(8, len(m)) || m || bytes(1, i - 1)))* for *i = 1,2*
+- Let *k<sub>i</sub> = scalar_from_bytes_wide(hash<sub>deterministic/nonce</sub>(masked_secshare || bytes(4, my_id) || bytes(4, u) || SerializeIds(id<sub>1..u</sub>) || bytes(1, len(aggothernonce')) || aggothernonce' || thresh_pk || bytes(8, len(m)) || m || bytes(1, i - 1)))* for *i = 1,2*
 - Fail if *k<sub>1</sub> = Scalar(0)* or *k<sub>2</sub> = Scalar(0)*[^negligible-zero-scalar]
 - Let *R<sub>\*,1</sub> = k<sub>1</sub> &middot; B, R<sub>\*,2</sub> = k<sub>2</sub> &middot; B*
 - Let *pubnonce = bytes(R<sub>\*,1</sub>) || bytes(R<sub>\*,2</sub>)*

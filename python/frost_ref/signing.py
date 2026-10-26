@@ -377,7 +377,7 @@ def sign(
 
 
 def det_nonce_hash(
-    secshare_: bytes,
+    masked_secshare: bytes,
     my_id: int,
     ids: List[int],
     aggothernonce: bytes,
@@ -386,7 +386,7 @@ def det_nonce_hash(
     i: int,
 ) -> bytes:
     buf = b""
-    buf += secshare_
+    buf += masked_secshare
     buf += my_id.to_bytes(4, "big")
     buf += len(ids).to_bytes(4, "big")
     buf += serialize_ids(ids)
@@ -412,10 +412,16 @@ def deterministic_sign(
     aux_rand: Optional[bytes],
 ) -> Tuple[bytes, bytes]:
     validate_session_params(n, t, ids, pubshares, thresh_pk)
+    try:
+        d = Scalar.from_bytes_nonzero_checked(secshare)
+    except ValueError:
+        raise ValueError("The signer's secret share value is out of range.")
     if aux_rand is not None:
-        secshare_ = xor_bytes(secshare, tagged_hash(FROST_TAG_AUX, aux_rand)[:32])
+        masked_secshare = xor_bytes(
+            d.to_bytes(), tagged_hash(FROST_TAG_AUX, aux_rand)[:32]
+        )
     else:
-        secshare_ = secshare
+        masked_secshare = d.to_bytes()
 
     # A sole signer (u = 1) has no other nonces to aggregate, so aggothernonce is
     # omitted. Bind the empty byte string into the nonce hash and use the signer's
@@ -426,10 +432,10 @@ def deterministic_sign(
         aggothernonce_ = aggothernonce
 
     k_1 = Scalar.from_bytes_wide(
-        det_nonce_hash(secshare_, my_id, ids, aggothernonce_, thresh_pk, msg, 0)
+        det_nonce_hash(masked_secshare, my_id, ids, aggothernonce_, thresh_pk, msg, 0)
     )
     k_2 = Scalar.from_bytes_wide(
-        det_nonce_hash(secshare_, my_id, ids, aggothernonce_, thresh_pk, msg, 1)
+        det_nonce_hash(masked_secshare, my_id, ids, aggothernonce_, thresh_pk, msg, 1)
     )
     # k_1 == 0 or k_2 == 0 cannot occur except with negligible probability.
     assert k_1 != 0
