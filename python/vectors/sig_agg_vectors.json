@@ -39,16 +39,17 @@
                 },
                 {
                     "tc_id": 3,
-                    "comment": "Reordering the signer set leaves the aggregate signature unchanged, because the partial signatures are summed and the identifiers are sorted before they are bound into the binding value",
-                    "ids": [1, 0],
-                    "pubshare_indices": [1, 0],
-                    "aggnonce": "3E477AEDBBA7343808A445273FDE18024E6B3690C075F660287814A892DE8CF78625F376F26C54BF5D47187229B2AB66D9652558CCA22E830CCBFD071DD0F359",
+                    "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
+                    "ids": [2, 1, 0],
+                    "pubshare_indices": [2, 1, 0],
+                    "aggnonce": "C268DAFDC13D259207C0ACC36EB38DE49B9E50783136FB4BBA18D7D7B2BAC72F041019D2B40BC611CC2861E4C9463ABFC0E84238331D4143EFC2024E744757A5",
                     "psigs": [
-                        "CC452B7302C22B91544BCA3AE7F8ED22F664A27FBAA93E9C928D22BD92516504",
-                        "924C736C9A146CC620ECEBB4AF1DDBB4D450F2DA0751692427693D6FBA9E4A04"
+                        "2C19E0503E60257BDEC5610ADF259FBB4F342A4E1CD05600ADEC2F81495ED306",
+                        "15CACC15867480B389F5E2EEDC71AE61E246AE83DF20016FDD2D888708612D01",
+                        "784F290C313B68FE291B65467AD375DC7AC0DCEB1BDA96805D5DBD79A11D5B0A"
                     ],
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
-                    "expected": "73785BF36A58F9B516A4E91545B7B76F744E83D7358F421ABD62E0040EA3FC1A5E929EDF9CD697577537B6EF9616C9D7CAB5945AC2FAA7C0B9F65F2C4DF0AF08"
+                    "expected": "DCC884CF593B15715196FBE286408E51A31FC18909E8FD71144EBAD4B28C69E3CC5EE015DBACFBD4BB39B29C5771E4E4AC3BB5BD17CBEEEFE7777582F3DC5B02"
                 },
                 {
                     "tc_id": 4,
@@ -137,6 +138,19 @@
                 },
                 {
                     "tc_id": 9,
+                    "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
+                    "ids": [2, 1],
+                    "pubshare_indices": [2, 1],
+                    "aggnonce": "1AFC880E61C87F6FD8FA95D83D4AAE0873EB7FDCC1E809DBF34EE001458FA30410A8C15B8E28831E70B4631EFC5E26293A5D227F031BA181225CC7B6691486E3",
+                    "psigs": [
+                        "712D97FC2633C0BF45AD96EBADCBCD80535CBD57E5A681FE9F125AD40C9E9805",
+                        "B5D765012C635526D89EFCC7C3BA44ACEE8414E10E4FD71491478BF474965506"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "expected": "DFD6565AA3E81D6A74F6BC3CC646677B4974BE6E4D2C09B5350183862D4C0F5E2605FDFD529615E61D4C93B37186122D42E1D138F4F55813315AE5C88134EE0B"
+                },
+                {
+                    "tc_id": 10,
                     "comment": "All signers participate",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -152,7 +166,7 @@
             ],
             "error_tests": [
                 {
-                    "tc_id": 10,
+                    "tc_id": 11,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "ids": [0],
                     "pubshare_indices": [0],
@@ -168,7 +182,7 @@
                     }
                 },
                 {
-                    "tc_id": 11,
+                    "tc_id": 12,
                     "comment": "Number of partial signatures does not match the number of signers",
                     "ids": [0],
                     "pubshare_indices": [0],
@@ -194,7 +208,7 @@
             ],
             "valid_tests": [
                 {
-                    "tc_id": 12,
+                    "tc_id": 13,
                     "comment": "Minimum threshold subset of signers",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -208,7 +222,7 @@
                     "expected": "F3CFA1469B1384FEF917A6D2577E5DEFE58721D63F190F2932378049DA454991A3D3DA7055CB5DB2E2BBEAD80D7627403F5798FBFE49042486922A1D6F955702"
                 },
                 {
-                    "tc_id": 13,
+                    "tc_id": 14,
                     "comment": "Public shares list is absent",
                     "ids": [0, 1, 2],
                     "pubshare_indices": null,
@@ -222,8 +236,8 @@
                     "expected": "F3CFA1469B1384FEF917A6D2577E5DEFE58721D63F190F2932378049DA454991A3D3DA7055CB5DB2E2BBEAD80D7627403F5798FBFE49042486922A1D6F955702"
                 },
                 {
-                    "tc_id": 14,
-                    "comment": "Reordering the signer set leaves the aggregate signature unchanged, because the partial signatures are summed and the identifiers are sorted before they are bound into the binding value",
+                    "tc_id": 15,
+                    "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
                     "ids": [2, 1, 0],
                     "pubshare_indices": [2, 1, 0],
                     "aggnonce": "9628BAE207BA39E201D1B66FC3F124821390F7D5792EACC35E31621FA9ABF4E132771B4D791B553692448477DFE16A624C7299A006C3C5C61E2F3297462E0CF0",
@@ -238,7 +252,7 @@
             ],
             "error_tests": [
                 {
-                    "tc_id": 15,
+                    "tc_id": 16,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -256,7 +270,7 @@
                     }
                 },
                 {
-                    "tc_id": 16,
+                    "tc_id": 17,
                     "comment": "Number of partial signatures does not match the number of signers",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -287,7 +301,7 @@
             ],
             "valid_tests": [
                 {
-                    "tc_id": 17,
+                    "tc_id": 18,
                     "comment": "Minimum threshold subset of signers",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -301,7 +315,7 @@
                     "expected": "E5491DAD8CC79A132E4FC59E71F33D1AEAB3A5D1DF0CEFFEB7BFB675E2C0D7E84989B6C334BA86DD00DD7A33731631706E595FCFAD25F9B3D3562B830EC0B301"
                 },
                 {
-                    "tc_id": 18,
+                    "tc_id": 19,
                     "comment": "Public shares list is absent",
                     "ids": [0, 1, 2],
                     "pubshare_indices": null,
@@ -315,21 +329,22 @@
                     "expected": "E5491DAD8CC79A132E4FC59E71F33D1AEAB3A5D1DF0CEFFEB7BFB675E2C0D7E84989B6C334BA86DD00DD7A33731631706E595FCFAD25F9B3D3562B830EC0B301"
                 },
                 {
-                    "tc_id": 19,
-                    "comment": "Reordering the signer set leaves the aggregate signature unchanged, because the partial signatures are summed and the identifiers are sorted before they are bound into the binding value",
-                    "ids": [2, 1, 0],
-                    "pubshare_indices": [2, 1, 0],
-                    "aggnonce": "1282C2A30EEC6B07A04D51C6D552DCCB49A97A2B41B54FEE9400B3D60E0AFBBCE9A8657BF912D3020177ECB4B2AAE84B87C8A09A7473D1E3D6E131CC7949E36B",
+                    "tc_id": 20,
+                    "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
+                    "ids": [4, 3, 2, 1],
+                    "pubshare_indices": [4, 3, 2, 1],
+                    "aggnonce": "6E85BFA7B576AB8D6138CD5906B28F2481A511F90449D55FC6DC32A1122B424E3E07CB1E333BED131C3D81FAC9606F409D96AC26CF52EEE28D0356E998B6AEF1",
                     "psigs": [
-                        "76CFA5C3D4CD35CDF938EA2A7AFB093E4E6BD084FD4CD072621AAAC5D31AEA05",
-                        "EF3ABFA56D3564F7BD26CEEB44749F34E7655E4F60A5423BF12C9AB9428F6D0B",
-                        "D15247B70C1AFF701F1ABABF92A06612398830FB4F33E605800FE703F8155C00"
+                        "56144456F4501ABD1B3B4B65AF7AEB2B68CB25F7AE483E955620E9782034D708",
+                        "1D2282E620B8F1F36C30CFB4D062CC19123C7337A0DF17987E7BCB874ADD7705",
+                        "52EF06DF154808E8AEEEA9F66924E9D39B212145EACD46682EBE5B342A3D3E03",
+                        "816C1416EBDB9613883BA13F7F189689EC4EC312696956F0455DD58CD0FCFF0C"
                     ],
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
-                    "expected": "E5491DAD8CC79A132E4FC59E71F33D1AEAB3A5D1DF0CEFFEB7BFB675E2C0D7E84989B6C334BA86DD00DD7A33731631706E595FCFAD25F9B3D3562B830EC0B301"
+                    "expected": "6C450D0DE7D6FF21E31AA8F1E27B0292229A1A61D6AECAEF95C730C1DFF8002359BEEBD4FBC99854E9F86DAD8A20588E02787D86A25FF38549B7E5C1654B8D0E"
                 },
                 {
-                    "tc_id": 20,
+                    "tc_id": 21,
                     "comment": "All signers participate",
                     "ids": [0, 1, 2, 3, 4],
                     "pubshare_indices": [0, 1, 2, 3, 4],
@@ -347,7 +362,7 @@
             ],
             "error_tests": [
                 {
-                    "tc_id": 21,
+                    "tc_id": 22,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -365,7 +380,7 @@
                     }
                 },
                 {
-                    "tc_id": 22,
+                    "tc_id": 23,
                     "comment": "Number of partial signatures does not match the number of signers",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
