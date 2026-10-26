@@ -593,8 +593,8 @@ The security of the resulting scheme then depends on the requirement that readin
 
 Second, if there is a unique signer who generates their nonce last (i.e., after receiving the aggregate nonce from all other signers), it is possible to modify nonce generation for this single signer to not require high-quality randomness.
 Such a nonce generation algorithm *DeterministicSign* is specified below.
-It has two optional arguments: *aux_rand*, which can be omitted if randomness is entirely unavailable, and *aggothernonce*, which is omitted by a sole signer (*u = 1*) who has no other signers' nonces to aggregate.
-When present, *aggothernonce* should be set to the output of *NonceAgg* run on the *pubnonce* value of **all** other signers (but can be provided by an untrusted party).
+It has two optional arguments: *aux_rand*, which can be omitted if randomness is entirely unavailable, and *aggothernonce*, which is omitted if and only if the signer is the sole signer (*u = 1*), since there are no other signers' nonces to aggregate.
+Otherwise, *aggothernonce* should be set to the output of *NonceAgg* run on the *pubnonce* value of **all** other signers (but can be provided by an untrusted party).
 Hence, using *DeterministicSign* is only possible for the last signer to generate a nonce, or for a sole signer who is the only participant signing, and it makes the signer stateless, similar to the stateless signer described in the [Nonce Generation](#nonce-generation) section.
 In FROST, the deterministic nonce must also bind to the signer set *id<sub>1..u</sub>*; otherwise a malicious coordinator can recover the victim's secret share via replayed sessions with varying signer sets.[^det-signer-set]
 
@@ -605,7 +605,7 @@ Algorithm *DeterministicSign(secshare, my_id, aggothernonce, n, t, u, id<sub>1..
 - Inputs:
   - The participant secret share *secshare*: a 32-byte array, serialized scalar
   - The participant identifier *my_id*: an integer with *0 ≤ my_id ≤ n-1*
-  - The aggregate public nonce *aggothernonce* (see [above](#modifications-to-nonce-generation)): a 64-byte array, output of *NonceAgg* (optional argument)[^det-threshold-one]
+  - The aggregate public nonce *aggothernonce* (see [above](#modifications-to-nonce-generation)): a 64-byte array, output of *NonceAgg*, present if and only if *u > 1* (optional argument)[^det-threshold-one]
   - The total number *n* of participants involved in key generation: an integer with *1 ≤ n ≤ 128*
   - The threshold number *t* of participants required to issue a signature: an integer with *1 ≤ t ≤ n*
   - The number *u* of signers: an integer with *t ≤ u ≤ n*
@@ -615,6 +615,7 @@ Algorithm *DeterministicSign(secshare, my_id, aggothernonce, n, t, u, id<sub>1..
   - The message *m*: a byte array[^max-msg-len]
   - The auxiliary randomness *aux_rand*: a 32-byte array (optional argument)
 - Run *ValidateSessionParams(n, t, u, id<sub>1..u</sub>, pubshare<sub>1..u</sub>, thresh_pk)*; fail if that fails
+- Fail if *u = 1* and *aggothernonce* is present, or if *u > 1* and *aggothernonce* is absent
 - Let *d = scalar_from_bytes_nonzero_checked(secshare)*; fail if that fails
 - If the optional argument *aux_rand* is present:
   - Let *masked_secshare = xor_bytes(scalar_to_bytes(d), hash<sub>aux</sub>(aux_rand)\[0:32])*
