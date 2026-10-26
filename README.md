@@ -621,7 +621,7 @@ Algorithm *DeterministicSign(secshare, my_id, aggothernonce, n, t, u, id<sub>1..
   - Let *aggothernonce' = aggothernonce*
 - Else:
   - Let *aggothernonce' = empty_bytestring*
-- Let *k<sub>i</sub> = scalar_from_bytes_wide(hash<sub>deterministic/nonce</sub>(secshare' || bytes(4, my_id) || bytes(4, u) || SerializeIds(id<sub>1..u</sub>) || aggothernonce' || thresh_pk || bytes(8, len(m)) || m || bytes(1, i - 1)))* for *i = 1,2*
+- Let *k<sub>i</sub> = scalar_from_bytes_wide(hash<sub>deterministic/nonce</sub>(secshare' || bytes(4, my_id) || bytes(4, u) || SerializeIds(id<sub>1..u</sub>) || bytes(1, len(aggothernonce')) || aggothernonce' || thresh_pk || bytes(8, len(m)) || m || bytes(1, i - 1)))* for *i = 1,2*
 - Fail if *k<sub>1</sub> = Scalar(0)* or *k<sub>2</sub> = Scalar(0)*[^negligible-zero-scalar]
 - Let *R<sub>\*,1</sub> = k<sub>1</sub> &middot; B, R<sub>\*,2</sub> = k<sub>2</sub> &middot; B*
 - Let *pubnonce = bytes(R<sub>\*,1</sub>) || bytes(R<sub>\*,2</sub>)*
