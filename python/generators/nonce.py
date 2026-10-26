@@ -193,13 +193,13 @@ def generate_nonce_agg_vectors():
     tc_id = 1
     vectors["valid_tests"] = []
     # --- Valid Test Case 1 ---
-    pubnonce_indices = [0, 1]
+    pubnonce_indices = [0, 1, 2]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     aggnonce = nonce_agg(curr_pubnonces)
     vectors["valid_tests"].append(
         {
             "tc_id": tc_id,
-            "comment": "Two well-formed public nonces",
+            "comment": "valid public nonces",
             "pubnonce_indices": pubnonce_indices,
             "expected": bytes_to_hex(aggnonce),
         }
@@ -296,7 +296,7 @@ def generate_nonce_agg_vectors():
     )
     tc_id += 1
     # --- Error Test Case 6 ---
-    pubnonce_indices = [SECOND_HALF_CANONICAL_IDENTITY_IDX, 1]
+    pubnonce_indices = [0, 1, SECOND_HALF_CANONICAL_IDENTITY_IDX]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     error = expect_exception(
         lambda: nonce_agg(curr_pubnonces), InvalidContributionError

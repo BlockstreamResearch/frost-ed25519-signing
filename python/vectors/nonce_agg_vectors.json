@@ -14,9 +14,9 @@
     "valid_tests": [
         {
             "tc_id": 1,
-            "comment": "Two well-formed public nonces",
-            "pubnonce_indices": [0, 1],
-            "expected": "F47E49F9D07AD2C1606B4D94067C41F9777D4FFDA709B71DA1D88628FCE34D85B4B937FCA95B2F1E93E41E62FC3C78818FF38A66096FAD6E7973E5C90006D321"
+            "comment": "valid public nonces",
+            "pubnonce_indices": [0, 1, 2],
+            "expected": "F9E42D2EDC81D23367967352B47E4856B82578634E6C1DE72280CE8B60CE70C0DF5C2EADC44C6D94A19A9AA118AFE5AC3193D26401F76251F522FF042DFBCB92"
         },
         {
             "tc_id": 2,
@@ -79,10 +79,10 @@
         {
             "tc_id": 8,
             "comment": "Public nonce is invalid: second half is the identity element",
-            "pubnonce_indices": [9, 1],
+            "pubnonce_indices": [0, 1, 9],
             "error": {
                 "type": "InvalidContributionError",
-                "signer_index": 0,
+                "signer_index": 2,
                 "contrib": "pubnonce"
             }
         }
