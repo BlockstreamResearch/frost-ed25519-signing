@@ -216,6 +216,8 @@ However, if *PartialSigVerify* succeeds for all partial signatures then *Partial
 
 The following specification of the algorithms has been written with a focus on clarity. As a result, the specified algorithms are not always optimal in terms of computation and space. In particular, some values are recomputed but can be cached in actual implementations (see [General Signing Flow](#general-signing-flow)).
 
+Each algorithm states the byte length of its inputs where one is required. If an input has any other length, the algorithm fails.
+
 ### Notation
 
 The algorithms are defined over the **edwards25519 curve and its prime-order subgroup**, as specified in [RFC 8032][rfc8032]. The curve group has order *8 &middot; L*, where *L* is a prime; all protocol values are points of the prime-order subgroup of order *L*, which the strict decoding function defined below enforces. The identity element of the group is the point *(0, 1)*. We note that adapting this proposal to other elliptic curves is not straightforward and can result in an insecure scheme.

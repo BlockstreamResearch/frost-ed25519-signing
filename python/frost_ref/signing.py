@@ -37,6 +37,12 @@ MAX_PARTICIPANTS = 128
 #   - InvalidContributionError for indicating that a signer (or the
 #     coordinator) is misbehaving in the protocol.
 #
+# Length-check failures raise ValueError, not InvalidContributionError, even for
+# byte arrays received from another party (pubnonces, aggnonce, aggothernonce,
+# psigs). partial_sig_verify returns False for a wrong-length psig, since its
+# failure already means "invalid". Wrong-length pubshares and thresh_pk are left
+# to the ed25519lab parsers.
+#
 # Assertions are used to (1) satisfy the type-checking system, and (2) check for
 # inconvenient events that can't happen except with negligible probability (e.g.
 # output of a hash function is 0) and can't be manually triggered by any
@@ -239,6 +245,9 @@ def nonce_gen(
 
 
 def nonce_agg(pubnonces: List[bytes]) -> bytes:
+    for idx, pubnonce in enumerate(pubnonces):
+        if len(pubnonce) != 64:
+            raise ValueError(f"The pubnonce at index {idx} must be a 64-byte array.")
     aggnonce = b""
     for j in (1, 2):
         R_j = GE()
@@ -304,6 +313,8 @@ def get_session_values(
 ) -> Tuple[List[int], Optional[List[PlainPk]], Scalar, GE, Scalar]:
     (n, t, ids, pubshares, thresh_pk, aggnonce, msg) = session_ctx
     validate_session_params(n, t, ids, pubshares, thresh_pk)
+    if len(aggnonce) != 64:
+        raise ValueError("The aggnonce must be a 64-byte array.")
     # the signers are a set, so serialize_ids sorts to keep b independent of ids order
     ser_ids = serialize_ids(ids)
     b = Scalar.from_bytes_wide(
@@ -340,6 +351,10 @@ def serialize_ids(ids: List[int]) -> bytes:
 def sign(
     secnonce: bytearray, secshare: bytes, my_id: int, session_ctx: SessionContext
 ) -> bytes:
+    if len(secnonce) != 64:
+        raise ValueError("The secnonce must be a 64-byte array.")
+    if len(secshare) != 32:
+        raise ValueError("The secshare must be a 32-byte array.")
     (ids, pubshares, b, _, e) = get_session_values(session_ctx)
     try:
         k_1 = Scalar.from_bytes_nonzero_checked(bytes(secnonce[0:32]))
@@ -412,6 +427,12 @@ def deterministic_sign(
     aux_rand: Optional[bytes],
 ) -> Tuple[bytes, bytes]:
     validate_session_params(n, t, ids, pubshares, thresh_pk)
+    if aggothernonce is not None and len(aggothernonce) != 64:
+        raise ValueError("The aggothernonce must be a 64-byte array.")
+    if len(secshare) != 32:
+        raise ValueError("The secshare must be a 32-byte array.")
+    if aux_rand is not None and len(aux_rand) != 32:
+        raise ValueError("The optional aux_rand must be a 32-byte array.")
     try:
         d = Scalar.from_bytes_nonzero_checked(secshare)
     except ValueError:
@@ -493,6 +514,8 @@ def partial_sig_verify_internal(
     session_ctx: SessionContext,
 ) -> bool:
     (ids, _, b, _, e) = get_session_values(session_ctx)
+    if len(psig) != 32:
+        return False
     try:
         s = Scalar.from_bytes_checked(psig)
     except ValueError:
@@ -515,6 +538,9 @@ def partial_sig_agg(psigs: List[bytes], session_ctx: SessionContext) -> bytes:
     (ids, _, _, R, _) = get_session_values(session_ctx)
     if len(psigs) != len(ids):
         raise ValueError("The psigs and ids lists must have the same length.")
+    for idx, psig in enumerate(psigs):
+        if len(psig) != 32:
+            raise ValueError(f"The psig at index {idx} must be a 32-byte array.")
     s = Scalar(0)
     for idx, psig in enumerate(psigs):
         try:
