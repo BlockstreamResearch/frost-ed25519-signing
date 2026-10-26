@@ -26,7 +26,7 @@
                 },
                 {
                     "tc_id": 2,
-                    "comment": "Public shares list is absent",
+                    "comment": "Aggregating without the public share list",
                     "ids": [0, 1],
                     "pubshare_indices": null,
                     "aggnonce": "3E477AEDBBA7343808A445273FDE18024E6B3690C075F660287814A892DE8CF78625F376F26C54BF5D47187229B2AB66D9652558CCA22E830CCBFD071DD0F359",
@@ -126,7 +126,7 @@
                 },
                 {
                     "tc_id": 8,
-                    "comment": "Public shares list is absent",
+                    "comment": "Aggregating without the public share list",
                     "ids": [0],
                     "pubshare_indices": null,
                     "aggnonce": "60C38907841958756B047EEBEA86E351C1B7BF4C8F10A70F85323C61F74BA0CA4A9149281E08A4C96BFA91F061CE3830E769EFAC1B5E0EE32864B9D28B22D4DD",
@@ -223,7 +223,7 @@
                 },
                 {
                     "tc_id": 14,
-                    "comment": "Public shares list is absent",
+                    "comment": "Aggregating without the public share list",
                     "ids": [0, 1, 2],
                     "pubshare_indices": null,
                     "aggnonce": "9628BAE207BA39E201D1B66FC3F124821390F7D5792EACC35E31621FA9ABF4E132771B4D791B553692448477DFE16A624C7299A006C3C5C61E2F3297462E0CF0",
@@ -316,7 +316,7 @@
                 },
                 {
                     "tc_id": 19,
-                    "comment": "Public shares list is absent",
+                    "comment": "Aggregating without the public share list",
                     "ids": [0, 1, 2],
                     "pubshare_indices": null,
                     "aggnonce": "1282C2A30EEC6B07A04D51C6D552DCCB49A97A2B41B54FEE9400B3D60E0AFBBCE9A8657BF912D3020177ECB4B2AAE84B87C8A09A7473D1E3D6E131CC7949E36B",

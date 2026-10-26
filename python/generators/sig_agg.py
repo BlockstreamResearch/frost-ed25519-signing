@@ -25,11 +25,9 @@ from generators.common import (
 
 
 class SigAggGroupBuilder:
-    """Builds one (t, n) test group for sig_agg_vectors.json. Shared inputs and
-    subsets live on self. Each add_* method appends its category to self.group.
+    """Builds one (t, n) test group for sig_agg_vectors.json.
 
-    Index convention: set_indices selects the signing subset from the pool (sig_agg
-    has no per-signer my_id material convention and no appended fault slots)."""
+    Index convention: set_indices selects the signing subset from the pool."""
 
     def __init__(self, cfg):
         self.inputs = SharedGroupInputs(cfg)
@@ -43,9 +41,8 @@ class SigAggGroupBuilder:
 
         self.group = {}
         set_group_config(self.group, cfg, self.inputs)
-        # sig_agg has no appended fault slots in any pool (both error faults are
-        # injected inline), so the group serializes and reads the plain n-length
-        # pubshares, not the SharedGroupInputs pool_* arrays.
+        # Faults are injected inline, so pools have no appended slots: plain n-length
+        # pubshares.
         self.group["pubshares"] = bytes_list_to_hex(self.inputs.pubshares)
         self.group["valid_tests"] = []
         self.group["error_tests"] = []
@@ -57,9 +54,8 @@ class SigAggGroupBuilder:
         comment: str,
         pubshares_absent: bool = False,
     ) -> bytes:
-        # An absent public share list drops every check that needs them: partial
-        # signature verification, the session's key material check, and Sign's
-        # check of the signer's own secshare.
+        # Absent pubshares drop every check that needs them: partial signature
+        # verification, the session's key material check, and Sign's own secshare check.
         pubshares = (
             None
             if pubshares_absent
@@ -138,11 +134,8 @@ class SigAggGroupBuilder:
             }
         )
 
-    # --- Array A: valid_tests ---
-
     def add_valid_tests(self) -> None:
         t, n = self.t, self.n
-        # Minimum threshold subset.
         sig_min = self._append_valid(
             self.min_s,
             COMMON_MSGS[0],
@@ -151,20 +144,18 @@ class SigAggGroupBuilder:
         sig_no_pubshares = self._append_valid(
             self.min_s,
             COMMON_MSGS[0],
-            "Public shares list is absent",
+            "Aggregating without the public share list",
             pubshares_absent=True,
         )
         assert sig_no_pubshares == sig_min
-        # Order-invariance (u = min(t+1, n) signers, excluding id 0 where possible).
+        # Shifted subset, which excludes id 0 where possible.
         rev = list(reversed(self.shifted))
         self._append_valid(
             rev,
             COMMON_MSGS[0],
             "Signer set in descending order, so the identifiers must be sorted before hashing",
         )
-        # All n signers participate (dropped when t == n, as the all-n set
-        # equals the minimum set and partial_sig_agg has no my_id field, so the
-        # aggregate signature would be byte-identical to the minimum-subset case).
+        # Dropped when t == n: the full set equals the minimum set, so the signature is identical.
         if t < n:
             self._append_valid(
                 self.full,
@@ -172,17 +163,13 @@ class SigAggGroupBuilder:
                 "All signers participate",
             )
 
-    # --- Array B: error_tests ---
-
     def add_error_tests(self) -> None:
-        # Partial signature equals the group order (out-of-range scalar).
         self._append_error(
             self.min_s,
             "psig_out_of_range",
             "invalid_contrib",
             "Partial signature equals the group order, which is out of range",
         )
-        # Number of partial signatures does not match the number of signers.
         self._append_error(
             self.min_s,
             "psig_count_mismatch",

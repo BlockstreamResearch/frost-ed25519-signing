@@ -31,7 +31,6 @@ def generate_nonce_gen_vectors():
         "0808080808080808080808080808080808080808080808080808080808080808"
     )
 
-    # --- Valid Test Case 1 ---
     msg = bytes.fromhex(
         "0101010101010101010101010101010101010101010101010101010101010101"
     )
@@ -52,7 +51,6 @@ def generate_nonce_gen_vectors():
         }
     )
     tc_id += 1
-    # --- Valid Test Case 2 ---
     secnonce, pubnonce = nonce_gen_internal(
         COMMON_RAND,
         secshares[0],
@@ -75,7 +73,6 @@ def generate_nonce_gen_vectors():
         }
     )
     tc_id += 1
-    # --- Valid Test Case 3 ---
     secnonce, pubnonce = nonce_gen_internal(
         COMMON_RAND,
         secshares[0],
@@ -98,7 +95,6 @@ def generate_nonce_gen_vectors():
         }
     )
     tc_id += 1
-    # --- Valid Test Case 4 ---
     secnonce, pubnonce = nonce_gen_internal(COMMON_RAND, None, None, None, None, None)
     vectors["valid_tests"].append(
         {
@@ -114,7 +110,6 @@ def generate_nonce_gen_vectors():
         }
     )
     tc_id += 1
-    # --- Valid Test Case 5 ---
     secnonce, pubnonce = nonce_gen_internal(
         COMMON_RAND, secshares[0], pubshares[0], thresh_pk, None, extra_in
     )
@@ -132,7 +127,6 @@ def generate_nonce_gen_vectors():
         }
     )
     tc_id += 1
-    # --- Valid Test Case 6 ---
     extra_in_33 = bytes.fromhex("08" * 33)
     secnonce, pubnonce = nonce_gen_internal(
         COMMON_RAND, secshares[0], pubshares[0], thresh_pk, msg, extra_in_33
@@ -140,7 +134,7 @@ def generate_nonce_gen_vectors():
     vectors["valid_tests"].append(
         {
             "tc_id": tc_id,
-            "comment": "Non-standard extra_in length (33 bytes)",
+            "comment": "Extra input of non-standard length (33 bytes)",
             "rand": bytes_to_hex(COMMON_RAND),
             "secshare": bytes_to_hex(secshares[0]),
             "pubshare": bytes_to_hex(pubshares[0]),
@@ -158,7 +152,6 @@ def generate_nonce_gen_vectors():
 def generate_nonce_agg_vectors():
     vectors = {}
 
-    # Special pubnonce indices for test cases
     FIRST_HALF_NONCANONICAL_IDX = 4
     SECOND_HALF_OFFCURVE_IDX = 5
     SECOND_HALF_TORSION_IDX = 6
@@ -192,20 +185,18 @@ def generate_nonce_agg_vectors():
 
     tc_id = 1
     vectors["valid_tests"] = []
-    # --- Valid Test Case 1 ---
     pubnonce_indices = [0, 1, 2]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     aggnonce = nonce_agg(curr_pubnonces)
     vectors["valid_tests"].append(
         {
             "tc_id": tc_id,
-            "comment": "valid public nonces",
+            "comment": "Valid public nonces from all signers",
             "pubnonce_indices": pubnonce_indices,
             "expected": bytes_to_hex(aggnonce),
         }
     )
     tc_id += 1
-    # --- Valid Test Case 2 ---
     pubnonce_indices = [2, 3]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     aggnonce = nonce_agg(curr_pubnonces)
@@ -220,7 +211,6 @@ def generate_nonce_agg_vectors():
     tc_id += 1
 
     vectors["error_tests"] = []
-    # --- Error Test Case 1 ---
     pubnonce_indices = [0, FIRST_HALF_NONCANONICAL_IDX]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     error = expect_exception(
@@ -235,7 +225,6 @@ def generate_nonce_agg_vectors():
         }
     )
     tc_id += 1
-    # --- Error Test Case 2 ---
     pubnonce_indices = [SECOND_HALF_OFFCURVE_IDX, 1]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     error = expect_exception(
@@ -250,7 +239,6 @@ def generate_nonce_agg_vectors():
         }
     )
     tc_id += 1
-    # --- Error Test Case 3 ---
     pubnonce_indices = [SECOND_HALF_TORSION_IDX, 1]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     error = expect_exception(
@@ -265,7 +253,6 @@ def generate_nonce_agg_vectors():
         }
     )
     tc_id += 1
-    # --- Error Test Case 4 ---
     pubnonce_indices = [SECOND_HALF_MIXED_ORDER_IDX, 1]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     error = expect_exception(
@@ -280,7 +267,6 @@ def generate_nonce_agg_vectors():
         }
     )
     tc_id += 1
-    # --- Error Test Case 5 ---
     pubnonce_indices = [SECOND_HALF_NONCANONICAL_IDENTITY_IDX, 1]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     error = expect_exception(
@@ -295,7 +281,6 @@ def generate_nonce_agg_vectors():
         }
     )
     tc_id += 1
-    # --- Error Test Case 6 ---
     pubnonce_indices = [0, 1, SECOND_HALF_CANONICAL_IDENTITY_IDX]
     curr_pubnonces = [pubnonces[i] for i in pubnonce_indices]
     error = expect_exception(

@@ -177,8 +177,6 @@ def frost_keygen(seckey=None, n=3, t=2):
     return (n, t, thresh_pk, list(range(n)), secshares, pubshares)
 
 
-# --- Multi-(t, n) config machinery (shared by all four signing generators) ---
-
 Config = namedtuple("Config", ["tg_id", "t", "n", "seckey"])
 
 CONFIGS = [
@@ -190,9 +188,8 @@ CONFIGS = [
 
 
 class SharedGroupInputs:
-    """The maximal per-test-group bundle: real key/nonce material plus the union pools
-    (real entries followed by appended fault slots) and the named offsets that index
-    those slots. Built once per test group; each generator slices what it needs."""
+    """Per-test-group key/nonce material plus pools (real entries followed by appended
+    fault slots) and the named offsets that index those slots."""
 
     def __init__(self, cfg):
         n, t, thresh_pk, _ids, secshares, pubshares = frost_keygen(
@@ -289,7 +286,7 @@ def get_subset(cfg, strategy="min"):
             u = min(cfg.t + 1, cfg.n)
             start = 1 if u < cfg.n else 0
             return list(range(start, start + u))
-        case "min2":  # size-at-least-2 baseline; [0, 1] at t=1
+        case "min2":  # size-at-least-2 baseline, [0, 1] at t=1
             return list(range(max(cfg.t, 2)))
         case _:
             raise ValueError(f"Unknown subset strategy: {strategy}")
