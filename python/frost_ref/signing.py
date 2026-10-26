@@ -377,7 +377,9 @@ def sign(
     if my_id not in ids:
         raise ValueError("The signer's id is missing from the ids list.")
     if pubshares is not None and pubshares[ids.index(my_id)] != my_pubshare:
-        raise ValueError("The signer's pubshare is missing from the pubshares list.")
+        raise ValueError(
+            "The signer's pubshare does not match the pubshares list entry at the signer's position."
+        )
     a = derive_interpolating_value(ids, my_id)
     s = k_1 + b * k_2 + e * a * d
     psig = s.to_bytes()

@@ -211,21 +211,26 @@ class SharedGroupInputs:
         # slot n+1 (the last secshare shifted so the lambda-weighted sum over
         # min2_ids is zero) that makes the min2 signer set interpolate to the
         # identity, then five fault points at slots n+2..n+6 (small-order,
-        # mixed-order, non-canonical identity, canonical identity, off-curve).
+        # mixed-order, non-canonical identity, canonical identity, off-curve), then
+        # at slot n+7 a valid point that is no participant's public share.
         min2_ids = list(range(max(t, 2)))
         lam_last = derive_interpolating_value(min2_ids, min2_ids[-1])
         thresh_sk = reconstruct_thresh_sk(min2_ids, [secshares[i] for i in min2_ids])
         cancel_sk = (
             Scalar.from_bytes_checked(secshares[min2_ids[-1]]) - thresh_sk / lam_last
         )
+        cancel_pubshare = PlainPk((cancel_sk * B).to_bytes())
+        wrong_pubshare = PlainPk(B.to_bytes())
+        assert wrong_pubshare not in pubshares and wrong_pubshare != cancel_pubshare
         self.pool_pubshares = pubshares + [
             PlainPk(INVALID_PUBSHARE),
-            PlainPk((cancel_sk * B).to_bytes()),
+            cancel_pubshare,
             PlainPk(TORSION_POINT),
             PlainPk(MIXED_ORDER_POINT),
             PlainPk(NONCANONICAL_IDENTITY),
             PlainPk(CANONICAL_IDENTITY),
             PlainPk(OFFCURVE_POINT),
+            wrong_pubshare,
         ]
         # secshares pool: zero scalar at slot n.
         self.pool_secshares = secshares + [b"\x00" * 32]
@@ -240,10 +245,17 @@ class SharedGroupInputs:
         inverse_pubnonce = (-R1).to_bytes() + (-R2).to_bytes()
         self.pool_pubnonces = self.pubnonces + [INVALID_PUBNONCE, inverse_pubnonce]
 
-        # secnonces pool: all-zero at slot n, nonzero-first/zero-second at slot n+1.
+        # secnonces pool: all-zero at slot n, nonzero-first/zero-second at slot n+1,
+        # zero-first/nonzero-second at slot n+2.
         zero_second_secnonce = self.secnonces[0][0:32] + b"\x00" * 32
         assert Scalar.from_bytes_nonzero_checked(zero_second_secnonce[0:32])
-        self.pool_secnonces = self.secnonces + [b"\x00" * 64, zero_second_secnonce]
+        zero_first_secnonce = b"\x00" * 32 + self.secnonces[0][32:64]
+        assert Scalar.from_bytes_nonzero_checked(zero_first_secnonce[32:64])
+        self.pool_secnonces = self.secnonces + [
+            b"\x00" * 64,
+            zero_second_secnonce,
+            zero_first_secnonce,
+        ]
 
         # named offsets into the pools, all derived from n
         self.INVALID_PUBSHARE_IDX = n
@@ -253,11 +265,13 @@ class SharedGroupInputs:
         self.NONCANONICAL_IDENTITY_PUBSHARE_IDX = n + 4
         self.CANONICAL_IDENTITY_PUBSHARE_IDX = n + 5
         self.OFFCURVE_PUBSHARE_IDX = n + 6
+        self.WRONG_PUBSHARE_IDX = n + 7
         self.SECSHARE_ZERO_IDX = n
         self.INVALID_PUBNONCE_IDX = n
         self.INVERSE_PUBNONCE_IDX = n + 1
         self.SECNONCE_ZERO_IDX = n
         self.SECNONCE_ZERO_SECOND_IDX = n + 1
+        self.SECNONCE_ZERO_FIRST_IDX = n + 2
         self.OUT_OF_RANGE_ID = n
 
 
@@ -274,8 +288,14 @@ def get_subset(cfg, strategy="min"):
             return list(range(cfg.t))
         case "full":  # all n participants
             return list(range(cfg.n))
-        case "alt":  # id 0 + the last t-1 ids; collapses to [0] at t=1 (caller guards)
-            return [0] + list(range(cfg.n - cfg.t + 1, cfg.n))
+        case "alt":  # id 1 + the last t-1 ids, excludes id 0 (caller guards 2 <= t < n)
+            return [1] + list(range(cfg.n - cfg.t + 1, cfg.n))
+        case "tplus1":  # u = min(t+1, n) ids from 0
+            return list(range(min(cfg.t + 1, cfg.n)))
+        case "tplus1_shifted":  # u = min(t+1, n) ids, from 1 when u < n (excludes id 0)
+            u = min(cfg.t + 1, cfg.n)
+            start = 1 if u < cfg.n else 0
+            return list(range(start, start + u))
         case "min2":  # size-at-least-2 baseline; [0, 1] at t=1
             return list(range(max(cfg.t, 2)))
         case "excl0":  # t ids from 1, excludes id 0 (only valid when has_excl0_subset)

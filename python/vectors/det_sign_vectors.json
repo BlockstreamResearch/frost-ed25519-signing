@@ -15,7 +15,8 @@
                 "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
                 "0100000000000000000000000000000000000000000000000000000000000080",
                 "0100000000000000000000000000000000000000000000000000000000000000",
-                "0200000000000000000000000000000000000000000000000000000000000000"
+                "0200000000000000000000000000000000000000000000000000000000000000",
+                "5866666666666666666666666666666666666666666666666666666666666666"
             ],
             "secshares": [
                 "8B157B09801A37355A322D8013F5272F6E578BEF1C8FFB8C8D84A44CD294AE0D",
@@ -72,16 +73,16 @@
                 {
                     "tc_id": 4,
                     "comment": "A different threshold subset gives a different deterministic nonce, since the signer set is bound into the nonce derivation",
-                    "my_id": 0,
-                    "ids": [0, 2],
-                    "pubshare_indices": [0, 2],
-                    "secshare_index": 0,
+                    "my_id": 1,
+                    "ids": [1, 2],
+                    "pubshare_indices": [1, 2],
+                    "secshare_index": 1,
                     "aggothernonce": "ECBE9F64EE680E52066F16EB7816D6FF504F92F96B00565FB215DD62FEBDBE213D8F7852B6B07E46969296544110C49827FEA1399A9610A800A7DB6DAA6B52BE",
                     "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
                     "expected": [
-                        "1EEE8A983F0C3738BB8518E52107C6FD5CA66D76F6CCCA301406E29E09108E487A74BB1E93CDBD490448B830BE52B798A355CA3E18F4BBCDDD16C3AE87E3BD91",
-                        "6CCC7CA870BEC5A973356474BB7C6A90B8458CFD9987FCE2BA1A1E0BA7AB4C00"
+                        "17468179999CAC3AE10B4820524A9CD649C96FA17E1BB7B53BC95466A1DD53306C0EDCA94D7401FC2FA8E8F111CA4DEEF0FEF2F24CDDDB2C88451D46DEB84671",
+                        "27906CD946AAF3B382116FE5C0528F5434CAD7949965400AB6F14C7105F89D00"
                     ]
                 },
                 {
@@ -203,7 +204,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
                     "error": {
                         "type": "ValueError",
-                        "message": "The signer's pubshare is missing from the pubshares list."
+                        "message": "The signer's pubshare does not match the pubshares list entry at the signer's position."
                     }
                 },
                 {
@@ -484,7 +485,8 @@
                 "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
                 "0100000000000000000000000000000000000000000000000000000000000080",
                 "0100000000000000000000000000000000000000000000000000000000000000",
-                "0200000000000000000000000000000000000000000000000000000000000000"
+                "0200000000000000000000000000000000000000000000000000000000000000",
+                "5866666666666666666666666666666666666666666666666666666666666666"
             ],
             "secshares": [
                 "3F589DEE994B4A3A037E6F55BEF8FFE1C39642773B7334220E63110259A30C02",
@@ -908,7 +910,8 @@
                 "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
                 "0100000000000000000000000000000000000000000000000000000000000080",
                 "0100000000000000000000000000000000000000000000000000000000000000",
-                "0200000000000000000000000000000000000000000000000000000000000000"
+                "0200000000000000000000000000000000000000000000000000000000000000",
+                "5866666666666666666666666666666666666666666666666666666666666666"
             ],
             "secshares": [
                 "B0F8D313D10EA67F3762F9E460D36712F4F7EC8CF28E21AF02C91E2199114908",
@@ -1334,7 +1337,8 @@
                 "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
                 "0100000000000000000000000000000000000000000000000000000000000080",
                 "0100000000000000000000000000000000000000000000000000000000000000",
-                "0200000000000000000000000000000000000000000000000000000000000000"
+                "0200000000000000000000000000000000000000000000000000000000000000",
+                "5866666666666666666666666666666666666666666666666666666666666666"
             ],
             "secshares": [
                 "B1639B0ED7C5B6EF17FADF6CD635B3A25C97A3FEECF159F8F0F2E39CDBCF8806",
@@ -1393,16 +1397,16 @@
                 {
                     "tc_id": 85,
                     "comment": "A different threshold subset gives a different deterministic nonce, since the signer set is bound into the nonce derivation",
-                    "my_id": 0,
-                    "ids": [0, 3, 4],
-                    "pubshare_indices": [0, 3, 4],
-                    "secshare_index": 0,
+                    "my_id": 1,
+                    "ids": [1, 3, 4],
+                    "pubshare_indices": [1, 3, 4],
+                    "secshare_index": 1,
                     "aggothernonce": "5CDFEB22DAAB4E90255FB38F55A3A70007C24E50008B445B154A6CE5E2F522B749F1BD06E2AD2F94AB2A2D1823775E89C07836610F307D6066F1975F7ADBF5AD",
                     "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
                     "expected": [
-                        "3C9F35FE28C2374D33A2607A3B8A15069BD71126C3AAF10F978342C1E2E3C7E1CF6A65E842C13E2B25CCAC47B36D40FF6D89E71D97E99CFF14C203C64A6D6C13",
-                        "BA7EBBD1881BE63C56864CABFEEA1037FD0FCE1CB69DE15004A16D9FE2DEF309"
+                        "4FE1D73478BBEC1E926C362ECEF95830D74AB61997CBB82146FBC3203FB38FB9CBCA6E836C99D996330A3E820D5B3EED281BDD75E2B5E4227217D89EFF6E2648",
+                        "2A94C77C45AE880AA24A340641AA3056E83161D146863C8B8ED601709F83D906"
                     ]
                 },
                 {
@@ -1524,7 +1528,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
                     "error": {
                         "type": "ValueError",
-                        "message": "The signer's pubshare is missing from the pubshares list."
+                        "message": "The signer's pubshare does not match the pubshares list entry at the signer's position."
                     }
                 },
                 {
