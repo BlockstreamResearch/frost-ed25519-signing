@@ -14,6 +14,8 @@ from ed25519lab.ed25519 import B, FE, GE, Scalar
 from ed25519lab.keys import pubkey_gen
 from trusted_dealer import random_seckey, trusted_dealer_keygen
 
+VECTORS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "vectors")
+
 
 def bytes_to_hex(data: bytes) -> str:
     return data.hex().upper()
@@ -119,7 +121,7 @@ def _inline_scalar_array(match):
 
 
 def write_test_vectors(filename, vectors):
-    output_file = os.path.join("vectors", filename)
+    output_file = os.path.join(VECTORS_DIR, filename)
     text = _SCALAR_ARRAY_RE.sub(_inline_scalar_array, json.dumps(vectors, indent=4))
     json.loads(text)  # guard: inlining must keep the JSON parseable
     with open(output_file, "w") as f:
