@@ -125,6 +125,11 @@ Every signer computes a partial signature by running *Sign* with their long-term
 Then, each signer sends their partial signature to the coordinator, who runs *PartialSigAgg* to produce the final signature.
 If all parties behaved honestly, the result is a valid Ed25519 signature under the threshold public key (see [Signature Verification](#signature-verification)).
 
+The coordinator may relay the signers' individual *pubnonces* and partial signatures instead of their aggregates. Each signer can then run *NonceAgg*, *PartialSigVerify*, and *PartialSigAgg* itself, but still relies on the coordinator to relay the same lists to every signer.
+
+> [!TIP]
+> A coordinator can add anti-exfiltration protection without any change to this protocol, as long as every signer sends its *pubnonce* in the first communication round. Specifying this is left to a separate document.
+
 ![Frost signing flow](./docs/frost-signing-flow.svg)
 
 A malicious coordinator can cause the signing session to fail but cannot compromise the unforgeability of the scheme. Even when colluding with up to *t-1* signers, a malicious coordinator cannot forge a signature.
@@ -192,9 +197,7 @@ Aborts are identifiable for an honest party if the following conditions hold in 
 If these conditions hold and an honest party (signer or coordinator) runs an algorithm that fails due to invalid protocol contributions from malicious signers, then the algorithm run by the honest party will output the index (within the input list) of exactly one malicious signer.
 Additionally, whenever more than one honest party runs an aborting algorithm on the same contributions, they all identify the same malicious signer.
 
-In the coordinator setup assumed by this document, a signer receives only the aggregate nonce from the coordinator and never the individual *pubnonces* of the other signers, so it cannot recompute the aggregation to confirm it was done honestly and must trust the coordinator for the second condition. Because *PartialSigVerify* requires the full list of *pubnonces* and partial signatures, the coordinator (or a signer acting as the coordinator) is the natural party to run it and assign blame, as it is the only party that receives every signer's contribution.[^coordinator-less]
-
-[^coordinator-less]: In coordinator-less setups (see the [Protocol Parties and Network Setup](#protocol-parties-and-network-setup) section), each signer broadcasts its contributions to every other signer, so every honest signer holds the full set of *pubnonces* and partial signatures and can run *PartialSigVerify* to assign blame on its own.
+When the coordinator relays only aggregates, signers cannot check nonce aggregation themselves and must assume that the coordinator aggregates honestly (the second condition above). Only the coordinator receives every signer's contribution and can verify all partial signatures using *PartialSigVerify*.
 
 #### Further Remarks
 
