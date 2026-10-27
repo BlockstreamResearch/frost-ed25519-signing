@@ -614,6 +614,24 @@
                     }
                 }
             ]
+        },
+        {
+            "tg_id": "2of128",
+            "pubshares": [
+                "D2C7846B348DFFED0C1614216F1DB4EC232D968CF35E42F968C574E378FFE9BD",
+                "ED4A56B69AFC28B4D2D4C3348BFAD60A6B9729A36759F7738D7B333CB915A749",
+                "5D5FC91E6FF4C5559B985A07B32F97C4D7DF5BA43ABFD11E22E41CA1C08E9D06"
+            ],
+            "valid_tests": [
+                {
+                    "tc_id": 51,
+                    "comment": "Number of participants n equals the maximum of 128",
+                    "t": 2,
+                    "thresh_pk": "E79EDCE516BC01488B69FB5104C0A45B4CD89DE660533C449AD03D78125172EC",
+                    "pubshare_indices": [0, 1, 2, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+                }
+            ],
+            "error_tests": []
         }
     ]
 }

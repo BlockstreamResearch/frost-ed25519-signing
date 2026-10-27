@@ -192,6 +192,8 @@ SECKEY_2OF129 = bytes.fromhex(
     "F5D39A1A06677148502B23808BF85617FC926BC519F70558C6387F04B6C49305"
 )
 INVALID_CONFIG_2OF129 = Config("2of129", 2, 129, SECKEY_2OF129)
+# The 2of129 key, so n alone separates acceptance from refusal.
+CONFIG_2OF128 = Config("2of128", 2, 128, SECKEY_2OF129)
 
 
 class SharedGroupInputs:
