@@ -1748,6 +1748,38 @@
                     }
                 }
             ]
+        },
+        {
+            "tg_id": "2of129",
+            "t": 2,
+            "n": 129,
+            "thresh_pk": "E79EDCE516BC01488B69FB5104C0A45B4CD89DE660533C449AD03D78125172EC",
+            "pubshares": [
+                "D2C7846B348DFFED0C1614216F1DB4EC232D968CF35E42F968C574E378FFE9BD",
+                "ED4A56B69AFC28B4D2D4C3348BFAD60A6B9729A36759F7738D7B333CB915A749"
+            ],
+            "secshares": [
+                "0B6EA4049FDAE71C21C12D8160AF644078AD509462EF59F4CAD10CB1A4F89B08",
+                "2108AEEE374E5EF1F156388235667269F4C73563ABE7AD90CF6A9A5D932CA40B"
+            ],
+            "valid_tests": [],
+            "error_tests": [
+                {
+                    "tc_id": 108,
+                    "comment": "Number of participants n exceeds the maximum of 128",
+                    "signer_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "aggothernonce": "CA56B8F2ED14D2B173D72CA3E80A283B52030C0B6423E5927E748E8155E712AF728926D399AD0FB8E07190C5DE5533814918BDBA92D46DFB3B4A9A9DB3D23C90",
+                    "aux_rand": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The number of participants must be n <= 128."
+                    }
+                }
+            ]
         }
     ]
 }

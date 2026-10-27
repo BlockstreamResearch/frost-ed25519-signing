@@ -12,6 +12,7 @@ from ed25519lab.ed25519 import B
 
 from generators.common import (
     COMMON_MSGS,
+    INVALID_CONFIG_2OF129,
     CONFIGS,
     AGGNONCE_BAD_FIRST_HALF,
     MIXED_ORDER_POINT,
@@ -510,8 +511,25 @@ class DetSignGroupBuilder:
         self.add_error_tests()
         return self.group
 
+    def build_n_bound(self) -> dict:
+        # n = 129 is over the limit, so only the n-bound error case is built.
+        self._append_error(
+            0,
+            [0, 1],
+            [0, 1],
+            0,
+            RANDS[0],
+            COMMON_MSGS[0],
+            "value",
+            "Number of participants n exceeds the maximum of 128",
+        )
+        self.group["pubshares"] = bytes_list_to_hex(self.inputs.pubshares[:2])
+        self.group["secshares"] = bytes_list_to_hex(self.inputs.secshares[:2])
+        return self.group
+
 
 def generate_det_sign_vectors() -> None:
     groups = [DetSignGroupBuilder(cfg).build() for cfg in CONFIGS]
+    groups.append(DetSignGroupBuilder(INVALID_CONFIG_2OF129).build_n_bound())
     assign_tc_ids(groups)
     write_test_vectors("det_sign_vectors.json", {"test_groups": groups})

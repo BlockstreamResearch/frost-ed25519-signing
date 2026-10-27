@@ -2157,6 +2157,63 @@
                     }
                 }
             ]
+        },
+        {
+            "tg_id": "2of129",
+            "t": 2,
+            "n": 129,
+            "thresh_pk": "E79EDCE516BC01488B69FB5104C0A45B4CD89DE660533C449AD03D78125172EC",
+            "pubshares": [
+                "D2C7846B348DFFED0C1614216F1DB4EC232D968CF35E42F968C574E378FFE9BD",
+                "ED4A56B69AFC28B4D2D4C3348BFAD60A6B9729A36759F7738D7B333CB915A749"
+            ],
+            "pubnonces": [
+                "FFF70513E4CAD4BD9BEBFC7E3B4F4120D12335D933993B2E0B6A8C83C97C9454CA119859DB83733ADEBDA39C9402478D92E7FF91632F433FDEF8CD8D258C2981",
+                "286E0876952E2584884E46444648751AB6E380F0B0E99E544BA4825B6CBB5EDD4B40683917D56E44D4FC26159A497C8FB1B08E12D56FBD75B48F3E8DBEE7E497"
+            ],
+            "secshares": [
+                "0B6EA4049FDAE71C21C12D8160AF644078AD509462EF59F4CAD10CB1A4F89B08",
+                "2108AEEE374E5EF1F156388235667269F4C73563ABE7AD90CF6A9A5D932CA40B"
+            ],
+            "secnonces": [
+                "D05C57898F4DE520CF0D9D880CC04F1DE0F5325A6332762B07F52EFEBF1FAD0C28DA754713E9982C6BF599DA516A2E661805E321268E832CF7BD75800CE84C03",
+                "5A7ADA12E5A8D6781A966A208FE2A5BE1A20E5FD577253F22BD4690426C98E08848F01D3E17DBEEFA3248571277411A206F1B7579DFC7BD31930C5884F34CA0A"
+            ],
+            "valid_tests": [],
+            "sign_error_tests": [
+                {
+                    "tc_id": 139,
+                    "comment": "Number of participants n exceeds the maximum of 128",
+                    "signer_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "secshare_index": 0,
+                    "secnonce_index": 0,
+                    "aggnonce": "526EA35B184724D1C95288782C0FC78E127829D2C12531E333E1E8850BBC7484B571A6C64A94D2B5457FC22C59D84E2FA4916DFC4715974B176E3C531ED091D0",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The number of participants must be n <= 128."
+                    }
+                }
+            ],
+            "verify_fail_tests": [],
+            "verify_error_tests": [
+                {
+                    "tc_id": 140,
+                    "comment": "Number of participants n exceeds the maximum of 128",
+                    "psig": "F0818F95090D2DD031324EF433A7C8B15F853DEC493A91936E57E270419DE007",
+                    "ids": [0, 1],
+                    "pubshare_indices": [0, 1],
+                    "pubnonce_indices": [0, 1],
+                    "signer_index": 0,
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The number of participants must be n <= 128."
+                    }
+                }
+            ]
         }
     ]
 }
