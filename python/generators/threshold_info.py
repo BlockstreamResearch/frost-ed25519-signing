@@ -192,6 +192,27 @@ class ThresholdInfoGroupBuilder:
                 "Public shares interpolate to the identity element",
             )
 
+        # Participant 1's share plus a torsion point. Exactly t shares are present, so
+        # the shifted share is in the base set and only the prime-order-subgroup check
+        # rejects it. At t = 1 the threshold public key carries the same shift.
+        if t >= 2:
+            self._append_error(
+                t,
+                pk,
+                full[:1]
+                + [self.inputs.TORSION_PUBSHARE_IDX]
+                + full[2:t]
+                + [None] * (n - t),
+                "A public share carries a torsion component but still interpolates to the threshold public key",
+            )
+        else:
+            self._append_error(
+                t,
+                self.pool_pubshares[self.inputs.TORSION_PUBSHARE_IDX],
+                [None, self.inputs.TORSION_PUBSHARE_IDX] + [None] * (n - 2),
+                "Threshold public key and public share are shifted by the same torsion point",
+            )
+
         neg = (-GE.from_bytes(pk)).to_bytes()
         self._append_error(
             t,

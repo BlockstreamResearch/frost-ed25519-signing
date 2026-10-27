@@ -351,6 +351,19 @@ class SignVerifyGroupBuilder:
             "value",
             "A public share's y-coordinate exceeds the field size",
         )
+        # Participant 1's share plus a torsion point still interpolates to thresh_pk,
+        # so only the prime-order-subgroup check rejects it.
+        self._append_sign_error(
+            0,
+            self.min2,
+            [self.min2[0], self.inputs.TORSION_PUBSHARE_IDX] + self.min2[2:],
+            0,
+            0,
+            self._agg(self.min2),
+            COMMON_MSGS[0],
+            "value",
+            "A public share carries a torsion component but still interpolates to the threshold public key",
+        )
         # The crafted pool slot replaces the min2 set's last share, cancelling the interpolation.
         pubshare_indices_identity = self.min2[:-1] + [self.inputs.IDENTITY_PUBSHARE_IDX]
         self._append_sign_error(
@@ -678,6 +691,32 @@ class SignVerifyGroupBuilder:
             psig,
             "value",
             "A public share is not a point on the curve",
+        )
+        # Participant 1's share plus a torsion point still interpolates to thresh_pk,
+        # so only the prime-order-subgroup check rejects it. It must sit at
+        # participant 1's position, hence min2 rather than blame_s.
+        signer_set = (
+            self.n,
+            self.t,
+            self.min2,
+            [self.inputs.pool_pubshares[i] for i in self.min2],
+            self.thresh_pk,
+        )
+        session = SessionContext(*signer_set, self._agg(self.min2), COMMON_MSGS[0])
+        psig_min2 = sign(
+            bytearray(self.inputs.pool_secnonces[0]),
+            self.inputs.pool_secshares[0],
+            0,
+            session,
+        )
+        self._append_verify_error(
+            self.min2,
+            [self.min2[0], self.inputs.TORSION_PUBSHARE_IDX] + self.min2[2:],
+            self.min2,
+            0,
+            psig_min2,
+            "value",
+            "A public share carries a torsion component but still interpolates to the threshold public key",
         )
 
     def build(self) -> dict:

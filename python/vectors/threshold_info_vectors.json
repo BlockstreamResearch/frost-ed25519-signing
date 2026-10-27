@@ -13,7 +13,8 @@
                 "0100000000000000000000000000000000000000000000000000000000000080",
                 "0100000000000000000000000000000000000000000000000000000000000000",
                 "0200000000000000000000000000000000000000000000000000000000000000",
-                "5866666666666666666666666666666666666666666666666666666666666666"
+                "5866666666666666666666666666666666666666666666666666666666666666",
+                "023F35E7977D6A777D0B796876A59990C78AC791FA69BA60E69FF134E3AA3BF0"
             ],
             "valid_tests": [
                 {
@@ -221,6 +222,17 @@
                 },
                 {
                     "tc_id": 20,
+                    "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
+                    "t": 2,
+                    "thresh_pk": "3CD5CBDAA8B996A670CE2B80C2229E75554D523141C6B9EBC1246744EC6387A6",
+                    "pubshare_indices": [0, 11, null],
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The pubshare at index 1 is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 21,
                     "comment": "Threshold public key is negated",
                     "t": 2,
                     "thresh_pk": "3CD5CBDAA8B996A670CE2B80C2229E75554D523141C6B9EBC1246744EC638726",
@@ -231,7 +243,7 @@
                     }
                 },
                 {
-                    "tc_id": 21,
+                    "tc_id": 22,
                     "comment": "Public shares from a 1-based key generation, each shifted one id up",
                     "t": 2,
                     "thresh_pk": "3CD5CBDAA8B996A670CE2B80C2229E75554D523141C6B9EBC1246744EC6387A6",
@@ -242,7 +254,7 @@
                     }
                 },
                 {
-                    "tc_id": 22,
+                    "tc_id": 23,
                     "comment": "Threshold public key equals participant 0's public share",
                     "t": 2,
                     "thresh_pk": "52A7CE7BE489171290DDB1C04C59256B11CB41D26FDA52D5B2A71778D04415B5",
@@ -268,26 +280,27 @@
                 "0100000000000000000000000000000000000000000000000000000000000000",
                 "0200000000000000000000000000000000000000000000000000000000000000",
                 "5866666666666666666666666666666666666666666666666666666666666666",
+                "A4F67FEF8593C8DD1C5886F273ED6472DDA30365D486394A61CDC00760364BE3",
                 "45E8708A8610DF38B926BE2283F5665730E3071E0AB7EA3789A8D785C1A15CFD",
                 "B19980A054CD145EC31179889B31202DAE153759F2B594CB86C0D2C939057FF0"
             ],
             "valid_tests": [
                 {
-                    "tc_id": 23,
+                    "tc_id": 24,
                     "comment": "All public shares present",
                     "t": 1,
                     "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
                     "pubshare_indices": [0, 1, 2]
                 },
                 {
-                    "tc_id": 24,
+                    "tc_id": 25,
                     "comment": "One public share is absent",
                     "t": 1,
                     "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
                     "pubshare_indices": [null, 1, 2]
                 },
                 {
-                    "tc_id": 25,
+                    "tc_id": 26,
                     "comment": "Exactly t public shares present, the first and last absent",
                     "t": 1,
                     "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
@@ -296,7 +309,7 @@
             ],
             "error_tests": [
                 {
-                    "tc_id": 26,
+                    "tc_id": 27,
                     "comment": "Fewer public shares present than the threshold t",
                     "t": 1,
                     "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
@@ -307,7 +320,7 @@
                     }
                 },
                 {
-                    "tc_id": 27,
+                    "tc_id": 28,
                     "comment": "Public share beyond the first t is not on the polynomial",
                     "t": 1,
                     "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
@@ -318,7 +331,7 @@
                     }
                 },
                 {
-                    "tc_id": 28,
+                    "tc_id": 29,
                     "comment": "Last public share is not on the polynomial, so every share beyond the first t must be checked",
                     "t": 1,
                     "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
@@ -329,18 +342,29 @@
                     }
                 },
                 {
-                    "tc_id": 29,
+                    "tc_id": 30,
                     "comment": "Two wrong public shares cancel, so the full set still interpolates to the threshold public key",
                     "t": 1,
                     "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B41C",
-                    "pubshare_indices": [0, 11, 12],
+                    "pubshare_indices": [0, 12, 13],
                     "error": {
                         "type": "ValueError",
                         "message": "The provided key material is incorrect: the public shares do not lie on a single polynomial."
                     }
                 },
                 {
-                    "tc_id": 30,
+                    "tc_id": 31,
+                    "comment": "Threshold public key and public share are shifted by the same torsion point",
+                    "t": 1,
+                    "thresh_pk": "A4F67FEF8593C8DD1C5886F273ED6472DDA30365D486394A61CDC00760364BE3",
+                    "pubshare_indices": [null, 11, null],
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 32,
                     "comment": "Threshold public key is negated",
                     "t": 1,
                     "thresh_pk": "490980107A6C3722E3A7790D8C129B8D225CFC9A2B79C6B59E323FF89FC9B49C",
@@ -365,11 +389,12 @@
                 "0100000000000000000000000000000000000000000000000000000000000080",
                 "0100000000000000000000000000000000000000000000000000000000000000",
                 "0200000000000000000000000000000000000000000000000000000000000000",
-                "5866666666666666666666666666666666666666666666666666666666666666"
+                "5866666666666666666666666666666666666666666666666666666666666666",
+                "B4864B56ED710D09A5E5A89781410146F410560EA913CF74C46236BFCB5FB590"
             ],
             "valid_tests": [
                 {
-                    "tc_id": 31,
+                    "tc_id": 33,
                     "comment": "All public shares present",
                     "t": 3,
                     "thresh_pk": "D89831A002770DC1F3C61BB78EC62F5ED60482F42B8F79BA57EE91917EB4E8FC",
@@ -378,7 +403,7 @@
             ],
             "error_tests": [
                 {
-                    "tc_id": 32,
+                    "tc_id": 34,
                     "comment": "Public shares interpolate to the identity element",
                     "t": 3,
                     "thresh_pk": "D89831A002770DC1F3C61BB78EC62F5ED60482F42B8F79BA57EE91917EB4E8FC",
@@ -389,7 +414,18 @@
                     }
                 },
                 {
-                    "tc_id": 33,
+                    "tc_id": 35,
+                    "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
+                    "t": 3,
+                    "thresh_pk": "D89831A002770DC1F3C61BB78EC62F5ED60482F42B8F79BA57EE91917EB4E8FC",
+                    "pubshare_indices": [0, 11, 2],
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The pubshare at index 1 is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 36,
                     "comment": "Threshold public key is negated",
                     "t": 3,
                     "thresh_pk": "D89831A002770DC1F3C61BB78EC62F5ED60482F42B8F79BA57EE91917EB4E87C",
@@ -400,7 +436,7 @@
                     }
                 },
                 {
-                    "tc_id": 34,
+                    "tc_id": 37,
                     "comment": "Threshold public key equals participant 0's public share",
                     "t": 3,
                     "thresh_pk": "DE18D50D94CD7B3F6FDF668DC834C8ADCC2304AFD8B99AAE61749A9CEE81DDBF",
@@ -428,26 +464,27 @@
                 "0100000000000000000000000000000000000000000000000000000000000000",
                 "0200000000000000000000000000000000000000000000000000000000000000",
                 "5866666666666666666666666666666666666666666666666666666666666666",
+                "38270C42A95A30497F29FB6C1E339261BBD903BB9BC46EA624AC32B237D279FF",
                 "995C13CAA4F3B8F9C81CA3FC1FFF53F1B7D51868983744F830AC6E0BDAD7A329",
                 "39E607251CD2A5430D82EEB9848DEAC2D2CFB185E4B895A6EF98A7C07C9B44DC"
             ],
             "valid_tests": [
                 {
-                    "tc_id": 35,
+                    "tc_id": 38,
                     "comment": "All public shares present",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
                     "pubshare_indices": [0, 1, 2, 3, 4]
                 },
                 {
-                    "tc_id": 36,
+                    "tc_id": 39,
                     "comment": "One public share is absent",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
                     "pubshare_indices": [0, 1, null, 3, 4]
                 },
                 {
-                    "tc_id": 37,
+                    "tc_id": 40,
                     "comment": "Exactly t public shares present, the first and last absent",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
@@ -456,7 +493,7 @@
             ],
             "error_tests": [
                 {
-                    "tc_id": 38,
+                    "tc_id": 41,
                     "comment": "Fewer public shares present than the threshold t",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
@@ -467,7 +504,7 @@
                     }
                 },
                 {
-                    "tc_id": 39,
+                    "tc_id": 42,
                     "comment": "Public share beyond the first t is not on the polynomial",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
@@ -478,7 +515,7 @@
                     }
                 },
                 {
-                    "tc_id": 40,
+                    "tc_id": 43,
                     "comment": "Last public share is not on the polynomial, so every share beyond the first t must be checked",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
@@ -489,18 +526,18 @@
                     }
                 },
                 {
-                    "tc_id": 41,
+                    "tc_id": 44,
                     "comment": "Two wrong public shares cancel, so the full set still interpolates to the threshold public key",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
-                    "pubshare_indices": [0, 1, 2, 13, 14],
+                    "pubshare_indices": [0, 1, 2, 14, 15],
                     "error": {
                         "type": "ValueError",
                         "message": "The provided key material is incorrect: the public shares do not lie on a single polynomial."
                     }
                 },
                 {
-                    "tc_id": 42,
+                    "tc_id": 45,
                     "comment": "Public shares interpolate to the identity element",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
@@ -511,7 +548,18 @@
                     }
                 },
                 {
-                    "tc_id": 43,
+                    "tc_id": 46,
+                    "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
+                    "t": 3,
+                    "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
+                    "pubshare_indices": [0, 13, 2, null, null],
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The pubshare at index 1 is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 47,
                     "comment": "Threshold public key is negated",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897493",
@@ -522,7 +570,7 @@
                     }
                 },
                 {
-                    "tc_id": 44,
+                    "tc_id": 48,
                     "comment": "Public shares from a 1-based key generation, each shifted one id up",
                     "t": 3,
                     "thresh_pk": "BA665009D1F37F99250F209B90283A44E0544C5119B3C16BEABAF876AD897413",
@@ -533,7 +581,7 @@
                     }
                 },
                 {
-                    "tc_id": 45,
+                    "tc_id": 49,
                     "comment": "Threshold public key equals participant 0's public share",
                     "t": 3,
                     "thresh_pk": "179AB1E0521504CFBD2211FDCFA67C2576DEFD5A673B71FBE958BAA18FD58E43",
@@ -555,7 +603,7 @@
             "valid_tests": [],
             "error_tests": [
                 {
-                    "tc_id": 46,
+                    "tc_id": 50,
                     "comment": "Number of participants n exceeds the maximum of 128",
                     "t": 2,
                     "thresh_pk": "E79EDCE516BC01488B69FB5104C0A45B4CD89DE660533C449AD03D78125172EC",

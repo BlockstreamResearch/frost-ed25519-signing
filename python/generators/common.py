@@ -7,6 +7,7 @@ from typing import Dict, List, Sequence, Union
 from frost_ref.signing import (
     PlainPk,
     derive_interpolating_value,
+    derive_pubshare_at,
     nonce_agg,
     nonce_gen_internal,
 )
@@ -216,7 +217,8 @@ class SharedGroupInputs:
         # min2_ids is zero) that makes the min2 signer set interpolate to the
         # identity, then five fault points at slots n+2..n+6 (small-order,
         # mixed-order, non-canonical identity, canonical identity, off-curve), then
-        # at slot n+7 a valid point that is no participant's public share.
+        # at slot n+7 a valid point that is no participant's public share, then at
+        # slot n+8 participant 1's public share plus the order-2 torsion point T.
         min2_ids = list(range(max(t, 2)))
         lam_last = derive_interpolating_value(min2_ids, min2_ids[-1])
         thresh_sk = reconstruct_thresh_sk(
@@ -228,6 +230,14 @@ class SharedGroupInputs:
         cancel_pubshare = PlainPk((cancel_sk * B).to_bytes())
         wrong_pubshare = PlainPk(B.to_bytes())
         assert wrong_pubshare not in pubshares and wrong_pubshare != cancel_pubshare
+        # Participant 1's Lagrange coefficient over min2_ids is even, so the torsion
+        # component cancels and min2_ids still interpolate to thresh_pk. Only the
+        # prime-order-subgroup check can reject this share.
+        T = GE(FE(0), FE(-1))
+        min2_points = [GE.from_bytes(pubshares[id_i]) for id_i in min2_ids]
+        min2_points[1] = min2_points[1] + T
+        assert derive_pubshare_at(min2_ids, min2_points, -1) == GE.from_bytes(thresh_pk)
+        torsion_pubshare = PlainPk(min2_points[1].to_bytes())
         self.pool_pubshares = pubshares + [
             PlainPk(INVALID_PUBSHARE),
             cancel_pubshare,
@@ -237,6 +247,7 @@ class SharedGroupInputs:
             PlainPk(CANONICAL_IDENTITY),
             PlainPk(OFFCURVE_POINT),
             wrong_pubshare,
+            torsion_pubshare,
         ]
         # secshares pool: zero scalar at slot n.
         self.pool_secshares = secshares + [b"\x00" * 32]
@@ -272,6 +283,7 @@ class SharedGroupInputs:
         self.CANONICAL_IDENTITY_PUBSHARE_IDX = n + 5
         self.OFFCURVE_PUBSHARE_IDX = n + 6
         self.WRONG_PUBSHARE_IDX = n + 7
+        self.TORSION_PUBSHARE_IDX = n + 8
         self.SECSHARE_ZERO_IDX = n
         self.INVALID_PUBNONCE_IDX = n
         self.INVERSE_PUBNONCE_IDX = n + 1

@@ -331,6 +331,12 @@ class DetSignGroupBuilder:
                 self.inputs.OFFCURVE_PUBSHARE_IDX,
                 "A public share is not a point on the curve",
             ),
+            # Participant 1's share plus a torsion point still interpolates to
+            # thresh_pk, so only the prime-order-subgroup check rejects it.
+            (
+                self.inputs.TORSION_PUBSHARE_IDX,
+                "A public share carries a torsion component but still interpolates to the threshold public key",
+            ),
         ]:
             self._append_error(
                 0,
