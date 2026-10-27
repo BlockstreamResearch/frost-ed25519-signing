@@ -172,8 +172,8 @@ def test_sign_verify_vectors():
             # Make sure that pubnonces and aggnonce in the test vector are consistent
             assert nonce_agg(pubnonces_tmp) == aggnonce_tmp
             msg = bytes.fromhex(tc["msg"])
-            my_id = tc["my_id"]
-            signer_index = ids_tmp.index(my_id)
+            signer_id = tc["signer_id"]
+            signer_index = ids_tmp.index(signer_id)
             secshare = secshares[tc["secshare_index"]]
             expected = bytes.fromhex(tc["expected"])
 
@@ -183,7 +183,7 @@ def test_sign_verify_vectors():
             # Reusing the secnonce, as we do here for testing purposes, can leak the
             # secret key.
             secnonce_tmp = bytearray(secnonces[tc["secnonce_index"]])
-            assert sign(secnonce_tmp, secshare, my_id, session_ctx) == expected
+            assert sign(secnonce_tmp, secshare, signer_id, session_ctx) == expected
             if valid_pubshares is not None:
                 verify_set = (n, t, ids_tmp, valid_pubshares, thresh_pk)
                 assert partial_sig_verify(
@@ -200,7 +200,7 @@ def test_sign_verify_vectors():
             )
             aggnonce_tmp = bytes.fromhex(tc["aggnonce"])
             msg = bytes.fromhex(tc["msg"])
-            my_id = tc["my_id"]
+            signer_id = tc["signer_id"]
             secnonce_tmp = bytearray(secnonces[tc["secnonce_index"]])
             secshare_tmp = secshares[tc["secshare_index"]]
 
@@ -208,7 +208,7 @@ def test_sign_verify_vectors():
             session_ctx = SessionContext(*signer_set, aggnonce_tmp, msg)
             assert_raises(
                 exception,
-                lambda: sign(secnonce_tmp, secshare_tmp, my_id, session_ctx),
+                lambda: sign(secnonce_tmp, secshare_tmp, signer_id, session_ctx),
                 except_fn,
             )
 
@@ -276,8 +276,8 @@ def test_det_sign_vectors():
                 else None
             )
             msg = bytes.fromhex(test_case["msg"])
-            my_id = test_case["my_id"]
-            signer_index = ids_tmp.index(my_id)
+            signer_id = test_case["signer_id"]
+            signer_index = ids_tmp.index(signer_id)
             aux_rand = (
                 bytes.fromhex(test_case["aux_rand"])
                 if test_case["aux_rand"] is not None
@@ -288,7 +288,7 @@ def test_det_sign_vectors():
             signer_set = (n, t, ids_tmp, valid_pubshares, thresh_pk)
             pubnonce, psig = deterministic_sign(
                 secshare,
-                my_id,
+                signer_id,
                 aggothernonce,
                 *signer_set,
                 msg,
@@ -306,13 +306,13 @@ def test_det_sign_vectors():
             session_ctx = SessionContext(*signer_set, aggnonce_tmp, msg)
             # A signer always knows its own public share, even in a session whose
             # public share list is absent, so the self-check runs either way.
-            own_pubshare = (
-                pubshares[my_id]
+            signer_pubshare = (
+                pubshares[signer_id]
                 if valid_pubshares is None
                 else valid_pubshares[signer_index]
             )
             assert partial_sig_verify_internal(
-                psig, my_id, pubnonce, own_pubshare, session_ctx
+                psig, signer_id, pubnonce, signer_pubshare, session_ctx
             )
 
         for test_case in group["error_tests"]:
@@ -330,7 +330,7 @@ def test_det_sign_vectors():
                 else None
             )
             msg = bytes.fromhex(test_case["msg"])
-            my_id = test_case["my_id"]
+            signer_id = test_case["signer_id"]
             aux_rand = (
                 bytes.fromhex(test_case["aux_rand"])
                 if test_case["aux_rand"] is not None
@@ -342,7 +342,7 @@ def test_det_sign_vectors():
                 exception,
                 lambda: deterministic_sign(
                     secshare,
-                    my_id,
+                    signer_id,
                     aggothernonce,
                     *signer_set,
                     msg,

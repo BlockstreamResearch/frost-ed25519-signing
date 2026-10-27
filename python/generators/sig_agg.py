@@ -67,11 +67,11 @@ class SigAggGroupBuilder:
         signer_set = (self.n, self.t, ids, pubshares, self.thresh_pk)
         session = SessionContext(*signer_set, aggnonce, msg)
         psigs = []
-        for signer_index, my_id in enumerate(set_indices):
+        for signer_index, signer_id in enumerate(set_indices):
             psig = sign(
-                bytearray(self.inputs.secnonces[my_id]),
-                self.inputs.secshares[my_id],
-                my_id,
+                bytearray(self.inputs.secnonces[signer_id]),
+                self.inputs.secshares[signer_id],
+                signer_id,
                 session,
             )
             psigs.append(psig)
@@ -105,11 +105,11 @@ class SigAggGroupBuilder:
         signer_set = (self.n, self.t, ids, pubshares, self.thresh_pk)
         session = SessionContext(*signer_set, aggnonce, msg)
         psigs = []
-        for signer_index, my_id in enumerate(set_indices):
+        for signer_index, signer_id in enumerate(set_indices):
             psig = sign(
-                bytearray(self.inputs.secnonces[my_id]),
-                self.inputs.secshares[my_id],
-                my_id,
+                bytearray(self.inputs.secnonces[signer_id]),
+                self.inputs.secshares[signer_id],
+                signer_id,
                 session,
             )
             psigs.append(psig)

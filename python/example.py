@@ -94,7 +94,7 @@ async def participant(
     chan: ParticipantChannel,
     secshare: bytes,
     pubshare: PlainPk,
-    my_id: int,
+    signer_id: int,
     signer_set: Tuple[int, int, List[int], Optional[List[PlainPk]], PlainPk],
     msg: bytes,
 ) -> Tuple[bytes, bytes]:
@@ -116,10 +116,10 @@ async def participant(
 
     # Round 2: Signing
     session_ctx = SessionContext(*signer_set, aggnonce, msg)
-    psig = sign(secnonce, secshare, my_id, session_ctx)
-    assert partial_sig_verify_internal(psig, my_id, pubnonce, pubshare, session_ctx), (
-        "Partial signature verification failed"
-    )
+    psig = sign(secnonce, secshare, signer_id, session_ctx)
+    assert partial_sig_verify_internal(
+        psig, signer_id, pubnonce, pubshare, session_ctx
+    ), "Partial signature verification failed"
     chan.send(psig)
 
     # Receive final signature

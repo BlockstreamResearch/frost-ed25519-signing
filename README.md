@@ -329,20 +329,20 @@ Internal Algorithm *DeriveThreshPubkey(id<sub>1..u</sub>, P<sub>1..u</sub>)*
 - Fail if *is_identity(Q)*
 - Return *bytes(Q)*
 
-Internal Algorithm *DeriveInterpolatingValue(id<sub>1..u</sub>, my_id):*
+Internal Algorithm *DeriveInterpolatingValue(id<sub>1..u</sub>, id<sub>i</sub>):*
 
-- Fail if *my_id* not in *id<sub>1..u</sub>*
+- Fail if *id<sub>i</sub>* not in *id<sub>1..u</sub>*
 - Fail if *has_duplicates(id<sub>1..u</sub>)*
 - Let *num = Scalar(1)*
 - Let *deno = Scalar(1)*
-- For *i = 1..u*:
-  - If *id<sub>i</sub> ≠ my_id*:
-    - Let *num = num &middot; Scalar(id<sub>i</sub> + 1)[^lagrange-shift] &ensp;(mod L)*
-    - Let *deno = deno &middot; Scalar(id<sub>i</sub> - my_id) &ensp;(mod L)*
+- For *k = 1..u*:
+  - If *id<sub>k</sub> ≠ id<sub>i</sub>*:
+    - Let *num = num &middot; Scalar(id<sub>k</sub> + 1)[^lagrange-shift] &ensp;(mod L)*
+    - Let *deno = deno &middot; Scalar(id<sub>k</sub> - id<sub>i</sub>) &ensp;(mod L)*
 - *&lambda; = num &middot; deno<sup>-1</sup> &ensp;(mod L)*
 - Return *&lambda;*
 
-[^lagrange-shift]: Participant identifiers are zero-indexed, but the secret sharing polynomial holds the threshold secret key at x-coordinate *0*, so the participant with identifier *id* is placed at x-coordinate *id + 1*. That shift is the *id<sub>i</sub> + 1* factor in *DeriveInterpolatingValue*. *DerivePubshareAt* works directly in identifier space instead, which leaves the standard Lagrange coefficient unchanged, because the shift cancels in both of its halves: *(x + 1) - (id<sub>k</sub> + 1) = x - id<sub>k</sub>* in the numerator and *(id<sub>i</sub> + 1) - (id<sub>k</sub> + 1) = id<sub>i</sub> - id<sub>k</sub>* in the denominator. The target coordinate is what does not cancel, so evaluating at the threshold secret key's x-coordinate *0* means passing *x = -1*.
+[^lagrange-shift]: Participant identifiers are zero-indexed, but the secret sharing polynomial holds the threshold secret key at x-coordinate *0*, so the participant with identifier *id* is placed at x-coordinate *id + 1*. That shift is the *id<sub>k</sub> + 1* factor in *DeriveInterpolatingValue*. *DerivePubshareAt* works directly in identifier space instead, which leaves the standard Lagrange coefficient unchanged, because the shift cancels in both of its halves: *(x + 1) - (id<sub>k</sub> + 1) = x - id<sub>k</sub>* in the numerator and *(id<sub>i</sub> + 1) - (id<sub>k</sub> + 1) = id<sub>i</sub> - id<sub>k</sub>* in the denominator. The target coordinate is what does not cancel, so evaluating at the threshold secret key's x-coordinate *0* means passing *x = -1*.
 
 ### Nonce Generation
 
@@ -469,27 +469,27 @@ Internal Algorithm *SerializeIds(id<sub>1..u</sub>)*:
 
 ### Signing
 
-Algorithm *Sign(secnonce, secshare, my_id, session_ctx)*:
+Algorithm *Sign(secnonce, secshare, signer_id, session_ctx)*:
 
 - Inputs:
   - The secret nonce *secnonce* that has never been used as input to *Sign* before: a 64-byte array[^secnonce-ser]
   - The participant secret share *secshare*: a 32-byte array, serialized scalar
-  - The participant identifier *my_id*: an integer with *0 ≤ my_id ≤ n-1*
+  - The participant identifier *signer_id*: an integer with *0 ≤ signer_id ≤ n-1*
   - The *session_ctx*: a [Session Context](#session-context) data structure
 - Let *(id<sub>1..u</sub>, pubshare<sub>1..u</sub>, b, _, e) = GetSessionValues(session_ctx)*; fail if that fails
 - Let *k<sub>1</sub> = scalar_from_bytes_nonzero_checked(secnonce[0:32])*; fail if that fails
 - Let *k<sub>2</sub> = scalar_from_bytes_nonzero_checked(secnonce[32:64])*; fail if that fails
 - Let *d = scalar_from_bytes_nonzero_checked(secshare)*; fail if that fails
 - Let *pubshare = bytes(d &middot; B)*
-- Fail if *my_id* not in *id<sub>1..u</sub>*
+- Fail if *signer_id* not in *id<sub>1..u</sub>*
 - If *pubshare<sub>1..u</sub>* is present:
-  - Let *j* be the index with *id<sub>j</sub> = my_id*
+  - Let *j* be the index with *id<sub>j</sub> = signer_id*
   - Fail if *pubshare ≠ pubshare<sub>j</sub>*
-- Let *&lambda; = DeriveInterpolatingValue(id<sub>1..u</sub>, my_id)*; fail if that fails
+- Let *&lambda; = DeriveInterpolatingValue(id<sub>1..u</sub>, signer_id)*; fail if that fails
 - Let *s = k<sub>1</sub> + b &middot; k<sub>2</sub> + e &middot; &lambda; &middot; d &ensp;(mod L)*
 - Let *psig = scalar_to_bytes(s)*
 - Let *pubnonce = bytes(k<sub>1</sub> &middot; B) || bytes(k<sub>2</sub> &middot; B)*
-- If *PartialSigVerifyInternal(psig, my_id, pubnonce, pubshare, session_ctx)* (see below) returns failure, fail[^why-verify-partialsig]
+- If *PartialSigVerifyInternal(psig, signer_id, pubnonce, pubshare, session_ctx)* (see below) returns failure, fail[^why-verify-partialsig]
 - Return partial signature *psig*
 
 [^why-verify-partialsig]: Verifying the signature before leaving the signer prevents random or adversarially provoked computation errors. This prevents publishing invalid signatures which may leak information about the secret share. It is recommended but can be omitted if the computation cost is prohibitive.
@@ -517,18 +517,18 @@ Algorithm *PartialSigVerify(psig, pubnonce<sub>1..u</sub>, n, t, u, id<sub>1..u<
 - Run *PartialSigVerifyInternal(psig, id<sub>i</sub>, pubnonce<sub>i</sub>, pubshare<sub>i</sub>, session_ctx)*
 - Return success iff no failure occurred before reaching this point.
 
-Internal Algorithm *PartialSigVerifyInternal(psig, my_id, pubnonce, pubshare, session_ctx)*:
+Internal Algorithm *PartialSigVerifyInternal(psig, signer_id, pubnonce, pubshare, session_ctx)*:
 
 - Let *(id<sub>1..u</sub>, _, b, _, e) = GetSessionValues(session_ctx)*; fail if that fails
 - Let *s = scalar_from_bytes_checked(psig)*; fail if that fails
 - Let *R<sub>\*,1</sub> = point(pubnonce[0:32]), R<sub>\*,2</sub> = point(pubnonce[32:64])*; fail if either fails
 - Let effective nonce *Re<sub>\*</sub> = R<sub>\*,1</sub> + b &middot; R<sub>\*,2</sub>*
 - Let *P = point(pubshare)*; fail if that fails
-- Let *&lambda; = DeriveInterpolatingValue(id<sub>1..u</sub>, my_id)*[^lambda-cant-fail]
+- Let *&lambda; = DeriveInterpolatingValue(id<sub>1..u</sub>, signer_id)*[^lambda-cant-fail]
 - Fail if *s &middot; B ≠ Re<sub>\*</sub> + e &middot; &lambda; &middot; P*
 - Return success iff no failure occurred before reaching this point.
 
-[^lambda-cant-fail]: *DeriveInterpolatingValue(id<sub>1..u</sub>, my_id)* cannot fail when called from *PartialSigVerifyInternal* as *PartialSigVerify* picks *my_id* from *id<sub>1..u</sub>*
+[^lambda-cant-fail]: *DeriveInterpolatingValue(id<sub>1..u</sub>, signer_id)* cannot fail when called from *PartialSigVerifyInternal* as *PartialSigVerify* picks *signer_id* from *id<sub>1..u</sub>*
 
 ### Partial Signature Aggregation
 
@@ -602,11 +602,11 @@ In FROST, the deterministic nonce must also bind to the signer set *id<sub>1..u<
 
 #### Deterministic and Stateless Signing for a Single Signer
 
-Algorithm *DeterministicSign(secshare, my_id, aggothernonce, n, t, u, id<sub>1..u</sub>, pubshare<sub>1..u</sub>, thresh_pk, m, aux_rand)*:
+Algorithm *DeterministicSign(secshare, signer_id, aggothernonce, n, t, u, id<sub>1..u</sub>, pubshare<sub>1..u</sub>, thresh_pk, m, aux_rand)*:
 
 - Inputs:
   - The participant secret share *secshare*: a 32-byte array, serialized scalar
-  - The participant identifier *my_id*: an integer with *0 ≤ my_id ≤ n-1*
+  - The participant identifier *signer_id*: an integer with *0 ≤ signer_id ≤ n-1*
   - The aggregate public nonce *aggothernonce* (see [above](#modifications-to-nonce-generation)): a 64-byte array, output of *NonceAgg*, present if and only if *u > 1* (optional argument)[^det-threshold-one]
   - The total number *n* of participants involved in key generation: an integer with *1 ≤ n ≤ 128*
   - The threshold number *t* of participants required to issue a signature: an integer with *1 ≤ t ≤ n*
@@ -627,7 +627,7 @@ Algorithm *DeterministicSign(secshare, my_id, aggothernonce, n, t, u, id<sub>1..
   - Let *aggothernonce' = aggothernonce*
 - Else:
   - Let *aggothernonce' = empty_bytestring*
-- Let *k<sub>i</sub> = scalar_from_bytes_wide(hash<sub>deterministic/nonce</sub>(masked_secshare || bytes(4, my_id) || bytes(4, u) || SerializeIds(id<sub>1..u</sub>) || bytes(1, len(aggothernonce')) || aggothernonce' || thresh_pk || bytes(8, len(m)) || m || bytes(1, i - 1)))* for *i = 1,2*
+- Let *k<sub>i</sub> = scalar_from_bytes_wide(hash<sub>deterministic/nonce</sub>(masked_secshare || bytes(4, signer_id) || bytes(4, u) || SerializeIds(id<sub>1..u</sub>) || bytes(1, len(aggothernonce')) || aggothernonce' || thresh_pk || bytes(8, len(m)) || m || bytes(1, i - 1)))* for *i = 1,2*
 - Fail if *k<sub>1</sub> = Scalar(0)* or *k<sub>2</sub> = Scalar(0)*[^negligible-zero-scalar]
 - Let *R<sub>\*,1</sub> = k<sub>1</sub> &middot; B, R<sub>\*,2</sub> = k<sub>2</sub> &middot; B*
 - Let *pubnonce = bytes(R<sub>\*,1</sub>) || bytes(R<sub>\*,2</sub>)*
@@ -637,7 +637,7 @@ Algorithm *DeterministicSign(secshare, my_id, aggothernonce, n, t, u, id<sub>1..
 - Else:
   - Let *aggnonce = pubnonce*
 - Let *session_ctx = (n, t, u, id<sub>1..u</sub>, pubshare<sub>1..u</sub>, thresh_pk, aggnonce, m)*
-- Return *(pubnonce, Sign(secnonce, secshare, my_id, session_ctx))*
+- Return *(pubnonce, Sign(secnonce, secshare, signer_id, session_ctx))*
 
 [^det-signer-set]: Without binding to the signer set, a malicious coordinator can replay the same *aggothernonce* to the last signer across three sessions while varying *id<sub>1..u</sub>*. The victim produces byte-identical secret nonces *(k<sub>1</sub>, k<sub>2</sub>)* across sessions, but because the Lagrange interpolating coefficient *&lambda;* and nonce coefficient *b* depend on the signer set, the three partial signatures form a system of three linear equations in *(k<sub>1</sub>, k<sub>2</sub>, d)* where *d* is the victim's secret share, enough to recover *d* by solving the system. This consideration does not apply to MuSig2's *DeterministicSign* because MuSig2 is always *n*-of-*n* and the signer set is fixed by the protocol.
 
