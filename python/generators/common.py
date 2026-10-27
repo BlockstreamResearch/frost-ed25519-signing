@@ -82,8 +82,9 @@ COMMON_MSGS = [
 # boundary used by the partial-signature generator
 GROUP_ORDER = GE.ORDER.to_bytes(32, "little")
 
-# Three distinct invalid 32-byte point encodings, each rejected on decode by a
-# different check. Used to build varied pubnonce / aggnonce error cases.
+# Invalid 32-byte point encodings, each rejected on decode. Together with the
+# three constants below, they build the error cases for every point input
+# (pubnonces, aggnonces, public shares, thresh_pk).
 NONCANONICAL_POINT = bytes([0xFF]) * 32  # y >= p (non-canonical encoding)
 OFFCURVE_POINT = (2).to_bytes(32, "little")  # canonical y with no matching x
 TORSION_POINT = bytes(32)  # in-field, on-curve, but order 4

@@ -27,7 +27,7 @@ FROST_TAG_NONCECOEF = "FROST3-ed25519-v1/noncecoef"
 FROST_TAG_DETERMINISTIC_NONCE = "FROST3-ed25519-v1/deterministic/nonce"
 
 # Upper bound on the total number of participants n. See the footnote on this
-# bound in the BIP text for the security rationale.
+# bound in the README for the security rationale.
 MAX_PARTICIPANTS = 128
 
 # There are two types of exceptions that can be raised by this implementation:

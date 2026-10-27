@@ -33,7 +33,7 @@ from generators.common import (
     write_test_vectors,
 )
 
-# Aggregate nonces with a valid first half and a non-canonical second half.
+# Aggregate nonces with a valid first half and an invalid second half.
 # Second half is a canonical y with no matching x (off the curve).
 AGGNONCE_OFFCURVE = B.to_bytes() + OFFCURVE_POINT
 # Second half is a non-canonical encoding (y >= p).

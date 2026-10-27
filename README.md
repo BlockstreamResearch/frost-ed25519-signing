@@ -19,7 +19,7 @@ The FROST signature scheme enables threshold Ed25519 signatures. In a *t-of-n* t
 
 [^t-edge-cases]: While *t = n* and *t = 1* are in principle supported, simpler alternatives are available in these cases. In the case *t = n*, using a dedicated *n-of-n* multi-signature scheme instead of FROST avoids the need for an interactive DKG (if using a trusted dealer for key generation is undesirable). The case *t = 1* can be realized by letting one participant generate an ordinary Ed25519 key pair ([RFC 8032][rfc8032]) and transmitting the key pair to every other participant, who can check its consistency and then simply use the ordinary Ed25519 signing algorithm. Participants still need to ensure that they agree on a key pair. The case *n = 1* is even simpler: it forces *t = 1*, and with no other participants to transmit the key pair to, the sole participant can directly use an ordinary Ed25519 key pair.
 
-The IRTF has published [RFC 9591][rfc9591], which specifies the FROST signing protocol for several elliptic curve and hash function combinations, including edwards25519 with SHA-512. However, RFC 9591 specifies the original FROST protocol, in which every signer must process the full list of the other signers' nonce commitments. This document instead specifies the more efficient FROST3 variant[^frost3-security], whose single nonce coefficient allows the coordinator to aggregate all public nonces into one constant-size aggregate nonce. In addition, this document adds partial signature verification with identifiable aborts, a coordinator-based communication model, and deterministic and stateless signing.
+The IRTF has published [RFC 9591][rfc9591], which specifies the FROST signing protocol for several elliptic curve and hash function combinations, including edwards25519 with SHA-512. However, RFC 9591 specifies the original FROST protocol, in which every signer must process the full list of the other signers' nonce commitments. This document instead specifies the more efficient FROST3 variant[^frost3-security], whose single nonce coefficient allows the coordinator to aggregate all public nonces into one constant-size aggregate nonce. As in RFC 9591, a coordinator collects the signers' contributions, and partial signatures can be verified to identify a misbehaving signer. This document additionally specifies deterministic and stateless signing.
 
 Following the initial publication of the FROST protocol[[KG20][frost1]], several optimized variants have been proposed to improve computational efficiency and bandwidth optimization: FROST2[[CKM21][frost2]], FROST2-BTZ[[BTZ21][stronger-security-frost]], and FROST3[[RRJSS][roast], [CGRS23][olaf]]. Among these variants, FROST3 is the most efficient variant to date.
 
@@ -63,7 +63,7 @@ There is only a single public key format, and no transformation of key material 
 There are *u* (where *1 ≤ t ≤ u ≤ n ≤ 128*)[^n-bound] signers[^participant-vs-signer] and one coordinator initiating the FROST signing protocol.
 Each participant has a point-to-point communication link to the coordinator. Participants need no direct links to each other.
 
-[^n-bound]: The bound on *n* protects against adaptive forgery attacks (the attacker chooses which participants to compromise after seeing the public shares). Such an attacker can forge with fewer than *t* compromised participants if it can solve the Low-Dimensional Vector Representation (LDVR) problem[[CS25][adaptive-attack]][[CKKTZ25][ldvr]], which becomes feasible for large enough *n*[[GT26][ldvr-attack]]. For *n ≤ 129*, LDVR is provably hard for any threshold at the generic discrete-logarithm security level of Ed25519 (about 126 bits, from its group order of about 2<sup>252</sup>)[[CKKTZ25][ldvr]]. This document requires *n ≤ 128*, which stays inside that range.
+[^n-bound]: The bound on *n* protects against adaptive forgery attacks (the attacker chooses which participants to compromise after seeing the public shares). Such an attacker can forge with fewer than *t* compromised participants if it can solve the Low-Dimensional Vector Representation (LDVR) problem[[CS25][adaptive-attack]][[CKKTZ25][ldvr]], which becomes feasible for large enough *n*[[GT26][ldvr-attack]]. For *n ≤ 129*, LDVR is provably hard for any threshold at the generic discrete-logarithm security level of Ed25519, about 126 bits for its group order of about 2<sup>252</sup>[[CKKTZ25][ldvr]]. This document requires *n ≤ 128*, which stays inside that range.
 
 [^participant-vs-signer]: This document says *participant* for anyone who took part in key generation, all *n* of them, and *signer* for a participant taking part in the current signing session, the *u* of them. Key material issued during key generation keeps the participant label, so *secshare*, *pubshare*, and the identifiers stay participant values even when a signer supplies them to an algorithm.
 
@@ -244,7 +244,6 @@ The reference code vendors the ed25519lab library to handle underlying arithmeti
 <!-- markdownlint-disable MD033 -->
 | Notation | ed25519lab | Description |
 | --- | --- | --- |
-| *p* | *FE.SIZE* | Field element size |
 | *L* | *Scalar.SIZE*, *GE.ORDER* | Order of the prime-order subgroup |
 | *B* | *B* | The Ed25519 base point |
 | *identity* | *GE()* | The identity element *(0, 1)* |
@@ -534,11 +533,9 @@ Internal Algorithm *PartialSigVerifyInternal(psig, signer_id, pubnonce, pubshare
 - Let *R<sub>\*,1</sub> = point(pubnonce[0:32]), R<sub>\*,2</sub> = point(pubnonce[32:64])*; fail if either fails
 - Let effective nonce *Re<sub>\*</sub> = R<sub>\*,1</sub> + b &middot; R<sub>\*,2</sub>*
 - Let *P = point(pubshare)*; fail if that fails
-- Let *&lambda; = DeriveInterpolatingValue(id<sub>1..u</sub>, signer_id)*[^lambda-cant-fail]
+- Let *&lambda; = DeriveInterpolatingValue(id<sub>1..u</sub>, signer_id)*
 - Fail if *s &middot; B ≠ Re<sub>\*</sub> + e &middot; &lambda; &middot; P*
 - Return success iff no failure occurred before reaching this point.
-
-[^lambda-cant-fail]: *DeriveInterpolatingValue(id<sub>1..u</sub>, signer_id)* cannot fail when called from *PartialSigVerifyInternal* as *PartialSigVerify* picks *signer_id* from *id<sub>1..u</sub>*
 
 ### Partial Signature Aggregation
 
@@ -651,7 +648,7 @@ Algorithm *DeterministicSign(secshare, signer_id, aggothernonce, n, t, u, id<sub
 - Let *session_ctx = (n, t, u, id<sub>1..u</sub>, pubshare<sub>1..u</sub>, thresh_pk, aggnonce, m)*
 - Return *(pubnonce, Sign(secnonce, secshare, signer_id, session_ctx))*
 
-[^det-signer-set]: Without binding to the signer set, a malicious coordinator can replay the same *aggothernonce* to the last signer across three sessions while varying *id<sub>1..u</sub>*. The victim produces byte-identical secret nonces *(k<sub>1</sub>, k<sub>2</sub>)* across sessions, but because the Lagrange interpolating coefficient *&lambda;* and nonce coefficient *b* depend on the signer set, the three partial signatures form a system of three linear equations in *(k<sub>1</sub>, k<sub>2</sub>, d)* where *d* is the victim's secret share, enough to recover *d* by solving the system. This consideration does not apply to MuSig2's *DeterministicSign* because MuSig2 is always *n*-of-*n* and the signer set is fixed by the protocol.
+[^det-signer-set]: Without binding to the signer set, a malicious coordinator can replay the same *aggothernonce* to the last signer across three sessions while varying *id<sub>1..u</sub>*. The victim produces byte-identical secret nonces *(k<sub>1</sub>, k<sub>2</sub>)* across sessions, but because the Lagrange interpolating coefficient *&lambda;* and nonce coefficient *b* depend on the signer set, the three partial signatures form a system of three linear equations in *(k<sub>1</sub>, k<sub>2</sub>, d)* where *d* is the victim's secret share, enough to recover *d* by solving the system. This replay attack does not apply to MuSig2's *DeterministicSign* because MuSig2 is always *n*-of-*n* and the signer set is fixed by the protocol.
 
 [^det-threshold-one]: A sole signer (*u = 1*) arises only in a *1-of-n* setup. It omits *aggothernonce*, which makes the nonce deterministic, as in Ed25519 signing ([RFC 8032][rfc8032]). Since its *secret share* equals the *threshold secret key*, it can also skip the FROST algorithms and sign with the ordinary Ed25519 signing algorithm[^t-edge-cases].
 

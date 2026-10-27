@@ -1,4 +1,4 @@
-# TODO: remove this file, and use trusted dealer BIP's reference code instead, after it gets published.
+# TODO: remove this file, and use trusted dealer reference code instead, after it gets published.
 
 # WARNING: Do not use this as an implementation reference. This trusted dealer is
 # only used to generate the FROST keys needed for signing in the test vectors, and
@@ -7,9 +7,9 @@
 # Implementation of the Trusted Dealer Key Generation approach for FROST mentioned
 # in https://datatracker.ietf.org/doc/draft-irtf-cfrg-frost/15/ (Appendix D).
 #
-# It's worth noting that this isn't the only compatible method (with BIP FROST Signing),
-# there are alternative key generation methods available, such as BIP-FROST-DKG:
-# https://github.com/BlockstreamResearch/bip-frost-dkg
+# It's worth noting that this isn't the only compatible method (with FROST Signing),
+# there are alternative key generation methods available, such as ChillDKG:
+# https://github.com/BlockstreamResearch/frost-ed25519-dkg
 
 from typing import Tuple, List
 import unittest
