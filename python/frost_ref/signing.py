@@ -247,7 +247,7 @@ def nonce_gen(
         raise ValueError("The optional secshare must be a 32-byte array.")
     if signer_id is not None and not 0 <= signer_id < MAX_PARTICIPANTS:
         raise ValueError(
-            f"The optional signer_id must satisfy 0 <= signer_id <= {MAX_PARTICIPANTS - 1}."
+            f"The optional signer_id must be less than {MAX_PARTICIPANTS}."
         )
     if pubshare is not None and len(pubshare) != 32:
         raise ValueError("The optional pubshare must be a 32-byte array.")
