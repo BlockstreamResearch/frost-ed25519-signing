@@ -60,6 +60,7 @@ class SignVerifyGroupBuilder:
         self.full = get_subset(cfg, "full")
         self.alt = get_subset(cfg, "alt")
         self.min2 = get_subset(cfg, "min2")
+        self.blame_s = swap_last_two(self.min2)
         self.tplus1 = get_subset(cfg, "tplus1")
         self.aggnonce_min = self._agg(self.min_s)
 
@@ -577,27 +578,30 @@ class SignVerifyGroupBuilder:
         )
 
     def add_verify_error_tests(self) -> None:
-        # Base partial signature: signer 0 over min2. The faults below sit at
-        # position 1 while signer 0 is verified, so blame must name the faulty
-        # signer, not the one being verified.
-        secnonce = bytearray(self.inputs.pool_secnonces[0])
+        # Base partial signature from position 0. Faults below sit at position 1.
+        secnonce = bytearray(self.inputs.pool_secnonces[self.blame_s[0]])
         signer_set = (
             self.n,
             self.t,
-            self.min2,
-            [self.inputs.pool_pubshares[i] for i in self.min2],
+            self.blame_s,
+            [self.inputs.pool_pubshares[i] for i in self.blame_s],
             self.thresh_pk,
         )
-        session = SessionContext(*signer_set, self._agg(self.min2), COMMON_MSGS[0])
-        psig = sign(secnonce, self.inputs.pool_secshares[0], 0, session)
+        session = SessionContext(*signer_set, self._agg(self.blame_s), COMMON_MSGS[0])
+        psig = sign(
+            secnonce,
+            self.inputs.pool_secshares[self.blame_s[0]],
+            self.blame_s[0],
+            session,
+        )
 
         pubnonce_indices_offcurve = [
-            self.min2[0],
+            self.blame_s[0],
             self.inputs.INVALID_PUBNONCE_IDX,
-        ] + self.min2[2:]
+        ] + self.blame_s[2:]
         self._append_verify_error(
-            self.min2,
-            self.min2,
+            self.blame_s,
+            self.blame_s,
             pubnonce_indices_offcurve,
             0,
             psig,
@@ -605,13 +609,13 @@ class SignVerifyGroupBuilder:
             "Another signer's public nonce is invalid, so verification blames that signer, not the one being verified",
         )
         pubshare_indices_noncanonical = [
-            self.min2[0],
+            self.blame_s[0],
             self.inputs.INVALID_PUBSHARE_IDX,
-        ] + self.min2[2:]
+        ] + self.blame_s[2:]
         self._append_verify_error(
-            self.min2,
+            self.blame_s,
             pubshare_indices_noncanonical,
-            self.min2,
+            self.blame_s,
             0,
             psig,
             "value",
@@ -620,9 +624,9 @@ class SignVerifyGroupBuilder:
         # Small-order public share (the all-zero order-4 torsion point) at
         # position 1, rejected by the prime-order-subgroup check.
         self._append_verify_error(
-            self.min2,
-            [self.min2[0], self.inputs.SMALL_ORDER_PUBSHARE_IDX] + self.min2[2:],
-            self.min2,
+            self.blame_s,
+            [self.blame_s[0], self.inputs.SMALL_ORDER_PUBSHARE_IDX] + self.blame_s[2:],
+            self.blame_s,
             0,
             psig,
             "value",
@@ -631,9 +635,9 @@ class SignVerifyGroupBuilder:
         # Mixed-order public share [k]B + T at position 1. Rejected by [L]P == O,
         # which a small-order-only screen ([8]P == O) would let through.
         self._append_verify_error(
-            self.min2,
-            [self.min2[0], self.inputs.MIXED_ORDER_PUBSHARE_IDX] + self.min2[2:],
-            self.min2,
+            self.blame_s,
+            [self.blame_s[0], self.inputs.MIXED_ORDER_PUBSHARE_IDX] + self.blame_s[2:],
+            self.blame_s,
             0,
             psig,
             "value",
@@ -642,10 +646,10 @@ class SignVerifyGroupBuilder:
         # Non-canonical identity public share (x == 0 with the sign bit set) at
         # position 1.
         self._append_verify_error(
-            self.min2,
-            [self.min2[0], self.inputs.NONCANONICAL_IDENTITY_PUBSHARE_IDX]
-            + self.min2[2:],
-            self.min2,
+            self.blame_s,
+            [self.blame_s[0], self.inputs.NONCANONICAL_IDENTITY_PUBSHARE_IDX]
+            + self.blame_s[2:],
+            self.blame_s,
             0,
             psig,
             "value",
@@ -654,9 +658,10 @@ class SignVerifyGroupBuilder:
         # Canonical identity public share (0x01 || 31 zero bytes) at position 1,
         # rejected because the identity is not a valid public share.
         self._append_verify_error(
-            self.min2,
-            [self.min2[0], self.inputs.CANONICAL_IDENTITY_PUBSHARE_IDX] + self.min2[2:],
-            self.min2,
+            self.blame_s,
+            [self.blame_s[0], self.inputs.CANONICAL_IDENTITY_PUBSHARE_IDX]
+            + self.blame_s[2:],
+            self.blame_s,
             0,
             psig,
             "value",
@@ -664,9 +669,9 @@ class SignVerifyGroupBuilder:
         )
         # Off-curve public share (canonical y with no matching x) at position 1.
         self._append_verify_error(
-            self.min2,
-            [self.min2[0], self.inputs.OFFCURVE_PUBSHARE_IDX] + self.min2[2:],
-            self.min2,
+            self.blame_s,
+            [self.blame_s[0], self.inputs.OFFCURVE_PUBSHARE_IDX] + self.blame_s[2:],
+            self.blame_s,
             0,
             psig,
             "value",

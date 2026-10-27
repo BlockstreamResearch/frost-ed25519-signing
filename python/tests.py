@@ -7,18 +7,20 @@ import sys
 import time
 from typing import List, Optional, Tuple
 
-from frost_ref.signing import (
+from frost_ref import (
     InvalidContributionError,
     PlainPk,
     SessionContext,
     deterministic_sign,
     nonce_agg,
     nonce_gen,
-    nonce_gen_internal,
     partial_sig_agg,
     partial_sig_verify,
-    partial_sig_verify_internal,
     sign,
+)
+from frost_ref.signing import (
+    nonce_gen_internal,
+    partial_sig_verify_internal,
 )
 from ed25519lab.ed25519 import B
 from ed25519lab.keys import pubkey_gen

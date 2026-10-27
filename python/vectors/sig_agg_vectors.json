@@ -70,11 +70,11 @@
                 {
                     "tc_id": 5,
                     "comment": "Partial signature equals the group order, which is out of range",
-                    "ids": [0, 1],
-                    "pubshare_indices": [0, 1],
+                    "ids": [1, 0],
+                    "pubshare_indices": [1, 0],
                     "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
                     "psigs": [
-                        "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
+                        "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C",
                         "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010"
                     ],
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
@@ -168,16 +168,17 @@
                 {
                     "tc_id": 11,
                     "comment": "Partial signature equals the group order, which is out of range",
-                    "ids": [0],
-                    "pubshare_indices": [0],
-                    "aggnonce": "A83543C97829109AE798EF0E433ADF6556F60CD287948C262F279516035B372B5F7F568419382B685EDC77ED2A74582E6CBC4E02F617579CE8FA6A312EC146B0",
+                    "ids": [1, 0],
+                    "pubshare_indices": [1, 0],
+                    "aggnonce": "D49881DCED1E715399A9ABF70BF2B058DCBD6779712CF1E3DA2AEE86A3326C436CA86A08E563FE8F2BFDDBEB50328D4CDAF5B8026DA3030D756A42BEF4C0DCD4",
                     "psigs": [
+                        "0AF197C7102E1AA7DE61B59489AD6157610ED389799EBABD49E80D775F875404",
                         "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010"
                     ],
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
                     "error": {
                         "type": "InvalidContributionError",
-                        "signer_index": 0,
+                        "signer_index": 1,
                         "contrib": "psig"
                     }
                 },
@@ -254,12 +255,12 @@
                 {
                     "tc_id": 16,
                     "comment": "Partial signature equals the group order, which is out of range",
-                    "ids": [0, 1, 2],
-                    "pubshare_indices": [0, 1, 2],
+                    "ids": [0, 2, 1],
+                    "pubshare_indices": [0, 2, 1],
                     "aggnonce": "2C9CE1339CA8EB5EF488D7140F94220B11670DD0260E5B33C69DE62DC0D3184FD946822DDB3A2D8AD18CB1A5711D79388A724D9C1F2C8F746687BC7F14ED3506",
                     "psigs": [
                         "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
-                        "B5DF5B7559E454C843932F6B6D9330EAA03090ECB71F17ADB197ED3635CBB607",
+                        "A0FA94121A94F2B0623815251B597385783AF86B907DDD82789660A9B1676B09",
                         "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010"
                     ],
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
@@ -364,12 +365,12 @@
                 {
                     "tc_id": 22,
                     "comment": "Partial signature equals the group order, which is out of range",
-                    "ids": [0, 1, 2],
-                    "pubshare_indices": [0, 1, 2],
+                    "ids": [0, 2, 1],
+                    "pubshare_indices": [0, 2, 1],
                     "aggnonce": "E2F330FE3A325A5EF90ABDE3CF4E68A82D29ADC0A89858FDC6D354D7B1FDCD98CD4F8DF33373E188FDA97E4D10F69B87D9761EF40C31490270FF04BBBA7307F0",
                     "psigs": [
                         "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
-                        "A757F70CBCFA7F2CF0079BCCEB0700C537CE71BD109339558AD8F2603522C905",
+                        "DBDDBB8D57BE6D0C814051EEDACCADFACB9DEC818621763958ABFED57DFE8E00",
                         "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010"
                     ],
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",

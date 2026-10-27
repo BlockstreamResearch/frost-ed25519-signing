@@ -13,6 +13,8 @@ from .signing import (
     deterministic_sign,
     partial_sig_verify,
     partial_sig_agg,
+    # Constants
+    MAX_PARTICIPANTS,
     # Exceptions
     InvalidContributionError,
     # Types
@@ -30,6 +32,8 @@ __all__ = [
     "deterministic_sign",
     "partial_sig_verify",
     "partial_sig_agg",
+    # Constants
+    "MAX_PARTICIPANTS",
     # Exceptions
     "InvalidContributionError",
     # Types
