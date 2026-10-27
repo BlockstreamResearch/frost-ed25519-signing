@@ -61,15 +61,15 @@ There is only a single public key format, and no transformation of key material 
 #### Protocol Parties and Network Setup
 
 There are *u* (where *1 ≤ t ≤ u ≤ n ≤ 128*)[^n-bound] signers[^participant-vs-signer] and one coordinator initiating the FROST signing protocol.
-Each signer has a point-to-point communication link to the coordinator (but signers do not have direct communication links to each other).
+Each participant has a point-to-point communication link to the coordinator. Participants need no direct links to each other.
 
 [^n-bound]: The bound on *n* protects against adaptive forgery attacks (the attacker chooses which participants to compromise after seeing the public shares). Such an attacker can forge with fewer than *t* compromised participants if it can solve the Low-Dimensional Vector Representation (LDVR) problem[[CS25][adaptive-attack]][[CKKTZ25][ldvr]], which becomes feasible for large enough *n*[[GT26][ldvr-attack]]. For *n ≤ 129*, LDVR is provably hard for any threshold at the generic discrete-logarithm security level of Ed25519 (about 126 bits, from its group order of about 2<sup>252</sup>)[[CKKTZ25][ldvr]]. This document requires *n ≤ 128*, which stays inside that range.
 
 [^participant-vs-signer]: This document says *participant* for anyone who took part in key generation, all *n* of them, and *signer* for a participant taking part in the current signing session, the *u* of them. Key material issued during key generation keeps the participant label, so *secshare*, *pubshare*, and the identifiers stay participant values even when a signer supplies them to an algorithm.
 
-If there is no dedicated coordinator, one of the signers can act as the coordinator. Alternatively, the protocol can be run without any coordinator, with each signer sending its contributions to every other signer.
+If there is no dedicated coordinator, one of the signers can act as the coordinator. Alternatively, the protocol can run without any coordinator, with each signer sending its contributions to every other signer and performing the coordinator's aggregation, verification, and publishing steps itself. In that case, the signers must agree on the signer set and the message, and must receive the same contributions from one another. This document does not specify how they reach this agreement or deliver their messages.
 
-This document is written from the coordinator's perspective because the key generation methods this document names, a trusted dealer setup and ChillDKG, also involve a central third party. Implementations are therefore likely to reuse the same setup for signing.
+This document is written from the coordinator's perspective because implementations are likely to reuse the coordinator from their key generation method, such as ChillDKG or a trusted dealer setup.
 
 #### Signing Inputs and Outputs
 
@@ -182,10 +182,9 @@ but this method is not compatible with the defense-in-depth mechanism described 
 [^preprocess-round1]: When preprocessing *NonceGen* round, the coordinator can store the *pubnonces* alongside the participants' identifiers and public shares, as these are generated and stored before the signing session begins.
 
 FROST signers are typically stateful: they generate *secnonce*, store it, and later use it to produce a partial signature after receiving the aggregated nonce.
-However, stateless signing is possible when one signer receives the aggregate nonce of all OTHER signers before generating their own nonce.
-In coordinator-based setups, the coordinator facilitates this by collecting pubnonces from the other signers, computing their aggregate (*aggothernonce*), and providing it to the stateless signer.
-The stateless signer then runs *NonceGen*, *NonceAgg*, and *Sign* in sequence, sending its *pubnonce* and partial signature simultaneously to the coordinator, who computes the final aggregate nonce for all OTHER signers.
-In coordinator-less setups, any one signer can achieve stateless operation by generating their nonce after seeing all other signers' *pubnonces*.
+However, stateless signing is possible when one signer obtains the aggregate nonce of all OTHER signers before generating their own nonce.
+The coordinator collects the other signers' *pubnonces*, computes their aggregate (*aggothernonce*), and provides it to the stateless signer.
+The stateless signer then runs *NonceGen*, *NonceAgg*, and *Sign* in sequence and sends its *pubnonce* and partial signature together to the coordinator, which computes the aggregate nonce of all signers and sends it to the other signers.
 Stateless signers may want to consider signing deterministically (see [Modifications to Nonce Generation](#modifications-to-nonce-generation)) to remove the reliance on the random number generator in the *NonceGen* algorithm.
 
 ### Identifying Malicious Signers
