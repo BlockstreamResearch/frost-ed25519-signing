@@ -94,6 +94,7 @@ class DetSignGroupBuilder:
             _, pub = nonce_gen_internal(
                 tmp,
                 self.inputs.pool_secshares[id_k],
+                id_k,
                 self.inputs.pool_pubshares[id_k],
                 PlainPk(self.inputs.thresh_pk),
                 msg,

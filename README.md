@@ -48,8 +48,10 @@ Similarly, the test vectors that exercise the unimplemented features should be r
 ### Key Material and Setup
 
 A FROST key generation protocol configures a group of *n* participants with a *threshold public key* (representing a *t-of-n* threshold policy).
-The corresponding *threshold secret key* is Shamir secret-shared among all *n* participants, where each participant holds a distinct long-term *secret share*.
+The corresponding *threshold secret key* is Shamir secret-shared among all *n* participants, where each participant holds a distinct long-term *secret share*.[^t-one-shares]
 This ensures that any subset of at least *t* participants can jointly run the FROST signing protocol to produce a signature under the *threshold secret key*.
+
+[^t-one-shares]: In a *1-of-n* setup, every participant's *secret share* equals the *threshold secret key*.
 
 Key generation for FROST signing is out of scope for this document. Implementations can use either a trusted dealer setup, as specified in [Appendix C of RFC 9591](https://www.rfc-editor.org/rfc/rfc9591.html#name-trusted-dealer-key-generati), or a distributed key generation (DKG) protocol such as [ChillDKG][chilldkg]. The appropriate choice depends on the implementation's trust model and operational requirements.
 
@@ -157,7 +159,7 @@ As a result, the [Session Context](#session-context) may look very different in 
 
 The optional arguments to *NonceGen* enable a defense-in-depth mechanism that may prevent secret share exposure if *rand* is accidentally not drawn uniformly at random.
 If the value *rand* was identical in two *NonceGen* invocations, but any other argument was different, the *secnonce* would still be guaranteed to be different as well (with overwhelming probability), and thus accidentally using the same *secnonce* for *Sign* in both sessions would be avoided.
-Therefore, it is recommended to provide the optional arguments *secshare*, *pubshare*, *thresh_pk*, and *m* if these session parameters are already determined during nonce generation.
+Therefore, it is recommended to provide the optional arguments *secshare*, *signer_id*, *pubshare*, *thresh_pk*, and *m* if these session parameters are already determined during nonce generation.
 The auxiliary input *extra_in* can contain additional contextual data that has a chance of changing between *NonceGen* runs,
 e.g., a supposedly unique session id (taken from the application), a session counter wide enough not to repeat in practice, any nonces by other signers (if already known), or the serialization of a data structure containing multiple of the above.
 However, the protection provided by the optional arguments should only be viewed as a last resort.
@@ -347,10 +349,11 @@ Internal Algorithm *DeriveInterpolatingValue(id<sub>1..u</sub>, id<sub>i</sub>):
 
 ### Nonce Generation
 
-Algorithm *NonceGen(secshare, pubshare, thresh_pk, m, extra_in)*:
+Algorithm *NonceGen(secshare, signer_id, pubshare, thresh_pk, m, extra_in)*:
 
 - Inputs:
   - The participant secret share *secshare*: a 32-byte array, serialized scalar (optional argument)
+  - The participant identifier *signer_id*: an integer with *0 ≤ signer_id ≤ n-1* (optional argument)
   - The participant public share *pubshare*: a 32-byte array, serialized point (optional argument)
   - The threshold public key *thresh_pk*: a 32-byte array, serialized point (optional argument)
   - The message *m*: a byte array (optional argument)[^max-msg-len]
@@ -360,6 +363,10 @@ Algorithm *NonceGen(secshare, pubshare, thresh_pk, m, extra_in)*:
   - Let *rand' = xor_bytes(secshare, hash<sub>aux</sub>(rand)\[0:32])*[^sk-xor-rand]
 - Else:
   - Let *rand' = rand*
+- If the optional argument *signer_id* is not present:
+  - Let *signer_id' = empty_bytestring*
+- Else:
+  - Let *signer_id' = bytes(4, signer_id)*
 - If the optional argument *pubshare* is not present:
   - Let *pubshare = empty_bytestring*
 - If the optional argument *thresh_pk* is not present:
@@ -370,7 +377,7 @@ Algorithm *NonceGen(secshare, pubshare, thresh_pk, m, extra_in)*:
   - Let *m_prefixed = bytes(1, 1) || bytes(8, len(m)) || m*
 - If the optional argument *extra_in* is not present:
   - Let *extra_in = empty_bytestring*
-- Let *k<sub>i</sub> = scalar_from_bytes_wide(hash<sub>nonce</sub>(rand' || bytes(1, len(pubshare)) || pubshare || bytes(1, len(thresh_pk)) || thresh_pk || m_prefixed || bytes(4, len(extra_in)) || extra_in || bytes(1, i - 1)))* for *i = 1,2*
+- Let *k<sub>i</sub> = scalar_from_bytes_wide(hash<sub>nonce</sub>(rand' || bytes(1, len(signer_id')) || signer_id' || bytes(1, len(pubshare)) || pubshare || bytes(1, len(thresh_pk)) || thresh_pk || m_prefixed || bytes(4, len(extra_in)) || extra_in || bytes(1, i - 1)))* for *i = 1,2*
 - Fail if *k<sub>1</sub> = Scalar(0)* or *k<sub>2</sub> = Scalar(0)*[^negligible-zero-scalar]
 - Let *R<sub>\*,1</sub> = k<sub>1</sub> &middot; B*, *R<sub>\*,2</sub> = k<sub>2</sub> &middot; B*
 - Let *pubnonce = bytes(R<sub>\*,1</sub>) || bytes(R<sub>\*,2</sub>)*
@@ -591,8 +598,10 @@ We provide two modifications to *NonceGen* that are secure when applied correctl
 
 First, on systems where obtaining uniformly random values is much harder than maintaining a global atomic counter, it can be beneficial to modify *NonceGen*.
 The resulting algorithm *CounterNonceGen* does not draw *rand* uniformly at random but instead sets *rand* to the value of an atomic counter that is incremented whenever it is read.
-With this modification, the secret share *secshare* of the signer generating the nonce is **not** an optional argument and must be provided to *NonceGen*.
-The security of the resulting scheme then depends on the requirement that reading the counter must never yield the same counter value in two *NonceGen* invocations with the same *secshare*.
+With this modification, the secret share *secshare* and the participant identifier *signer_id* of the signer generating the nonce are **not** optional arguments and must be provided to *NonceGen*.[^counter-signer-id]
+The security of the resulting scheme then depends on the requirement that reading the counter must never yield the same counter value in two *NonceGen* invocations with the same *secshare* and *signer_id*.
+
+[^counter-signer-id]: In a *1-of-n* setup, every participant holds the same *secret share*, so *signer_id* is the only mandatory input that tells their nonces apart. Without it, two participants that read the same counter value would generate the same nonce and could leak the *threshold secret key*.
 
 Second, if there is a unique signer who generates their nonce last (i.e., after receiving the aggregate nonce from all other signers), it is possible to modify nonce generation for this single signer to not require high-quality randomness.
 Such a nonce generation algorithm *DeterministicSign* is specified below.
@@ -642,7 +651,7 @@ Algorithm *DeterministicSign(secshare, signer_id, aggothernonce, n, t, u, id<sub
 
 [^det-signer-set]: Without binding to the signer set, a malicious coordinator can replay the same *aggothernonce* to the last signer across three sessions while varying *id<sub>1..u</sub>*. The victim produces byte-identical secret nonces *(k<sub>1</sub>, k<sub>2</sub>)* across sessions, but because the Lagrange interpolating coefficient *&lambda;* and nonce coefficient *b* depend on the signer set, the three partial signatures form a system of three linear equations in *(k<sub>1</sub>, k<sub>2</sub>, d)* where *d* is the victim's secret share, enough to recover *d* by solving the system. This consideration does not apply to MuSig2's *DeterministicSign* because MuSig2 is always *n*-of-*n* and the signer set is fixed by the protocol.
 
-[^det-threshold-one]: The threshold *t = 1* is a special case. In a *1-of-n* setup, every participant's *secret share* equals the *threshold secret key* itself, so any single participant can produce a signature alone (*u = 1*). The lone signer calls *DeterministicSign* without the *aggothernonce* argument, which makes the derived nonce fully deterministic, just as in ordinary single-signer Ed25519 signing ([RFC 8032][rfc8032]). The signer may instead run *Sign*, but that path still draws fresh randomness through *NonceGen*. Simplest of all, because a *1-of-n* group is effectively one secret key held by everyone, the participant can skip the FROST algorithms and sign with the ordinary Ed25519 signing algorithm[^t-edge-cases].
+[^det-threshold-one]: A sole signer (*u = 1*) arises only in a *1-of-n* setup. It omits *aggothernonce*, which makes the nonce deterministic, as in Ed25519 signing ([RFC 8032][rfc8032]). Since its *secret share* equals the *threshold secret key*, it can also skip the FROST algorithms and sign with the ordinary Ed25519 signing algorithm[^t-edge-cases].
 
 ### Dealing with the Identity Element in Nonce Aggregation
 

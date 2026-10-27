@@ -110,7 +110,7 @@ async def participant(
     _, _, _, _, thresh_pk = signer_set
 
     # Round 1: Nonce generation
-    secnonce, pubnonce = nonce_gen(secshare, pubshare, thresh_pk, msg, None)
+    secnonce, pubnonce = nonce_gen(secshare, signer_id, pubshare, thresh_pk, msg, None)
     chan.send(pubnonce)
     aggnonce = await chan.receive()
 

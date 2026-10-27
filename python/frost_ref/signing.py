@@ -163,6 +163,7 @@ def validate_threshold_info(info: ThresholdInfo) -> None:
 
 def nonce_hash(
     rand_: bytes,
+    signer_id_: bytes,
     pubshare: PlainPk,
     thresh_pk: PlainPk,
     i: int,
@@ -171,6 +172,8 @@ def nonce_hash(
 ) -> bytes:
     buf = b""
     buf += rand_
+    buf += len(signer_id_).to_bytes(1, "big")
+    buf += signer_id_
     buf += len(pubshare).to_bytes(1, "big")
     buf += pubshare
     buf += len(thresh_pk).to_bytes(1, "big")
@@ -185,6 +188,7 @@ def nonce_hash(
 def nonce_gen_internal(
     rand: bytes,
     secshare: Optional[bytes],
+    signer_id: Optional[int],
     pubshare: Optional[PlainPk],
     thresh_pk: Optional[PlainPk],
     msg: Optional[bytes],
@@ -196,6 +200,10 @@ def nonce_gen_internal(
         rand_ = xor_bytes(secshare, tagged_hash(FROST_TAG_AUX, rand)[:32])
     else:
         rand_ = rand
+    if signer_id is None:
+        signer_id_ = b""
+    else:
+        signer_id_ = signer_id.to_bytes(4, "big")
     if pubshare is None:
         pubshare = PlainPk(b"")
     if thresh_pk is None:
@@ -209,10 +217,10 @@ def nonce_gen_internal(
     if extra_in is None:
         extra_in = b""
     k_1 = Scalar.from_bytes_wide(
-        nonce_hash(rand_, pubshare, thresh_pk, 0, msg_prefixed, extra_in)
+        nonce_hash(rand_, signer_id_, pubshare, thresh_pk, 0, msg_prefixed, extra_in)
     )
     k_2 = Scalar.from_bytes_wide(
-        nonce_hash(rand_, pubshare, thresh_pk, 1, msg_prefixed, extra_in)
+        nonce_hash(rand_, signer_id_, pubshare, thresh_pk, 1, msg_prefixed, extra_in)
     )
     # k_1 == 0 or k_2 == 0 cannot occur except with negligible probability.
     assert k_1 != 0
@@ -229,6 +237,7 @@ def nonce_gen_internal(
 
 def nonce_gen(
     secshare: Optional[bytes],
+    signer_id: Optional[int],
     pubshare: Optional[PlainPk],
     thresh_pk: Optional[PlainPk],
     msg: Optional[bytes],
@@ -236,12 +245,16 @@ def nonce_gen(
 ) -> Tuple[bytearray, bytes]:
     if secshare is not None and len(secshare) != 32:
         raise ValueError("The optional secshare must be a 32-byte array.")
+    if signer_id is not None and not 0 <= signer_id <= 2**32 - 1:
+        raise ValueError("The optional signer_id must be a 4-byte integer.")
     if pubshare is not None and len(pubshare) != 32:
         raise ValueError("The optional pubshare must be a 32-byte array.")
     if thresh_pk is not None and len(thresh_pk) != 32:
         raise ValueError("The optional thresh_pk must be a 32-byte array.")
     rand = secrets.token_bytes(32)
-    return nonce_gen_internal(rand, secshare, pubshare, thresh_pk, msg, extra_in)
+    return nonce_gen_internal(
+        rand, secshare, signer_id, pubshare, thresh_pk, msg, extra_in
+    )
 
 
 def nonce_agg(pubnonces: List[bytes]) -> bytes:
