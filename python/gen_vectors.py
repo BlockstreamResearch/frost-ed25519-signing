@@ -4,6 +4,7 @@ import glob
 import os
 import sys
 
+from generators.common import VECTORS_DIR
 from generators.det_sign import generate_det_sign_vectors
 from generators.nonce import (
     generate_nonce_agg_vectors,
@@ -11,11 +12,12 @@ from generators.nonce import (
 )
 from generators.sig_agg import generate_sig_agg_vectors
 from generators.sign_verify import generate_sign_verify_vectors
+from generators.threshold_info import generate_threshold_info_vectors
 
 
 def create_vectors_directory():
-    os.makedirs("vectors", exist_ok=True)
-    for f in glob.glob("vectors/*.json"):
+    os.makedirs(VECTORS_DIR, exist_ok=True)
+    for f in glob.glob(os.path.join(VECTORS_DIR, "*.json")):
         os.remove(f)
 
 
@@ -41,6 +43,9 @@ def main():
         run_gen_vectors("generate_sign_verify_vectors", generate_sign_verify_vectors),
         run_gen_vectors("generate_det_sign_vectors", generate_det_sign_vectors),
         run_gen_vectors("generate_sig_agg_vectors", generate_sig_agg_vectors),
+        run_gen_vectors(
+            "generate_threshold_info_vectors", generate_threshold_info_vectors
+        ),
     ]
     if not all(results):
         return 1

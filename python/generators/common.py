@@ -7,12 +7,15 @@ from typing import Dict, List, Sequence, Union
 from frost_ref.signing import (
     PlainPk,
     derive_interpolating_value,
+    derive_pubshare_at,
     nonce_agg,
     nonce_gen_internal,
 )
 from ed25519lab.ed25519 import B, FE, GE, Scalar
 from ed25519lab.keys import pubkey_gen
 from trusted_dealer import random_seckey, trusted_dealer_keygen
+
+VECTORS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "vectors")
 
 
 def bytes_to_hex(data: bytes) -> str:
@@ -79,8 +82,9 @@ COMMON_MSGS = [
 # boundary used by the partial-signature generator
 GROUP_ORDER = GE.ORDER.to_bytes(32, "little")
 
-# Three distinct invalid 32-byte point encodings, each rejected on decode by a
-# different check. Used to build varied pubnonce / aggnonce error cases.
+# Invalid 32-byte point encodings, each rejected on decode. Together with the
+# three constants below, they build the error cases for every point input
+# (pubnonces, aggnonces, public shares, thresh_pk).
 NONCANONICAL_POINT = bytes([0xFF]) * 32  # y >= p (non-canonical encoding)
 OFFCURVE_POINT = (2).to_bytes(32, "little")  # canonical y with no matching x
 TORSION_POINT = bytes(32)  # in-field, on-curve, but order 4
@@ -119,19 +123,19 @@ def _inline_scalar_array(match):
 
 
 def write_test_vectors(filename, vectors):
-    output_file = os.path.join("vectors", filename)
+    output_file = os.path.join(VECTORS_DIR, filename)
     text = _SCALAR_ARRAY_RE.sub(_inline_scalar_array, json.dumps(vectors, indent=4))
     json.loads(text)  # guard: inlining must keep the JSON parseable
     with open(output_file, "w") as f:
         f.write(text)
 
 
-def generate_all_nonces(rand, secshares, pubshares, thresh_pk, msg=None):
+def generate_all_nonces(rand, ids, secshares, pubshares, thresh_pk, msg=None):
     secnonces = []
     pubnonces = []
-    for i in range(len(secshares)):
+    for id_i, secshare, pubshare in zip(ids, secshares, pubshares):
         sec, pub = nonce_gen_internal(
-            rand, secshares[i], pubshares[i], thresh_pk, msg, None
+            rand, secshare, id_i, pubshare, thresh_pk, msg, None
         )
         secnonces.append(sec)
         pubnonces.append(pub)
@@ -141,9 +145,9 @@ def generate_all_nonces(rand, secshares, pubshares, thresh_pk, msg=None):
 def reconstruct_thresh_sk(ids, secshares):
     assert len(ids) == len(secshares)
     result = Scalar(0)
-    for i, s in zip(ids, secshares):
+    for id_i, s in zip(ids, secshares):
         result = result + derive_interpolating_value(
-            ids, i
+            ids, id_i
         ) * Scalar.from_bytes_checked(s)
     return result
 
@@ -175,8 +179,6 @@ def frost_keygen(seckey=None, n=3, t=2):
     return (n, t, thresh_pk, list(range(n)), secshares, pubshares)
 
 
-# --- Multi-(t, n) config machinery (shared by all four signing generators) ---
-
 Config = namedtuple("Config", ["tg_id", "t", "n", "seckey"])
 
 CONFIGS = [
@@ -187,43 +189,68 @@ CONFIGS = [
 ]
 
 
+SECKEY_2OF129 = bytes.fromhex(
+    "F5D39A1A06677148502B23808BF85617FC926BC519F70558C6387F04B6C49305"
+)
+INVALID_CONFIG_2OF129 = Config("2of129", 2, 129, SECKEY_2OF129)
+# The 2of129 key, so n alone separates acceptance from refusal.
+CONFIG_2OF128 = Config("2of128", 2, 128, SECKEY_2OF129)
+
+
 class SharedGroupInputs:
-    """The maximal per-test-group bundle: real key/nonce material plus the union pools
-    (real entries followed by appended fault slots) and the named offsets that index
-    those slots. Built once per test group; each generator slices what it needs."""
+    """Per-test-group key/nonce material plus pools (real entries followed by appended
+    fault slots) and the named offsets that index those slots."""
 
     def __init__(self, cfg):
-        n, t, thresh_pk, _ids, secshares, pubshares = frost_keygen(
+        n, t, thresh_pk, ids, secshares, pubshares = frost_keygen(
             cfg.seckey, cfg.n, cfg.t
         )
         self.n = n
         self.t = t
         self.thresh_pk = thresh_pk
+        self.ids = ids
         self.secshares = secshares
         self.pubshares = pubshares
         self.secnonces, self.pubnonces = generate_all_nonces(
-            COMMON_RAND, secshares, pubshares, PlainPk(thresh_pk)
+            COMMON_RAND, ids, secshares, pubshares, PlainPk(thresh_pk)
         )
 
         # pubshares pool: a non-canonical point at slot n, then a valid point at
         # slot n+1 (the last secshare shifted so the lambda-weighted sum over
         # min2_ids is zero) that makes the min2 signer set interpolate to the
         # identity, then five fault points at slots n+2..n+6 (small-order,
-        # mixed-order, non-canonical identity, canonical identity, off-curve).
+        # mixed-order, non-canonical identity, canonical identity, off-curve), then
+        # at slot n+7 a valid point that is no participant's public share, then at
+        # slot n+8 participant 1's public share plus the order-2 torsion point T.
         min2_ids = list(range(max(t, 2)))
         lam_last = derive_interpolating_value(min2_ids, min2_ids[-1])
-        thresh_sk = reconstruct_thresh_sk(min2_ids, [secshares[i] for i in min2_ids])
+        thresh_sk = reconstruct_thresh_sk(
+            min2_ids, [secshares[id_i] for id_i in min2_ids]
+        )
         cancel_sk = (
             Scalar.from_bytes_checked(secshares[min2_ids[-1]]) - thresh_sk / lam_last
         )
+        cancel_pubshare = PlainPk((cancel_sk * B).to_bytes())
+        wrong_pubshare = PlainPk(B.to_bytes())
+        assert wrong_pubshare not in pubshares and wrong_pubshare != cancel_pubshare
+        # Participant 1's Lagrange coefficient over min2_ids is even, so the torsion
+        # component cancels and min2_ids still interpolate to thresh_pk. Only the
+        # prime-order-subgroup check can reject this share.
+        T = GE(FE(0), FE(-1))
+        min2_points = [GE.from_bytes(pubshares[id_i]) for id_i in min2_ids]
+        min2_points[1] = min2_points[1] + T
+        assert derive_pubshare_at(min2_ids, min2_points, -1) == GE.from_bytes(thresh_pk)
+        torsion_pubshare = PlainPk(min2_points[1].to_bytes())
         self.pool_pubshares = pubshares + [
             PlainPk(INVALID_PUBSHARE),
-            PlainPk((cancel_sk * B).to_bytes()),
+            cancel_pubshare,
             PlainPk(TORSION_POINT),
             PlainPk(MIXED_ORDER_POINT),
             PlainPk(NONCANONICAL_IDENTITY),
             PlainPk(CANONICAL_IDENTITY),
             PlainPk(OFFCURVE_POINT),
+            wrong_pubshare,
+            torsion_pubshare,
         ]
         # secshares pool: zero scalar at slot n.
         self.pool_secshares = secshares + [b"\x00" * 32]
@@ -238,10 +265,17 @@ class SharedGroupInputs:
         inverse_pubnonce = (-R1).to_bytes() + (-R2).to_bytes()
         self.pool_pubnonces = self.pubnonces + [INVALID_PUBNONCE, inverse_pubnonce]
 
-        # secnonces pool: all-zero at slot n, nonzero-first/zero-second at slot n+1.
+        # secnonces pool: all-zero at slot n, nonzero-first/zero-second at slot n+1,
+        # zero-first/nonzero-second at slot n+2.
         zero_second_secnonce = self.secnonces[0][0:32] + b"\x00" * 32
         assert Scalar.from_bytes_nonzero_checked(zero_second_secnonce[0:32])
-        self.pool_secnonces = self.secnonces + [b"\x00" * 64, zero_second_secnonce]
+        zero_first_secnonce = b"\x00" * 32 + self.secnonces[0][32:64]
+        assert Scalar.from_bytes_nonzero_checked(zero_first_secnonce[32:64])
+        self.pool_secnonces = self.secnonces + [
+            b"\x00" * 64,
+            zero_second_secnonce,
+            zero_first_secnonce,
+        ]
 
         # named offsets into the pools, all derived from n
         self.INVALID_PUBSHARE_IDX = n
@@ -251,19 +285,15 @@ class SharedGroupInputs:
         self.NONCANONICAL_IDENTITY_PUBSHARE_IDX = n + 4
         self.CANONICAL_IDENTITY_PUBSHARE_IDX = n + 5
         self.OFFCURVE_PUBSHARE_IDX = n + 6
+        self.WRONG_PUBSHARE_IDX = n + 7
+        self.TORSION_PUBSHARE_IDX = n + 8
         self.SECSHARE_ZERO_IDX = n
         self.INVALID_PUBNONCE_IDX = n
         self.INVERSE_PUBNONCE_IDX = n + 1
         self.SECNONCE_ZERO_IDX = n
         self.SECNONCE_ZERO_SECOND_IDX = n + 1
+        self.SECNONCE_ZERO_FIRST_IDX = n + 2
         self.OUT_OF_RANGE_ID = n
-
-
-def has_excl0_subset(t, n):
-    # The "excl0" subset (a size-t signer set that excludes participant 0) is
-    # usable only when t >= 2 and t < n. At t=n no size-t set can exclude id 0,
-    # and at t=1 all shares are identical, so excluding id 0 changes nothing.
-    return t >= 2 and t < n
 
 
 def get_subset(cfg, strategy="min"):
@@ -272,13 +302,16 @@ def get_subset(cfg, strategy="min"):
             return list(range(cfg.t))
         case "full":  # all n participants
             return list(range(cfg.n))
-        case "alt":  # id 0 + the last t-1 ids; collapses to [0] at t=1 (caller guards)
-            return [0] + list(range(cfg.n - cfg.t + 1, cfg.n))
-        case "min2":  # size-at-least-2 baseline; [0, 1] at t=1
+        case "alt":  # id 1 + the last t-1 ids, excludes id 0 (caller guards 2 <= t < n)
+            return [1] + list(range(cfg.n - cfg.t + 1, cfg.n))
+        case "tplus1":  # u = min(t+1, n) ids from 0
+            return list(range(min(cfg.t + 1, cfg.n)))
+        case "tplus1_shifted":  # u = min(t+1, n) ids, from 1 when u < n (excludes id 0)
+            u = min(cfg.t + 1, cfg.n)
+            start = 1 if u < cfg.n else 0
+            return list(range(start, start + u))
+        case "min2":  # size-at-least-2 baseline, [0, 1] at t=1
             return list(range(max(cfg.t, 2)))
-        case "excl0":  # t ids from 1, excludes id 0 (only valid when has_excl0_subset)
-            assert has_excl0_subset(cfg.t, cfg.n)
-            return list(range(1, cfg.t + 1))
         case _:
             raise ValueError(f"Unknown subset strategy: {strategy}")
 

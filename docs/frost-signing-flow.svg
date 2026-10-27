@@ -119,7 +119,7 @@
   <text class="step" x="185" y="457">PartialSigAgg()</text>
 
   <!-- round 2: final signature to signers -->
-  <text class="msg" x="307" y="492">bip340 sig</text>
+  <text class="msg" x="307" y="492">ed25519 sig</text>
   <line class="arrow" x1="188" y1="498" x2="426" y2="498" marker-end="url(#ah)"/>
   <line class="arrow" x1="434" y1="498" x2="615" y2="498" marker-end="url(#ah)"/>
 </svg>
