@@ -210,7 +210,11 @@ def test_sign_verify_vectors():
             secnonce_tmp = bytearray(secnonces[tc["secnonce_index"]])
             secshare_tmp = secshares[tc["secshare_index"]]
 
-            signer_set = (n, t, ids_tmp, pubshares_tmp, thresh_pk)
+            # A case-level thresh_pk overrides the group's.
+            thresh_pk_tmp = (
+                bytes.fromhex(tc["thresh_pk"]) if "thresh_pk" in tc else thresh_pk
+            )
+            signer_set = (n, t, ids_tmp, pubshares_tmp, thresh_pk_tmp)
             session_ctx = SessionContext(*signer_set, aggnonce_tmp, msg)
             assert_raises(
                 exception,
@@ -344,7 +348,13 @@ def test_det_sign_vectors():
                 else None
             )
 
-            signer_set = (n, t, ids_tmp, pubshares_tmp, thresh_pk)
+            # A case-level thresh_pk overrides the group's.
+            thresh_pk_tmp = (
+                bytes.fromhex(test_case["thresh_pk"])
+                if "thresh_pk" in test_case
+                else thresh_pk
+            )
+            signer_set = (n, t, ids_tmp, pubshares_tmp, thresh_pk_tmp)
             assert_raises(
                 exception,
                 lambda: deterministic_sign(
@@ -391,14 +401,22 @@ def test_sig_agg_vectors():
         for test_case in group["error_tests"]:
             exception, except_fn = get_error_details(test_case)
             ids_tmp = test_case["ids"]
-            pubshares_tmp = [
-                PlainPk(pubshares[i]) for i in test_case["pubshare_indices"]
-            ]
+            pubshares_tmp = (
+                None
+                if test_case["pubshare_indices"] is None
+                else [PlainPk(pubshares[i]) for i in test_case["pubshare_indices"]]
+            )
             aggnonce_tmp = bytes.fromhex(test_case["aggnonce"])
             psigs_tmp = fromhex_all(test_case["psigs"])
             msg = bytes.fromhex(test_case["msg"])
+            # A case-level thresh_pk overrides the group's.
+            thresh_pk_tmp = (
+                bytes.fromhex(test_case["thresh_pk"])
+                if "thresh_pk" in test_case
+                else thresh_pk
+            )
 
-            signer_set = (n, t, ids_tmp, pubshares_tmp, thresh_pk)
+            signer_set = (n, t, ids_tmp, pubshares_tmp, thresh_pk_tmp)
             session_ctx = SessionContext(*signer_set, aggnonce_tmp, msg)
             assert_raises(
                 exception,
