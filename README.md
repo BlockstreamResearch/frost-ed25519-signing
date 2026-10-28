@@ -463,6 +463,7 @@ Internal Algorithm *ValidateSessionParams(n, t, u, id<sub>1..u</sub>, pubshare<s
 - Fail if *has_duplicates(id<sub>1..u</sub>)*
 - If *pubshare<sub>1..u</sub>* is present:
   - Fail if *DeriveThreshPubkey(id<sub>1..u</sub>, P<sub>1..u</sub>) ≠ thresh_pk*
+- Fail if *point(thresh_pk)* fails
 
 Internal Algorithm *SerializeIds(id<sub>1..u</sub>)*:[^canonical-ids]
 

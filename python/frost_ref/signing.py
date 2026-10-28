@@ -321,6 +321,10 @@ def validate_session_params(
         raise ValueError(
             "The provided key material is incorrect: the public shares do not match the threshold public key."
         )
+    try:
+        GE.from_bytes(thresh_pk)
+    except ValueError:
+        raise ValueError("The thresh_pk is not a valid point.")
 
 
 def get_session_values(

@@ -110,6 +110,20 @@ NONCANONICAL_IDENTITY = bytes([1]) + bytes(30) + bytes([0x80])
 # The canonical identity encoding (0x01 || 31 zero bytes).
 CANONICAL_IDENTITY = bytes([1]) + bytes(31)
 
+# A valid point followed by a zero byte, which only the length check rejects.
+WRONG_LENGTH_POINT = B.to_bytes() + b"\x00"
+
+# Invalid point encodings with their descriptions.
+INVALID_ENCODINGS = [
+    (OFFCURVE_POINT, "not a point on the curve"),
+    (TORSION_POINT, "all zeros, a small-order point"),
+    (NONCANONICAL_POINT, "y-coordinate exceeds the field size"),
+    (MIXED_ORDER_POINT, "a mixed-order point"),
+    (NONCANONICAL_IDENTITY, "the non-canonical identity encoding"),
+    (CANONICAL_IDENTITY, "the identity element"),
+    (WRONG_LENGTH_POINT, "not a 32-byte array"),
+]
+
 
 _SCALAR_TOKEN = r"-?\d+|true|false|null"
 _SCALAR_ARRAY_RE = re.compile(

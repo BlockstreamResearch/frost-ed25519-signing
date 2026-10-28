@@ -98,6 +98,125 @@
                         "type": "ValueError",
                         "message": "The psigs and ids lists must have the same length."
                     }
+                },
+                {
+                    "tc_id": 7,
+                    "comment": "Threshold public key is invalid without the public share list: not a point on the curve",
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "psigs": [
+                        "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
+                        "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "0200000000000000000000000000000000000000000000000000000000000000",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 8,
+                    "comment": "Threshold public key is invalid without the public share list: all zeros, a small-order point",
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "psigs": [
+                        "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
+                        "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 9,
+                    "comment": "Threshold public key is invalid without the public share list: y-coordinate exceeds the field size",
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "psigs": [
+                        "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
+                        "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 10,
+                    "comment": "Threshold public key is invalid without the public share list: a mixed-order point",
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "psigs": [
+                        "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
+                        "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 11,
+                    "comment": "Threshold public key is invalid without the public share list: the non-canonical identity encoding",
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "psigs": [
+                        "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
+                        "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "0100000000000000000000000000000000000000000000000000000000000080",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 12,
+                    "comment": "Threshold public key is invalid without the public share list: the identity element",
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "psigs": [
+                        "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
+                        "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "0100000000000000000000000000000000000000000000000000000000000000",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 13,
+                    "comment": "Threshold public key is invalid without the public share list: not a 32-byte array",
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "psigs": [
+                        "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
+                        "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C"
+                    ],
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "586666666666666666666666666666666666666666666666666666666666666600",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
                 }
             ]
         },
@@ -113,7 +232,7 @@
             ],
             "valid_tests": [
                 {
-                    "tc_id": 7,
+                    "tc_id": 14,
                     "comment": "Minimum threshold subset of signers",
                     "ids": [0],
                     "pubshare_indices": [0],
@@ -125,7 +244,7 @@
                     "expected": "2EA7806A03A463D12F40D2B6ECB0E98A43DBA8F1B7962B686E1BEEBE00FDB40480EE77A649A3638F3CF62B1BFD869F1039E346465AD8FEBF9B570813CE1CAC0D"
                 },
                 {
-                    "tc_id": 8,
+                    "tc_id": 15,
                     "comment": "Aggregating without the public share list",
                     "ids": [0],
                     "pubshare_indices": null,
@@ -137,7 +256,7 @@
                     "expected": "2EA7806A03A463D12F40D2B6ECB0E98A43DBA8F1B7962B686E1BEEBE00FDB40480EE77A649A3638F3CF62B1BFD869F1039E346465AD8FEBF9B570813CE1CAC0D"
                 },
                 {
-                    "tc_id": 9,
+                    "tc_id": 16,
                     "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
                     "ids": [2, 1],
                     "pubshare_indices": [2, 1],
@@ -150,7 +269,7 @@
                     "expected": "34A5CCA1F0DB814ED0F2FC5E09FB5846EC8A9A80EFE8944F5769BF71A48F39A1A53754A0D059B70DB63647138F09334AF90927DC139CFB46DD75C16D0D4E6602"
                 },
                 {
-                    "tc_id": 10,
+                    "tc_id": 17,
                     "comment": "All signers participate",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -166,7 +285,7 @@
             ],
             "error_tests": [
                 {
-                    "tc_id": 11,
+                    "tc_id": 18,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "ids": [1, 0],
                     "pubshare_indices": [1, 0],
@@ -183,7 +302,7 @@
                     }
                 },
                 {
-                    "tc_id": 12,
+                    "tc_id": 19,
                     "comment": "Number of partial signatures does not match the number of signers",
                     "ids": [0],
                     "pubshare_indices": [0],
@@ -209,7 +328,7 @@
             ],
             "valid_tests": [
                 {
-                    "tc_id": 13,
+                    "tc_id": 20,
                     "comment": "Minimum threshold subset of signers",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -223,7 +342,7 @@
                     "expected": "916E41105755ADF3F18DFBE9A54EF72BBA64F364545648EA0CED50936B1CB88A6DC96FFE8C5A133795AACEEE1DA440DE05758E299084AD9D7EB555938FEAEB0F"
                 },
                 {
-                    "tc_id": 14,
+                    "tc_id": 21,
                     "comment": "Aggregating without the public share list",
                     "ids": [0, 1, 2],
                     "pubshare_indices": null,
@@ -237,7 +356,7 @@
                     "expected": "916E41105755ADF3F18DFBE9A54EF72BBA64F364545648EA0CED50936B1CB88A6DC96FFE8C5A133795AACEEE1DA440DE05758E299084AD9D7EB555938FEAEB0F"
                 },
                 {
-                    "tc_id": 15,
+                    "tc_id": 22,
                     "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
                     "ids": [2, 1, 0],
                     "pubshare_indices": [2, 1, 0],
@@ -253,7 +372,7 @@
             ],
             "error_tests": [
                 {
-                    "tc_id": 16,
+                    "tc_id": 23,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "ids": [0, 2, 1],
                     "pubshare_indices": [0, 2, 1],
@@ -271,7 +390,7 @@
                     }
                 },
                 {
-                    "tc_id": 17,
+                    "tc_id": 24,
                     "comment": "Number of partial signatures does not match the number of signers",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -302,7 +421,7 @@
             ],
             "valid_tests": [
                 {
-                    "tc_id": 18,
+                    "tc_id": 25,
                     "comment": "Minimum threshold subset of signers",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -316,7 +435,7 @@
                     "expected": "50DDC06790E2F597A74455A5B4FCAC45FB170158C8D2727EEB4615E814C71963748BA6ABB5C799F9720FD9BE2A34182F922D3B54DB0744E3BBF5422702887600"
                 },
                 {
-                    "tc_id": 19,
+                    "tc_id": 26,
                     "comment": "Aggregating without the public share list",
                     "ids": [0, 1, 2],
                     "pubshare_indices": null,
@@ -330,7 +449,7 @@
                     "expected": "50DDC06790E2F597A74455A5B4FCAC45FB170158C8D2727EEB4615E814C71963748BA6ABB5C799F9720FD9BE2A34182F922D3B54DB0744E3BBF5422702887600"
                 },
                 {
-                    "tc_id": 20,
+                    "tc_id": 27,
                     "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
                     "ids": [4, 3, 2, 1],
                     "pubshare_indices": [4, 3, 2, 1],
@@ -345,7 +464,7 @@
                     "expected": "AEA99C94D85C359C7B8732AC0E1438416DF831CDCDDA9DA4F08C9032645F6D54AC002C79F34229F4B6CAA69B91475CD25F8B19061E62D253E5F1B60487DD050B"
                 },
                 {
-                    "tc_id": 21,
+                    "tc_id": 28,
                     "comment": "All signers participate",
                     "ids": [0, 1, 2, 3, 4],
                     "pubshare_indices": [0, 1, 2, 3, 4],
@@ -363,7 +482,7 @@
             ],
             "error_tests": [
                 {
-                    "tc_id": 22,
+                    "tc_id": 29,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "ids": [0, 2, 1],
                     "pubshare_indices": [0, 2, 1],
@@ -381,7 +500,7 @@
                     }
                 },
                 {
-                    "tc_id": 23,
+                    "tc_id": 30,
                     "comment": "Number of partial signatures does not match the number of signers",
                     "ids": [0, 1, 2],
                     "pubshare_indices": [0, 1, 2],
@@ -410,7 +529,7 @@
             "valid_tests": [],
             "error_tests": [
                 {
-                    "tc_id": 24,
+                    "tc_id": 31,
                     "comment": "Number of participants n exceeds the maximum of 128",
                     "ids": [0, 1],
                     "pubshare_indices": [0, 1],
