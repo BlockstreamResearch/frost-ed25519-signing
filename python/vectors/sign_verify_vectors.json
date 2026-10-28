@@ -439,11 +439,123 @@
                         "type": "ValueError",
                         "message": "The secshare is out of range."
                     }
+                },
+                {
+                    "tc_id": 28,
+                    "comment": "Threshold public key is invalid without the public share list: not a point on the curve",
+                    "signer_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "secnonce_index": 0,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "0200000000000000000000000000000000000000000000000000000000000000",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 29,
+                    "comment": "Threshold public key is invalid without the public share list: all zeros, a small-order point",
+                    "signer_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "secnonce_index": 0,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 30,
+                    "comment": "Threshold public key is invalid without the public share list: y-coordinate exceeds the field size",
+                    "signer_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "secnonce_index": 0,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 31,
+                    "comment": "Threshold public key is invalid without the public share list: a mixed-order point",
+                    "signer_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "secnonce_index": 0,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "003789297CE02DEFA2F4BC7635D1D7CE99B96D76EB91D31F905101674DDAB720",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 32,
+                    "comment": "Threshold public key is invalid without the public share list: the non-canonical identity encoding",
+                    "signer_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "secnonce_index": 0,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "0100000000000000000000000000000000000000000000000000000000000080",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 33,
+                    "comment": "Threshold public key is invalid without the public share list: the identity element",
+                    "signer_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "secnonce_index": 0,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "0100000000000000000000000000000000000000000000000000000000000000",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
+                },
+                {
+                    "tc_id": 34,
+                    "comment": "Threshold public key is invalid without the public share list: not a 32-byte array",
+                    "signer_id": 0,
+                    "ids": [0, 1],
+                    "pubshare_indices": null,
+                    "secshare_index": 0,
+                    "secnonce_index": 0,
+                    "aggnonce": "16B53ECA761E909FE07328F60FDCDCE349D1C3FE3695B43F06A8BF0209E90FD61DA5C77992AB195C6A4448E1795A7764BD31C43CB7F3E27D3E505527F6417D3A",
+                    "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF",
+                    "thresh_pk": "586666666666666666666666666666666666666666666666666666666666666600",
+                    "error": {
+                        "type": "ValueError",
+                        "message": "The thresh_pk is not a valid point."
+                    }
                 }
             ],
             "verify_fail_tests": [
                 {
-                    "tc_id": 28,
+                    "tc_id": 35,
                     "comment": "Negated partial signature fails the verification equation",
                     "psig": "94546ED87CC450AC2B7C55133C9D90226874E676F0EE95CBA180067574FAF10B",
                     "ids": [0, 1],
@@ -453,7 +565,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF"
                 },
                 {
-                    "tc_id": 29,
+                    "tc_id": 36,
                     "comment": "A valid partial signature checked against the wrong signer fails the verification equation",
                     "psig": "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
                     "ids": [0, 1],
@@ -463,7 +575,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF"
                 },
                 {
-                    "tc_id": 30,
+                    "tc_id": 37,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "psig": "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010",
                     "ids": [0, 1],
@@ -475,7 +587,7 @@
             ],
             "verify_error_tests": [
                 {
-                    "tc_id": 31,
+                    "tc_id": 38,
                     "comment": "Another signer's public nonce is invalid, so verification blames that signer, not the one being verified",
                     "psig": "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C",
                     "ids": [1, 0],
@@ -490,7 +602,7 @@
                     }
                 },
                 {
-                    "tc_id": 32,
+                    "tc_id": 39,
                     "comment": "A public share's y-coordinate exceeds the field size",
                     "psig": "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C",
                     "ids": [1, 0],
@@ -504,7 +616,7 @@
                     }
                 },
                 {
-                    "tc_id": 33,
+                    "tc_id": 40,
                     "comment": "A public share is a small-order point",
                     "psig": "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C",
                     "ids": [1, 0],
@@ -518,7 +630,7 @@
                     }
                 },
                 {
-                    "tc_id": 34,
+                    "tc_id": 41,
                     "comment": "A public share is a mixed-order point",
                     "psig": "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C",
                     "ids": [1, 0],
@@ -532,7 +644,7 @@
                     }
                 },
                 {
-                    "tc_id": 35,
+                    "tc_id": 42,
                     "comment": "A public share is the non-canonical identity encoding",
                     "psig": "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C",
                     "ids": [1, 0],
@@ -546,7 +658,7 @@
                     }
                 },
                 {
-                    "tc_id": 36,
+                    "tc_id": 43,
                     "comment": "A public share is the identity element",
                     "psig": "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C",
                     "ids": [1, 0],
@@ -560,7 +672,7 @@
                     }
                 },
                 {
-                    "tc_id": 37,
+                    "tc_id": 44,
                     "comment": "A public share is not a point on the curve",
                     "psig": "84684DB181068A0B1E7EAC35CF8E687A059348273785C0034AEC7BF9EF4E820C",
                     "ids": [1, 0],
@@ -574,7 +686,7 @@
                     }
                 },
                 {
-                    "tc_id": 38,
+                    "tc_id": 45,
                     "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
                     "psig": "597F87849D9EC1ABAA20A28FA25C4EF2978B19890F116A345E7FF98A8B050E04",
                     "ids": [0, 1],
@@ -631,7 +743,7 @@
             ],
             "valid_tests": [
                 {
-                    "tc_id": 39,
+                    "tc_id": 46,
                     "comment": "Minimum threshold subset of signers",
                     "signer_id": 0,
                     "ids": [0],
@@ -644,7 +756,7 @@
                     "expected": "80EE77A649A3638F3CF62B1BFD869F1039E346465AD8FEBF9B570813CE1CAC0D"
                 },
                 {
-                    "tc_id": 40,
+                    "tc_id": 47,
                     "comment": "Signing without the public share list",
                     "signer_id": 0,
                     "ids": [0],
@@ -657,7 +769,7 @@
                     "expected": "80EE77A649A3638F3CF62B1BFD869F1039E346465AD8FEBF9B570813CE1CAC0D"
                 },
                 {
-                    "tc_id": 41,
+                    "tc_id": 48,
                     "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
                     "signer_id": 2,
                     "ids": [2, 1],
@@ -670,7 +782,7 @@
                     "expected": "5DB12A4D1689B41B0AAAF771D5743FD75ED2894486C78770E3FD659996E13307"
                 },
                 {
-                    "tc_id": 42,
+                    "tc_id": 49,
                     "comment": "Aggregate nonce is the identity point, so the final nonce point falls back to the base point B",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -683,7 +795,7 @@
                     "expected": "EFDC2876EC3C140AC20DAC0DB6D914A9FE502A973C318E0D991FDF38CED92200"
                 },
                 {
-                    "tc_id": 43,
+                    "tc_id": 50,
                     "comment": "Empty message",
                     "signer_id": 0,
                     "ids": [0],
@@ -696,7 +808,7 @@
                     "expected": "322AA1BC071EAE3CA2DF43AA3933FF582FA6DD4A9F39282B2F9E09CAA18D7A05"
                 },
                 {
-                    "tc_id": 44,
+                    "tc_id": 51,
                     "comment": "Non-standard message length (38 bytes)",
                     "signer_id": 0,
                     "ids": [0],
@@ -711,7 +823,7 @@
             ],
             "sign_error_tests": [
                 {
-                    "tc_id": 45,
+                    "tc_id": 52,
                     "comment": "Signer's id is absent from the signer set",
                     "signer_id": 1,
                     "ids": [0],
@@ -726,7 +838,7 @@
                     }
                 },
                 {
-                    "tc_id": 46,
+                    "tc_id": 53,
                     "comment": "Signer set contains a duplicate id",
                     "signer_id": 0,
                     "ids": [0, 1, 1],
@@ -741,7 +853,7 @@
                     }
                 },
                 {
-                    "tc_id": 47,
+                    "tc_id": 54,
                     "comment": "A public share's y-coordinate exceeds the field size",
                     "signer_id": 0,
                     "ids": [0, 1],
@@ -756,7 +868,7 @@
                     }
                 },
                 {
-                    "tc_id": 48,
+                    "tc_id": 55,
                     "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
                     "signer_id": 0,
                     "ids": [0, 1],
@@ -771,7 +883,7 @@
                     }
                 },
                 {
-                    "tc_id": 49,
+                    "tc_id": 56,
                     "comment": "Public shares of the signer set interpolate to the identity element",
                     "signer_id": 0,
                     "ids": [0, 1],
@@ -786,7 +898,7 @@
                     }
                 },
                 {
-                    "tc_id": 50,
+                    "tc_id": 57,
                     "comment": "A signer id is outside the valid range [0, n-1]",
                     "signer_id": 0,
                     "ids": [3],
@@ -801,7 +913,7 @@
                     }
                 },
                 {
-                    "tc_id": 51,
+                    "tc_id": 58,
                     "comment": "Public share beyond the first t signers is inconsistent with the threshold public key",
                     "signer_id": 0,
                     "ids": [0, 1],
@@ -816,7 +928,7 @@
                     }
                 },
                 {
-                    "tc_id": 52,
+                    "tc_id": 59,
                     "comment": "Aggregate nonce is invalid: first half's y-coordinate exceeds the field size",
                     "signer_id": 0,
                     "ids": [0],
@@ -832,7 +944,7 @@
                     }
                 },
                 {
-                    "tc_id": 53,
+                    "tc_id": 60,
                     "comment": "Aggregate nonce is invalid: second half is not a point on the curve",
                     "signer_id": 0,
                     "ids": [0],
@@ -848,7 +960,7 @@
                     }
                 },
                 {
-                    "tc_id": 54,
+                    "tc_id": 61,
                     "comment": "Aggregate nonce is invalid: second half's y-coordinate exceeds the field size",
                     "signer_id": 0,
                     "ids": [0],
@@ -864,7 +976,7 @@
                     }
                 },
                 {
-                    "tc_id": 55,
+                    "tc_id": 62,
                     "comment": "Aggregate nonce is invalid: second half is a small-order point",
                     "signer_id": 0,
                     "ids": [0],
@@ -880,7 +992,7 @@
                     }
                 },
                 {
-                    "tc_id": 56,
+                    "tc_id": 63,
                     "comment": "Aggregate nonce is invalid: second half is a mixed-order point",
                     "signer_id": 0,
                     "ids": [0],
@@ -896,7 +1008,7 @@
                     }
                 },
                 {
-                    "tc_id": 57,
+                    "tc_id": 64,
                     "comment": "Aggregate nonce is invalid: second half is the non-canonical identity encoding",
                     "signer_id": 0,
                     "ids": [0],
@@ -912,7 +1024,7 @@
                     }
                 },
                 {
-                    "tc_id": 58,
+                    "tc_id": 65,
                     "comment": "Secret nonce's first half is out of range (all-zero nonce, which may indicate nonce reuse)",
                     "signer_id": 0,
                     "ids": [0],
@@ -927,7 +1039,7 @@
                     }
                 },
                 {
-                    "tc_id": 59,
+                    "tc_id": 66,
                     "comment": "Secret nonce's second half is out of range (zero)",
                     "signer_id": 0,
                     "ids": [0],
@@ -942,7 +1054,7 @@
                     }
                 },
                 {
-                    "tc_id": 60,
+                    "tc_id": 67,
                     "comment": "Secret nonce's first half is out of range (zero)",
                     "signer_id": 0,
                     "ids": [0],
@@ -957,7 +1069,7 @@
                     }
                 },
                 {
-                    "tc_id": 61,
+                    "tc_id": 68,
                     "comment": "Fewer signers than the threshold t",
                     "signer_id": 0,
                     "ids": [],
@@ -972,7 +1084,7 @@
                     }
                 },
                 {
-                    "tc_id": 62,
+                    "tc_id": 69,
                     "comment": "Secret share is out of range (zero)",
                     "signer_id": 0,
                     "ids": [0],
@@ -989,7 +1101,7 @@
             ],
             "verify_fail_tests": [
                 {
-                    "tc_id": 63,
+                    "tc_id": 70,
                     "comment": "Negated partial signature fails the verification equation",
                     "psig": "28FA1CAEAD0CB0BBED89437C1073F3EA715473353C206BF400C666A8402D2402",
                     "ids": [0, 1],
@@ -999,7 +1111,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF"
                 },
                 {
-                    "tc_id": 64,
+                    "tc_id": 71,
                     "comment": "A valid partial signature checked against the wrong signer fails the verification equation",
                     "psig": "C5D9D8AE6C56629CE812B426CE86EB298EAB8CCAC3DF940BFF399957BFD2DB0D",
                     "ids": [0, 1],
@@ -1009,7 +1121,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF"
                 },
                 {
-                    "tc_id": 65,
+                    "tc_id": 72,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "psig": "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010",
                     "ids": [0, 1],
@@ -1021,7 +1133,7 @@
             ],
             "verify_error_tests": [
                 {
-                    "tc_id": 66,
+                    "tc_id": 73,
                     "comment": "Another signer's public nonce is invalid, so verification blames that signer, not the one being verified",
                     "psig": "0AF197C7102E1AA7DE61B59489AD6157610ED389799EBABD49E80D775F875404",
                     "ids": [1, 0],
@@ -1036,7 +1148,7 @@
                     }
                 },
                 {
-                    "tc_id": 67,
+                    "tc_id": 74,
                     "comment": "A public share's y-coordinate exceeds the field size",
                     "psig": "0AF197C7102E1AA7DE61B59489AD6157610ED389799EBABD49E80D775F875404",
                     "ids": [1, 0],
@@ -1050,7 +1162,7 @@
                     }
                 },
                 {
-                    "tc_id": 68,
+                    "tc_id": 75,
                     "comment": "A public share is a small-order point",
                     "psig": "0AF197C7102E1AA7DE61B59489AD6157610ED389799EBABD49E80D775F875404",
                     "ids": [1, 0],
@@ -1064,7 +1176,7 @@
                     }
                 },
                 {
-                    "tc_id": 69,
+                    "tc_id": 76,
                     "comment": "A public share is a mixed-order point",
                     "psig": "0AF197C7102E1AA7DE61B59489AD6157610ED389799EBABD49E80D775F875404",
                     "ids": [1, 0],
@@ -1078,7 +1190,7 @@
                     }
                 },
                 {
-                    "tc_id": 70,
+                    "tc_id": 77,
                     "comment": "A public share is the non-canonical identity encoding",
                     "psig": "0AF197C7102E1AA7DE61B59489AD6157610ED389799EBABD49E80D775F875404",
                     "ids": [1, 0],
@@ -1092,7 +1204,7 @@
                     }
                 },
                 {
-                    "tc_id": 71,
+                    "tc_id": 78,
                     "comment": "A public share is the identity element",
                     "psig": "0AF197C7102E1AA7DE61B59489AD6157610ED389799EBABD49E80D775F875404",
                     "ids": [1, 0],
@@ -1106,7 +1218,7 @@
                     }
                 },
                 {
-                    "tc_id": 72,
+                    "tc_id": 79,
                     "comment": "A public share is not a point on the curve",
                     "psig": "0AF197C7102E1AA7DE61B59489AD6157610ED389799EBABD49E80D775F875404",
                     "ids": [1, 0],
@@ -1120,7 +1232,7 @@
                     }
                 },
                 {
-                    "tc_id": 73,
+                    "tc_id": 80,
                     "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
                     "psig": "C5D9D8AE6C56629CE812B426CE86EB298EAB8CCAC3DF940BFF399957BFD2DB0D",
                     "ids": [0, 1],
@@ -1177,7 +1289,7 @@
             ],
             "valid_tests": [
                 {
-                    "tc_id": 74,
+                    "tc_id": 81,
                     "comment": "Minimum threshold subset of signers",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1190,7 +1302,7 @@
                     "expected": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E"
                 },
                 {
-                    "tc_id": 75,
+                    "tc_id": 82,
                     "comment": "Signing without the public share list",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1203,7 +1315,7 @@
                     "expected": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E"
                 },
                 {
-                    "tc_id": 76,
+                    "tc_id": 83,
                     "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
                     "signer_id": 1,
                     "ids": [2, 1, 0],
@@ -1216,7 +1328,7 @@
                     "expected": "B5DF5B7559E454C843932F6B6D9330EAA03090ECB71F17ADB197ED3635CBB607"
                 },
                 {
-                    "tc_id": 77,
+                    "tc_id": 84,
                     "comment": "Aggregate nonce is the identity point, so the final nonce point falls back to the base point B",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1229,7 +1341,7 @@
                     "expected": "E99A42DC3CCFAB6362950E1FFD659580DC3A7EA806401A41C8F24A846509240F"
                 },
                 {
-                    "tc_id": 78,
+                    "tc_id": 85,
                     "comment": "Empty message",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1242,7 +1354,7 @@
                     "expected": "7622F81C8EDA5D5FD151FEDD79C0C51A6AD21CC713DCF695DF31C55636109C0C"
                 },
                 {
-                    "tc_id": 79,
+                    "tc_id": 86,
                     "comment": "Non-standard message length (38 bytes)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1257,7 +1369,7 @@
             ],
             "sign_error_tests": [
                 {
-                    "tc_id": 80,
+                    "tc_id": 87,
                     "comment": "Signer set contains a duplicate id",
                     "signer_id": 0,
                     "ids": [0, 1, 1],
@@ -1272,7 +1384,7 @@
                     }
                 },
                 {
-                    "tc_id": 81,
+                    "tc_id": 88,
                     "comment": "Signer's public share does not match the public share listed at its index",
                     "signer_id": 1,
                     "ids": [0, 1, 2],
@@ -1287,7 +1399,7 @@
                     }
                 },
                 {
-                    "tc_id": 82,
+                    "tc_id": 89,
                     "comment": "A public share's y-coordinate exceeds the field size",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1302,7 +1414,7 @@
                     }
                 },
                 {
-                    "tc_id": 83,
+                    "tc_id": 90,
                     "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1317,7 +1429,7 @@
                     }
                 },
                 {
-                    "tc_id": 84,
+                    "tc_id": 91,
                     "comment": "Public shares of the signer set interpolate to the identity element",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1332,7 +1444,7 @@
                     }
                 },
                 {
-                    "tc_id": 85,
+                    "tc_id": 92,
                     "comment": "A signer id is outside the valid range [0, n-1]",
                     "signer_id": 1,
                     "ids": [3, 1, 2],
@@ -1347,7 +1459,7 @@
                     }
                 },
                 {
-                    "tc_id": 86,
+                    "tc_id": 93,
                     "comment": "Signer set's public shares do not match the threshold public key",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1362,7 +1474,7 @@
                     }
                 },
                 {
-                    "tc_id": 87,
+                    "tc_id": 94,
                     "comment": "Aggregate nonce is invalid: first half's y-coordinate exceeds the field size",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1378,7 +1490,7 @@
                     }
                 },
                 {
-                    "tc_id": 88,
+                    "tc_id": 95,
                     "comment": "Aggregate nonce is invalid: second half is not a point on the curve",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1394,7 +1506,7 @@
                     }
                 },
                 {
-                    "tc_id": 89,
+                    "tc_id": 96,
                     "comment": "Aggregate nonce is invalid: second half's y-coordinate exceeds the field size",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1410,7 +1522,7 @@
                     }
                 },
                 {
-                    "tc_id": 90,
+                    "tc_id": 97,
                     "comment": "Aggregate nonce is invalid: second half is a small-order point",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1426,7 +1538,7 @@
                     }
                 },
                 {
-                    "tc_id": 91,
+                    "tc_id": 98,
                     "comment": "Aggregate nonce is invalid: second half is a mixed-order point",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1442,7 +1554,7 @@
                     }
                 },
                 {
-                    "tc_id": 92,
+                    "tc_id": 99,
                     "comment": "Aggregate nonce is invalid: second half is the non-canonical identity encoding",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1458,7 +1570,7 @@
                     }
                 },
                 {
-                    "tc_id": 93,
+                    "tc_id": 100,
                     "comment": "Secret nonce's first half is out of range (all-zero nonce, which may indicate nonce reuse)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1473,7 +1585,7 @@
                     }
                 },
                 {
-                    "tc_id": 94,
+                    "tc_id": 101,
                     "comment": "Secret nonce's second half is out of range (zero)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1488,7 +1600,7 @@
                     }
                 },
                 {
-                    "tc_id": 95,
+                    "tc_id": 102,
                     "comment": "Secret nonce's first half is out of range (zero)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1503,7 +1615,7 @@
                     }
                 },
                 {
-                    "tc_id": 96,
+                    "tc_id": 103,
                     "comment": "Fewer signers than the threshold t",
                     "signer_id": 0,
                     "ids": [0, 1],
@@ -1518,7 +1630,7 @@
                     }
                 },
                 {
-                    "tc_id": 97,
+                    "tc_id": 104,
                     "comment": "Secret share is out of range (zero)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1535,7 +1647,7 @@
             ],
             "verify_fail_tests": [
                 {
-                    "tc_id": 98,
+                    "tc_id": 105,
                     "comment": "Negated partial signature fails the verification equation",
                     "psig": "E8108189E61D3442112176A16A48639113F6F92EB8184792AB78F84C57483601",
                     "ids": [0, 1, 2],
@@ -1545,7 +1657,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF"
                 },
                 {
-                    "tc_id": 99,
+                    "tc_id": 106,
                     "comment": "A valid partial signature checked against the wrong signer fails the verification equation",
                     "psig": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
                     "ids": [0, 1, 2],
@@ -1555,7 +1667,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF"
                 },
                 {
-                    "tc_id": 100,
+                    "tc_id": 107,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "psig": "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010",
                     "ids": [0, 1, 2],
@@ -1567,7 +1679,7 @@
             ],
             "verify_error_tests": [
                 {
-                    "tc_id": 101,
+                    "tc_id": 108,
                     "comment": "Another signer's public nonce is invalid, so verification blames that signer, not the one being verified",
                     "psig": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
                     "ids": [0, 2, 1],
@@ -1582,7 +1694,7 @@
                     }
                 },
                 {
-                    "tc_id": 102,
+                    "tc_id": 109,
                     "comment": "A public share's y-coordinate exceeds the field size",
                     "psig": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
                     "ids": [0, 2, 1],
@@ -1596,7 +1708,7 @@
                     }
                 },
                 {
-                    "tc_id": 103,
+                    "tc_id": 110,
                     "comment": "A public share is a small-order point",
                     "psig": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
                     "ids": [0, 2, 1],
@@ -1610,7 +1722,7 @@
                     }
                 },
                 {
-                    "tc_id": 104,
+                    "tc_id": 111,
                     "comment": "A public share is a mixed-order point",
                     "psig": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
                     "ids": [0, 2, 1],
@@ -1624,7 +1736,7 @@
                     }
                 },
                 {
-                    "tc_id": 105,
+                    "tc_id": 112,
                     "comment": "A public share is the non-canonical identity encoding",
                     "psig": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
                     "ids": [0, 2, 1],
@@ -1638,7 +1750,7 @@
                     }
                 },
                 {
-                    "tc_id": 106,
+                    "tc_id": 113,
                     "comment": "A public share is the identity element",
                     "psig": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
                     "ids": [0, 2, 1],
@@ -1652,7 +1764,7 @@
                     }
                 },
                 {
-                    "tc_id": 107,
+                    "tc_id": 114,
                     "comment": "A public share is not a point on the curve",
                     "psig": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
                     "ids": [0, 2, 1],
@@ -1666,7 +1778,7 @@
                     }
                 },
                 {
-                    "tc_id": 108,
+                    "tc_id": 115,
                     "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
                     "psig": "05C374D33345DE15C57B810174B17B83EC0906D147E7B86D548707B3A8B7C90E",
                     "ids": [0, 1, 2],
@@ -1731,7 +1843,7 @@
             ],
             "valid_tests": [
                 {
-                    "tc_id": 109,
+                    "tc_id": 116,
                     "comment": "Minimum threshold subset of signers",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1744,7 +1856,7 @@
                     "expected": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A"
                 },
                 {
-                    "tc_id": 110,
+                    "tc_id": 117,
                     "comment": "Signing without the public share list",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1757,7 +1869,7 @@
                     "expected": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A"
                 },
                 {
-                    "tc_id": 111,
+                    "tc_id": 118,
                     "comment": "Signer set in descending order, so the identifiers must be sorted before hashing",
                     "signer_id": 2,
                     "ids": [4, 3, 2, 1],
@@ -1770,7 +1882,7 @@
                     "expected": "634B7F22B627F6AE9B3EBD9744B7AC60EF1BBBF1058F90081A2B701988649B07"
                 },
                 {
-                    "tc_id": 112,
+                    "tc_id": 119,
                     "comment": "A different threshold subset gives a different partial signature, since the Lagrange coefficients depend on the signer set",
                     "signer_id": 1,
                     "ids": [1, 3, 4],
@@ -1783,7 +1895,7 @@
                     "expected": "D0BAB3E2818C16BC48677C7186DB228040D2551234F9C30316AB97CFADF1C900"
                 },
                 {
-                    "tc_id": 113,
+                    "tc_id": 120,
                     "comment": "Aggregate nonce is the identity point, so the final nonce point falls back to the base point B",
                     "signer_id": 0,
                     "ids": [0, 1, 2, 3, 4],
@@ -1796,7 +1908,7 @@
                     "expected": "63227E9DC44F6F1CB1ACBDE6F4E1C932A3BB753FFB57865C97406B9CC1A49106"
                 },
                 {
-                    "tc_id": 114,
+                    "tc_id": 121,
                     "comment": "Empty message",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1809,7 +1921,7 @@
                     "expected": "3665C01D997516DC64C6490BC873B385D48B9F4192593EFBD6EE94071A1E7407"
                 },
                 {
-                    "tc_id": 115,
+                    "tc_id": 122,
                     "comment": "Non-standard message length (38 bytes)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1824,7 +1936,7 @@
             ],
             "sign_error_tests": [
                 {
-                    "tc_id": 116,
+                    "tc_id": 123,
                     "comment": "Signer's id is absent from the signer set",
                     "signer_id": 3,
                     "ids": [0, 1, 2],
@@ -1839,7 +1951,7 @@
                     }
                 },
                 {
-                    "tc_id": 117,
+                    "tc_id": 124,
                     "comment": "Signer set contains a duplicate id",
                     "signer_id": 0,
                     "ids": [0, 1, 1],
@@ -1854,7 +1966,7 @@
                     }
                 },
                 {
-                    "tc_id": 118,
+                    "tc_id": 125,
                     "comment": "Signer's public share does not match the public share listed at its index",
                     "signer_id": 1,
                     "ids": [0, 1, 2],
@@ -1869,7 +1981,7 @@
                     }
                 },
                 {
-                    "tc_id": 119,
+                    "tc_id": 126,
                     "comment": "A public share's y-coordinate exceeds the field size",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1884,7 +1996,7 @@
                     }
                 },
                 {
-                    "tc_id": 120,
+                    "tc_id": 127,
                     "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1899,7 +2011,7 @@
                     }
                 },
                 {
-                    "tc_id": 121,
+                    "tc_id": 128,
                     "comment": "Public shares of the signer set interpolate to the identity element",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1914,7 +2026,7 @@
                     }
                 },
                 {
-                    "tc_id": 122,
+                    "tc_id": 129,
                     "comment": "A signer id is outside the valid range [0, n-1]",
                     "signer_id": 1,
                     "ids": [5, 1, 2],
@@ -1929,7 +2041,7 @@
                     }
                 },
                 {
-                    "tc_id": 123,
+                    "tc_id": 130,
                     "comment": "Signer set's public shares do not match the threshold public key",
                     "signer_id": 0,
                     "ids": [0, 1, 2, 3],
@@ -1944,7 +2056,7 @@
                     }
                 },
                 {
-                    "tc_id": 124,
+                    "tc_id": 131,
                     "comment": "Public share beyond the first t signers is inconsistent with the threshold public key",
                     "signer_id": 0,
                     "ids": [0, 1, 2, 3],
@@ -1959,7 +2071,7 @@
                     }
                 },
                 {
-                    "tc_id": 125,
+                    "tc_id": 132,
                     "comment": "Aggregate nonce is invalid: first half's y-coordinate exceeds the field size",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1975,7 +2087,7 @@
                     }
                 },
                 {
-                    "tc_id": 126,
+                    "tc_id": 133,
                     "comment": "Aggregate nonce is invalid: second half is not a point on the curve",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -1991,7 +2103,7 @@
                     }
                 },
                 {
-                    "tc_id": 127,
+                    "tc_id": 134,
                     "comment": "Aggregate nonce is invalid: second half's y-coordinate exceeds the field size",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -2007,7 +2119,7 @@
                     }
                 },
                 {
-                    "tc_id": 128,
+                    "tc_id": 135,
                     "comment": "Aggregate nonce is invalid: second half is a small-order point",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -2023,7 +2135,7 @@
                     }
                 },
                 {
-                    "tc_id": 129,
+                    "tc_id": 136,
                     "comment": "Aggregate nonce is invalid: second half is a mixed-order point",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -2039,7 +2151,7 @@
                     }
                 },
                 {
-                    "tc_id": 130,
+                    "tc_id": 137,
                     "comment": "Aggregate nonce is invalid: second half is the non-canonical identity encoding",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -2055,7 +2167,7 @@
                     }
                 },
                 {
-                    "tc_id": 131,
+                    "tc_id": 138,
                     "comment": "Secret nonce's first half is out of range (all-zero nonce, which may indicate nonce reuse)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -2070,7 +2182,7 @@
                     }
                 },
                 {
-                    "tc_id": 132,
+                    "tc_id": 139,
                     "comment": "Secret nonce's second half is out of range (zero)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -2085,7 +2197,7 @@
                     }
                 },
                 {
-                    "tc_id": 133,
+                    "tc_id": 140,
                     "comment": "Secret nonce's first half is out of range (zero)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -2100,7 +2212,7 @@
                     }
                 },
                 {
-                    "tc_id": 134,
+                    "tc_id": 141,
                     "comment": "Fewer signers than the threshold t",
                     "signer_id": 0,
                     "ids": [0, 1],
@@ -2115,7 +2227,7 @@
                     }
                 },
                 {
-                    "tc_id": 135,
+                    "tc_id": 142,
                     "comment": "Secret share is out of range (zero)",
                     "signer_id": 0,
                     "ids": [0, 1, 2],
@@ -2132,7 +2244,7 @@
             ],
             "verify_fail_tests": [
                 {
-                    "tc_id": 136,
+                    "tc_id": 143,
                     "comment": "Negated partial signature fails the verification equation",
                     "psig": "0EAA0CEF5DF1533FFE3813FC9BA09590713E23EBBBAC6BAB268EAE0FB198E105",
                     "ids": [0, 1, 2],
@@ -2142,7 +2254,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF"
                 },
                 {
-                    "tc_id": 137,
+                    "tc_id": 144,
                     "comment": "A valid partial signature checked against the wrong signer fails the verification equation",
                     "psig": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
                     "ids": [0, 1, 2],
@@ -2152,7 +2264,7 @@
                     "msg": "F95466D086770E689964664219266FE5ED215C92AE20BAB5C9D79ADDDDF3C0CF"
                 },
                 {
-                    "tc_id": 138,
+                    "tc_id": 145,
                     "comment": "Partial signature equals the group order, which is out of range",
                     "psig": "EDD3F55C1A631258D69CF7A2DEF9DE1400000000000000000000000000000010",
                     "ids": [0, 1, 2],
@@ -2164,7 +2276,7 @@
             ],
             "verify_error_tests": [
                 {
-                    "tc_id": 139,
+                    "tc_id": 146,
                     "comment": "Another signer's public nonce is invalid, so verification blames that signer, not the one being verified",
                     "psig": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
                     "ids": [0, 2, 1],
@@ -2179,7 +2291,7 @@
                     }
                 },
                 {
-                    "tc_id": 140,
+                    "tc_id": 147,
                     "comment": "A public share's y-coordinate exceeds the field size",
                     "psig": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
                     "ids": [0, 2, 1],
@@ -2193,7 +2305,7 @@
                     }
                 },
                 {
-                    "tc_id": 141,
+                    "tc_id": 148,
                     "comment": "A public share is a small-order point",
                     "psig": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
                     "ids": [0, 2, 1],
@@ -2207,7 +2319,7 @@
                     }
                 },
                 {
-                    "tc_id": 142,
+                    "tc_id": 149,
                     "comment": "A public share is a mixed-order point",
                     "psig": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
                     "ids": [0, 2, 1],
@@ -2221,7 +2333,7 @@
                     }
                 },
                 {
-                    "tc_id": 143,
+                    "tc_id": 150,
                     "comment": "A public share is the non-canonical identity encoding",
                     "psig": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
                     "ids": [0, 2, 1],
@@ -2235,7 +2347,7 @@
                     }
                 },
                 {
-                    "tc_id": 144,
+                    "tc_id": 151,
                     "comment": "A public share is the identity element",
                     "psig": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
                     "ids": [0, 2, 1],
@@ -2249,7 +2361,7 @@
                     }
                 },
                 {
-                    "tc_id": 145,
+                    "tc_id": 152,
                     "comment": "A public share is not a point on the curve",
                     "psig": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
                     "ids": [0, 2, 1],
@@ -2263,7 +2375,7 @@
                     }
                 },
                 {
-                    "tc_id": 146,
+                    "tc_id": 153,
                     "comment": "A public share carries a torsion component but still interpolates to the threshold public key",
                     "psig": "DF29E96DBC71BE18D863E4A6425949848EC1DC1444539454D97151F04E671E0A",
                     "ids": [0, 1, 2],
@@ -2302,7 +2414,7 @@
             "valid_tests": [],
             "sign_error_tests": [
                 {
-                    "tc_id": 147,
+                    "tc_id": 154,
                     "comment": "Number of participants n exceeds the maximum of 128",
                     "signer_id": 0,
                     "ids": [0, 1],
@@ -2320,7 +2432,7 @@
             "verify_fail_tests": [],
             "verify_error_tests": [
                 {
-                    "tc_id": 148,
+                    "tc_id": 155,
                     "comment": "Number of participants n exceeds the maximum of 128",
                     "psig": "F0818F95090D2DD031324EF433A7C8B15F853DEC493A91936E57E270419DE007",
                     "ids": [0, 1],
@@ -2358,7 +2470,7 @@
             ],
             "valid_tests": [
                 {
-                    "tc_id": 149,
+                    "tc_id": 156,
                     "comment": "Number of participants n equals the maximum of 128",
                     "signer_id": 0,
                     "ids": [0, 1],

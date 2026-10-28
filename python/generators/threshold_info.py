@@ -10,8 +10,10 @@ from ed25519lab.ed25519 import B, GE
 from generators.common import (
     CONFIG_2OF128,
     INVALID_CONFIG_2OF129,
+    INVALID_ENCODINGS,
     CONFIGS,
     SharedGroupInputs,
+    WRONG_LENGTH_POINT,
     assign_tc_ids,
     bytes_list_to_hex,
     bytes_to_hex,
@@ -44,6 +46,9 @@ class ThresholdInfoGroupBuilder:
             assert derive_thresh_pubkey(self.full, cancel) == self.thresh_pk
             self.CANCEL_IDX = len(self.pool_pubshares)
             self.pool_pubshares += [ca.to_bytes(), cb.to_bytes()]
+
+        # The shared pool has no wrong-length entry, so add one here.
+        self.pool_pubshares.append(WRONG_LENGTH_POINT)
 
         self.group = {
             "tg_id": cfg.tg_id,
@@ -125,31 +130,15 @@ class ThresholdInfoGroupBuilder:
                 [],
                 "Public share list is empty, so n = 0 and no threshold t can satisfy t <= n",
             )
-            invalid_encodings = [
-                (self.inputs.OFFCURVE_PUBSHARE_IDX, "not a point on the curve"),
-                (
-                    self.inputs.SMALL_ORDER_PUBSHARE_IDX,
-                    "all zeros, a small-order point",
-                ),
-                (
-                    self.inputs.INVALID_PUBSHARE_IDX,
-                    "y-coordinate exceeds the field size",
-                ),
-                (self.inputs.MIXED_ORDER_PUBSHARE_IDX, "a mixed-order point"),
-                (
-                    self.inputs.NONCANONICAL_IDENTITY_PUBSHARE_IDX,
-                    "the non-canonical identity encoding",
-                ),
-                (self.inputs.CANONICAL_IDENTITY_PUBSHARE_IDX, "the identity element"),
-            ]
-            for idx, name in invalid_encodings:
+            for invalid_thresh_pk, name in INVALID_ENCODINGS:
                 self._append_error(
                     t,
-                    self.pool_pubshares[idx],
+                    invalid_thresh_pk,
                     full,
                     f"Threshold public key is invalid: {name}",
                 )
-            for idx, name in invalid_encodings:
+            for encoding, name in INVALID_ENCODINGS:
+                idx = self.pool_pubshares.index(encoding)
                 self._append_error(
                     t, pk, [0, 1, idx], f"A public share is invalid: {name}"
                 )
