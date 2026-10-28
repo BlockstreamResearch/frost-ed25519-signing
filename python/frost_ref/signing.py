@@ -299,6 +299,10 @@ def validate_session_params(
         raise ValueError(f"The number of participants must be n <= {MAX_PARTICIPANTS}.")
     if not (t <= len(ids) <= n):
         raise ValueError("The number of signers must satisfy t <= u <= n.")
+    try:
+        GE.from_bytes(thresh_pk)
+    except ValueError:
+        raise ValueError("The thresh_pk is not a valid point.")
     if pubshares is not None and len(pubshares) != len(ids):
         raise ValueError("The pubshares and ids lists must have the same length.")
     # ensure all pubshares and ids are within the valid range

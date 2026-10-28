@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from frost_ref import (
     InvalidContributionError,
+    PlainPk,
     SessionContext,
     nonce_agg,
     partial_sig_verify,
@@ -22,6 +23,7 @@ from generators.common import (
     NONCANONICAL_POINT,
     OFFCURVE_POINT,
     TORSION_POINT,
+    INVALID_THRESH_PKS,
     SharedGroupInputs,
     assign_tc_ids,
     bytes_list_to_hex,
@@ -134,6 +136,7 @@ class SignVerifyGroupBuilder:
         msg: bytes,
         error: str,
         comment: str,
+        thresh_pk: Optional[bytes] = None,
     ) -> None:
         # A null pubshare_indices is a session whose public share list is absent.
         pubshares = (
@@ -143,25 +146,28 @@ class SignVerifyGroupBuilder:
         )
         secshare = self.inputs.pool_secshares[secshare_idx]
         secnonce = bytearray(self.inputs.pool_secnonces[secnonce_idx])
-        signer_set = (self.n, self.t, ids, pubshares, self.thresh_pk)
+        # A case-level thresh_pk overrides the group's.
+        case_thresh_pk = self.thresh_pk if thresh_pk is None else PlainPk(thresh_pk)
+        signer_set = (self.n, self.t, ids, pubshares, case_thresh_pk)
         session = SessionContext(*signer_set, aggnonce, msg)
         expected_exc = ValueError if error == "value" else InvalidContributionError
         err = expect_exception(
             lambda: sign(secnonce, secshare, signer_id, session), expected_exc
         )
-        self.group["sign_error_tests"].append(
-            {
-                "comment": comment,
-                "signer_id": signer_id,
-                "ids": ids,
-                "pubshare_indices": pubshare_indices,
-                "secshare_index": secshare_idx,
-                "secnonce_index": secnonce_idx,
-                "aggnonce": bytes_to_hex(aggnonce),
-                "msg": bytes_to_hex(msg),
-                "error": err,
-            }
-        )
+        case = {
+            "comment": comment,
+            "signer_id": signer_id,
+            "ids": ids,
+            "pubshare_indices": pubshare_indices,
+            "secshare_index": secshare_idx,
+            "secnonce_index": secnonce_idx,
+            "aggnonce": bytes_to_hex(aggnonce),
+            "msg": bytes_to_hex(msg),
+        }
+        if thresh_pk is not None:
+            case["thresh_pk"] = bytes_to_hex(thresh_pk)
+        case["error"] = err
+        self.group["sign_error_tests"].append(case)
 
     def _append_verify_error(
         self,
@@ -553,6 +559,23 @@ class SignVerifyGroupBuilder:
             "value",
             "Secret share is out of range (zero)",
         )
+
+        # Without the public share list, nothing compares thresh_pk with the shares,
+        # so only its own decoding rejects it. These cases do not depend on (t, n).
+        if self.t == 2 and self.n == 3:
+            for bad_thresh_pk, name in INVALID_THRESH_PKS:
+                self._append_sign_error(
+                    0,
+                    self.min_s,
+                    None,
+                    0,
+                    0,
+                    self.aggnonce_min,
+                    COMMON_MSGS[0],
+                    "value",
+                    f"Threshold public key is invalid without the public share list: {name}",
+                    thresh_pk=bad_thresh_pk,
+                )
 
     def add_verify_fail_tests(self) -> None:
         # Base partial signature: signer 0 over min2 (not min_s), since the wrong-signer case verifies at signer_index 1.

@@ -55,9 +55,13 @@ A few things stay out of that scheme:
   not each other's public shares. Signing, deterministic signing and
   aggregation all work without them, and each of those cases produces exactly
   the same bytes as the case before it, which does carry them. Some
-  `sign` and `deterministic_sign` error cases omit the list too.
+  `sign`, `deterministic_sign` and `partial_sig_agg` error cases omit the list
+  too.
   `partial_sig_verify` is the one algorithm that cannot run without the list,
   so it takes the list as a required argument and no case omits it there.
+- A few `sign`, `deterministic_sign` and `partial_sig_agg` error cases carry
+  their own `thresh_pk`, which replaces the group's. They omit the public share
+  list, so only decoding `thresh_pk` can reject it.
 - A case's expected output stays inline, in its `expected` field.
 
 `nonce_gen` and `nonce_agg` skip the `test_groups` wrapper. `nonce_gen` is

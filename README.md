@@ -456,6 +456,7 @@ Internal Algorithm *ValidateSessionParams(n, t, u, id<sub>1..u</sub>, pubshare<s
 - Fail if not *1 ≤ t ≤ n*
 - Fail if not *n ≤ 128*
 - Fail if not *t ≤ u ≤ n*
+- Fail if *point(thresh_pk)* fails
 - For *i = 1 .. u*:
   - Fail if not *0 ≤ id<sub>i</sub> ≤ n - 1*
   - If *pubshare<sub>1..u</sub>* is present:

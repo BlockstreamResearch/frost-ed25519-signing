@@ -1,7 +1,8 @@
-from typing import List
+from typing import List, Optional
 
 from frost_ref import (
     InvalidContributionError,
+    PlainPk,
     SessionContext,
     nonce_agg,
     partial_sig_agg,
@@ -14,6 +15,7 @@ from generators.common import (
     INVALID_CONFIG_2OF129,
     CONFIGS,
     GROUP_ORDER,
+    INVALID_THRESH_PKS,
     SharedGroupInputs,
     assign_tc_ids,
     bytes_list_to_hex,
@@ -98,7 +100,12 @@ class SigAggGroupBuilder:
         return expected
 
     def _append_error(
-        self, set_indices: List[int], fault: str, error: str, comment: str
+        self,
+        set_indices: List[int],
+        fault: str,
+        error: str,
+        comment: str,
+        thresh_pk: Optional[bytes] = None,
     ) -> None:
         pubshares = [self.inputs.pubshares[i] for i in set_indices]
         pubnonces = [self.inputs.pubnonces[i] for i in set_indices]
@@ -123,19 +130,29 @@ class SigAggGroupBuilder:
         elif fault == "psig_count_mismatch":
             psigs = psigs[:-1]
 
+        pubshare_indices: Optional[List[int]] = list(set_indices)
+        if thresh_pk is not None:
+            # Aggregate without the public share list under a case-level thresh_pk,
+            # which overrides the group's.
+            pubshare_indices = None
+            session = SessionContext(
+                self.n, self.t, ids, None, PlainPk(thresh_pk), aggnonce, msg
+            )
+
         expected_exc = ValueError if error == "value" else InvalidContributionError
         err = expect_exception(lambda: partial_sig_agg(psigs, session), expected_exc)
-        self.group["error_tests"].append(
-            {
-                "comment": comment,
-                "ids": ids,
-                "pubshare_indices": list(set_indices),
-                "aggnonce": bytes_to_hex(aggnonce),
-                "psigs": bytes_list_to_hex(psigs),
-                "msg": bytes_to_hex(msg),
-                "error": err,
-            }
-        )
+        case = {
+            "comment": comment,
+            "ids": ids,
+            "pubshare_indices": pubshare_indices,
+            "aggnonce": bytes_to_hex(aggnonce),
+            "psigs": bytes_list_to_hex(psigs),
+            "msg": bytes_to_hex(msg),
+        }
+        if thresh_pk is not None:
+            case["thresh_pk"] = bytes_to_hex(thresh_pk)
+        case["error"] = err
+        self.group["error_tests"].append(case)
 
     def add_valid_tests(self) -> None:
         t, n = self.t, self.n
@@ -179,6 +196,17 @@ class SigAggGroupBuilder:
             "value",
             "Number of partial signatures does not match the number of signers",
         )
+        # Without the public share list, nothing compares thresh_pk with the shares,
+        # so only its own decoding rejects it. These cases do not depend on (t, n).
+        if self.t == 2 and self.n == 3:
+            for bad_thresh_pk, name in INVALID_THRESH_PKS:
+                self._append_error(
+                    self.min_s,
+                    "none",
+                    "value",
+                    f"Threshold public key is invalid without the public share list: {name}",
+                    thresh_pk=bad_thresh_pk,
+                )
 
     def build(self) -> dict:
         self.add_valid_tests()

@@ -20,6 +20,7 @@ from generators.common import (
     NONCANONICAL_POINT,
     OFFCURVE_POINT,
     TORSION_POINT,
+    INVALID_THRESH_PKS,
     SharedGroupInputs,
     assign_tc_ids,
     bytes_list_to_hex,
@@ -159,6 +160,7 @@ class DetSignGroupBuilder:
         comment: str,
         aggothernonce: Optional[bytes] = None,
         omit_aggothernonce: bool = False,
+        thresh_pk: Optional[bytes] = None,
     ) -> None:
         curr_aggothernonce: Optional[bytes]
         if omit_aggothernonce:
@@ -174,7 +176,9 @@ class DetSignGroupBuilder:
             if pubshare_indices is None
             else [self.inputs.pool_pubshares[i] for i in pubshare_indices]
         )
-        signer_set = (self.n, self.t, ids, pubshares, self.thresh_pk)
+        # A case-level thresh_pk overrides the group's.
+        case_thresh_pk = self.thresh_pk if thresh_pk is None else PlainPk(thresh_pk)
+        signer_set = (self.n, self.t, ids, pubshares, case_thresh_pk)
         secshare = self.inputs.pool_secshares[secshare_index]
         expected_exc = ValueError if error == "value" else InvalidContributionError
         err = expect_exception(
@@ -188,21 +192,22 @@ class DetSignGroupBuilder:
             ),
             expected_exc,
         )
-        self.group["error_tests"].append(
-            {
-                "comment": comment,
-                "signer_id": signer_id,
-                "ids": ids,
-                "pubshare_indices": pubshare_indices,
-                "secshare_index": secshare_index,
-                "aggothernonce": bytes_to_hex(curr_aggothernonce)
-                if curr_aggothernonce is not None
-                else None,
-                "aux_rand": bytes_to_hex(aux_rand) if aux_rand is not None else None,
-                "msg": bytes_to_hex(msg),
-                "error": err,
-            }
-        )
+        case = {
+            "comment": comment,
+            "signer_id": signer_id,
+            "ids": ids,
+            "pubshare_indices": pubshare_indices,
+            "secshare_index": secshare_index,
+            "aggothernonce": bytes_to_hex(curr_aggothernonce)
+            if curr_aggothernonce is not None
+            else None,
+            "aux_rand": bytes_to_hex(aux_rand) if aux_rand is not None else None,
+            "msg": bytes_to_hex(msg),
+        }
+        if thresh_pk is not None:
+            case["thresh_pk"] = bytes_to_hex(thresh_pk)
+        case["error"] = err
+        self.group["error_tests"].append(case)
 
     def add_valid_tests(self) -> None:
         t, n = self.t, self.n
@@ -511,6 +516,22 @@ class DetSignGroupBuilder:
             "value",
             "Secret share is out of range (zero)",
         )
+
+        # Without the public share list, nothing compares thresh_pk with the shares,
+        # so only its own decoding rejects it. These cases do not depend on (t, n).
+        if self.t == 2 and self.n == 3:
+            for bad_thresh_pk, name in INVALID_THRESH_PKS:
+                self._append_error(
+                    0,
+                    self.min_s,
+                    None,
+                    0,
+                    RANDS[0],
+                    COMMON_MSGS[0],
+                    "value",
+                    f"Threshold public key is invalid without the public share list: {name}",
+                    thresh_pk=bad_thresh_pk,
+                )
 
     def build(self) -> dict:
         self.add_valid_tests()

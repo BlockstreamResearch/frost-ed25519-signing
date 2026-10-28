@@ -111,6 +111,20 @@ NONCANONICAL_IDENTITY = bytes([1]) + bytes(30) + bytes([0x80])
 CANONICAL_IDENTITY = bytes([1]) + bytes(31)
 
 
+# Invalid threshold public keys with their descriptions: each invalid encoding
+# above, then a valid point followed by a zero byte, which only the length check
+# rejects.
+INVALID_THRESH_PKS = [
+    (OFFCURVE_POINT, "not a point on the curve"),
+    (TORSION_POINT, "all zeros, a small-order point"),
+    (NONCANONICAL_POINT, "y-coordinate exceeds the field size"),
+    (MIXED_ORDER_POINT, "a mixed-order point"),
+    (NONCANONICAL_IDENTITY, "the non-canonical identity encoding"),
+    (CANONICAL_IDENTITY, "the identity element"),
+    (B.to_bytes() + b"\x00", "not a 32-byte array"),
+]
+
+
 _SCALAR_TOKEN = r"-?\d+|true|false|null"
 _SCALAR_ARRAY_RE = re.compile(
     rf"\[\s*(?:(?:{_SCALAR_TOKEN})(?:\s*,\s*(?:{_SCALAR_TOKEN}))*)?\s*\]"
