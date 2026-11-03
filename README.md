@@ -663,13 +663,22 @@ However, the final nonce *R* of an Ed25519 signature produced by this protocol c
 While the identity is encodable on Ed25519, the verification procedure specified in [Signature Verification](#signature-verification) rejects any signature whose *R* is not a non-identity point of the prime-order subgroup, so a signature with *R* equal to the identity could never verify.
 If we would nonetheless allow the final nonce to be the identity element, then the scheme would lose the following property:
 if *PartialSigVerify* succeeds for all partial signatures, then *PartialSigAgg* will return a valid Ed25519 signature.
-Since this is a valuable feature, we modify [FROST3 signing][roast] to avoid producing an invalid Ed25519 signature while still allowing detection of the dishonest signer: In *GetSessionValues*, if the final nonce *R* would be the identity element, set it to the base point *B* instead (an arbitrary choice).
+Since this is a valuable feature, we modify [FROST3 signing][roast] to avoid producing an invalid Ed25519 signature while still allowing
+detection of the dishonest signer: In *GetSessionValues*, if the final nonce *R* would be the identity element, set it to the base point *B*
+instead (an arbitrary choice).
 
 This modification to *GetSessionValues* does not affect the unforgeability of the scheme.
-Given a successful adversary against the unforgeability game (EUF-CMA) for the modified scheme, a reduction can win the unforgeability game for the original scheme by simulating the modification towards the adversary:
-When the adversary provides *aggnonce' = bytes_ext(identity) || bytes_ext(identity)*, the reduction sets *aggnonce = bytes(B) || bytes_ext(identity)*.
-For any other *aggnonce'*, the reduction sets *aggnonce = aggnonce'*.
-(The case that the adversary provides an *aggnonce' ≠ bytes_ext(identity) || bytes_ext(identity)* but nevertheless *R'* in *GetSessionValues* is the identity element happens only with negligible probability.)
+
+A substituted session yields no valid signature, its message is nonetheless excluded as a forgery target once partial signatures are released,
+and its partial signatures have the same form as in any other session, so the security proof of [[CGRS23][olaf]] applies with the challenge
+computed at the substituted nonce.
+
+Note that the obvious reduction, which forwards every session to the original scheme and merely rewrites *aggnonce' = bytes_ext(identity) ||
+bytes_ext(identity)* to *aggnonce = bytes(B) || bytes_ext(identity)*, does not work: the binding coefficient *b* is hashed over the exact
+*aggnonce* bytes, so the original scheme's partial signatures would carry a different *b* and fail *PartialSigVerify* in the modified scheme.
+
+(The case that the adversary provides an *aggnonce' ≠ bytes_ext(identity) || bytes_ext(identity)* but nevertheless *R'* in *GetSessionValues*
+is the identity element happens only with negligible probability.)
 
 <!-- References -->
 [rfc8032]: https://www.rfc-editor.org/rfc/rfc8032.html
